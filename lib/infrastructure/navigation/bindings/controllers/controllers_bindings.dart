@@ -1,0 +1,1 @@
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/home.controller.binding.dart'; 
