@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 
 import '../../config.dart';
@@ -35,6 +36,11 @@ class Nav {
       name: Routes.HOME_PAGE,
       page: () => HomePageScreen(),
       binding: HomePageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.STATUS_PAGE,
+      page: () => const StatusPageScreen(),
+      binding: StatusPageControllerBinding(),
     ),
   ];
 }

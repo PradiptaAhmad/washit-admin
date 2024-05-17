@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:washit_admin/presentation/home_page/home_page.screen.dart';
+import 'package:washit_admin/presentation/screens.dart';
 
 import '../theme/themes.dart';
 
@@ -71,7 +72,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     HomePageScreen(),
-    Container(color: Colors.red),
+    StatusPageScreen(),
     Container(color: Colors.green),
     Container(color: Colors.yellow),
   ];
