@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 
 import '../../config.dart';
 import '../../presentation/screens.dart';
@@ -26,6 +27,10 @@ class EnvironmentsBadge extends StatelessWidget {
 
 class Nav {
   static List<GetPage> routes = [
+    GetPage(
+      name: Routes.NAVBAR,
+      page: () => NavigationMenu(),
+    ),
     GetPage(
       name: Routes.HOME_PAGE,
       page: () => HomePageScreen(),

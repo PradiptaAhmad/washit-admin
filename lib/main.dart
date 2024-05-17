@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 import 'infrastructure/navigation/navigation.dart';
 import 'infrastructure/navigation/routes.dart';
+import 'infrastructure/theme/themes.dart';
 
 void main() async {
   var initialRoute = await Routes.initialRoute;
@@ -19,6 +20,9 @@ class Main extends StatelessWidget {
     return GetMaterialApp(
       initialRoute: initialRoute,
       getPages: Nav.routes,
+      theme: ThemeData(
+        scaffoldBackgroundColor: primaryColor,
+      ),
     );
   }
 }
