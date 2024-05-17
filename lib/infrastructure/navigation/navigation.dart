@@ -37,10 +37,5 @@ class Nav {
       page: () => HomePageScreen(),
       binding: HomePageControllerBinding(),
     ),
-    GetPage(
-      name: Routes.STATUS_PAGE,
-      page: () => const StatusPageScreen(),
-      binding: StatusPageControllerBinding(),
-    ),
   ];
 }

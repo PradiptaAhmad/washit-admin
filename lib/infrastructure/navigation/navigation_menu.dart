@@ -72,7 +72,7 @@ class NavigationController extends GetxController {
 
   final screens = [
     HomePageScreen(),
-    StatusPageScreen(),
+    Container(color: Colors.red),
     Container(color: Colors.green),
     Container(color: Colors.yellow),
   ];
