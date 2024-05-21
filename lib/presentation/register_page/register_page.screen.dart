@@ -34,11 +34,11 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                 style: tsBodyMediumRegular(darkGrey),
               ),
               SizedBox(
-                height: 35,
+                height: 30,
               ),
               Text(
                 "Username",
-                style: tsBodyMediumMedium(black),
+                style: tsBodySmallMedium(black),
               ),
               SizedBox(
                 height: 12,
@@ -57,11 +57,11 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                 },
               ),
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               Text(
                 "Email",
-                style: tsBodyMediumMedium(black),
+                style: tsBodySmallMedium(black),
               ),
               SizedBox(
                 height: 12,
@@ -81,11 +81,11 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                 },
               ),
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               Text(
                 "Nomor Telepon",
-                style: tsBodyMediumMedium(black),
+                style: tsBodySmallMedium(black),
               ),
               SizedBox(
                 height: 12,
@@ -99,7 +99,7 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                 ],
                 validator: (value) {
                   if (value == null || value.isEmpty) {
-                    return "Username tidak boleh kosong";
+                    return "Nomor Telepon tidak boleh kosong";
                   } else {
                     controller.phone.value = value;
                     return null;
@@ -107,11 +107,11 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                 },
               ),
               SizedBox(
-                height: 15,
+                height: 10,
               ),
               Text(
                 "Password",
-                style: tsBodyMediumMedium(black),
+                style: tsBodySmallMedium(black),
               ),
               SizedBox(
                 height: 12,
@@ -134,8 +134,8 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                           },
                           icon: Icon(
                             controller.isObsecure.value
-                                ? Icons.visibility
-                                : Icons.visibility_off,
+                                ? Icons.visibility_off
+                                : Icons.visibility,
                             size: 22,
                           ),
                         )),
@@ -156,9 +156,10 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                             ),
                           )
                         : Container(
+                            padding: EdgeInsets.symmetric(vertical: 4),
                             child: Text(
-                              "Daftar",
-                              style: tsBodyMediumSemibold(primaryColor),
+                              "Daftar Akun Baru",
+                              style: tsBodySmallSemibold(primaryColor),
                             ),
                           ),
                     backgroundColor: secondaryColor,
@@ -222,7 +223,7 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                         Spacer(),
                         Text(
                           "Daftar Dengan Google",
-                          style: tsBodyMediumSemibold(darkBlue),
+                          style: tsBodySmallSemibold(darkBlue),
                         ),
                         Spacer(),
                       ],
@@ -233,7 +234,7 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                 children: [
                   Text(
                     "Sudah punya akun?",
-                    style: tsBodyMediumMedium(darkGrey),
+                    style: tsBodySmallMedium(darkGrey),
                   ),
                   TextButton(
                     onPressed: () {
@@ -241,7 +242,7 @@ class RegisterPageScreen extends GetView<RegisterPageController> {
                     },
                     child: Text(
                       "Masuk Sekarang",
-                      style: tsBodyMediumBold(darkBlue),
+                      style: tsBodySmallBold(darkBlue),
                     ),
                   ),
                 ],
