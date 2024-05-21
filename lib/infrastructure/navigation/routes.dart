@@ -1,7 +1,7 @@
 class Routes {
   static Future<String> get initialRoute async {
     // TODO: implement method
-    return REGISTER_PAGE;
+    return LOGIN_PAGE;
   }
 
   static const HOME_PAGE = '/home-page';

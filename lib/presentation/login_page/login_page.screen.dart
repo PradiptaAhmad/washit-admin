@@ -33,7 +33,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
               style: tsBodyMediumRegular(darkGrey),
             ),
             SizedBox(
-              height: 35,
+              height: 30,
             ),
             Text(
               "Email",
@@ -58,7 +58,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
               },
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             Text(
               "Password",
@@ -95,13 +95,13 @@ class LoginPageScreen extends GetView<LoginPageController> {
               ),
             ),
             SizedBox(
-              height: 15,
+              height: 10,
             ),
             ButtonWidget(
               backgroundColor: secondaryColor,
               child: Text(
                 "Login",
-                style: tsBodyMediumSemibold(primaryColor),
+                style: tsBodySmallSemibold(primaryColor),
               ),
               onPressed: () {
                 controller.login();
@@ -163,7 +163,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
                       Spacer(),
                       Text(
                         "Login Dengan Google",
-                        style: tsBodyMediumSemibold(darkBlue),
+                        style: tsBodySmallSemibold(darkBlue),
                       ),
                       Spacer(),
                     ],
