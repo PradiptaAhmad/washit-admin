@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-
 import 'package:get/get.dart';
 
 import 'infrastructure/navigation/navigation.dart';
@@ -13,6 +12,7 @@ void main() async {
 
 class Main extends StatelessWidget {
   final String initialRoute;
+
   Main(this.initialRoute);
 
   @override
@@ -22,6 +22,8 @@ class Main extends StatelessWidget {
       getPages: Nav.routes,
       theme: ThemeData(
         scaffoldBackgroundColor: primaryColor,
+        colorScheme: ColorScheme.light(
+            primary: secondaryColor, secondary: secondaryColor),
       ),
     );
   }

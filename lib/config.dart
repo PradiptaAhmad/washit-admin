@@ -22,7 +22,7 @@ class ConfigEnvironments {
     },
     {
       'env': Environments.PRODUCTION,
-      'url': '',
+      'url': 'http://washitapi.pradiptaahmad.tech/api',
     },
   ];
 

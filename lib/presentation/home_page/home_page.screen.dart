@@ -1,149 +1,118 @@
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
-import 'package:washit_admin/presentation/home_page/detail_mainwidget_page.dart';
+import 'package:washit_admin/presentation/home_page/widgets/main_data_visual_widget.dart';
+import 'package:washit_admin/presentation/home_page/widgets/newest_transaction_widget.dart';
 
-import 'controllers/home_page.controller.dart';
+import '../../widget/common/circle_tab_indicator.dart';
 
-class HomePageScreen extends GetView<HomePageController> {
+class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
 
   @override
+  _HomePageScreenState createState() => _HomePageScreenState();
+}
+
+class _HomePageScreenState extends State<HomePageScreen>
+    with SingleTickerProviderStateMixin {
+  late TabController _tabController;
+
+  @override
+  void initState() {
+    super.initState();
+    _tabController = TabController(length: 3, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    _tabController.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
+    double screenHeight = MediaQuery.of(context).size.height;
+    double screenWidth = MediaQuery.of(context).size.width;
+
     return Scaffold(
-        body: SafeArea(
-      child: SingleChildScrollView(
-        child: Container(
-          margin: EdgeInsets.all(defaultMargin),
+      body: SafeArea(
+        child: SingleChildScrollView(
+          physics: const BouncingScrollPhysics(),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
-              Row(
-                children: [
-                  Expanded(
-                    child: Container(
-                      decoration: BoxDecoration(
-                        color: Colors.blue,
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                      height: 45,
-                      width: 100,
-                    ),
-                  ),
-                  SizedBox(
-                    width: 10,
-                  ),
-                  Container(
-                    decoration: BoxDecoration(
-                      color: Colors.blue,
-                      borderRadius: BorderRadius.circular(50),
-                    ),
-                    height: 50,
-                    width: 50,
-                  ),
-                ],
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              InkWell(
-                onTap: () {
-                  Get.to(() => DetailMainwidgetPage());
-                },
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: Colors.white,
-                    borderRadius: BorderRadius.circular(10),
-                    boxShadow: [
-                      BoxShadow(
-                        color: Colors.grey.withOpacity(0.2),
-                        spreadRadius: 1.5,
-                        blurRadius: 2,
-                        offset: Offset(0.5, 2), // changes position of shadow
-                      ),
-                    ],
-                  ),
-                  height: 150,
-                  width: double.infinity,
-                  child: Container(
-                    margin: EdgeInsets.all(15),
-                    child: Column(
+              Padding(
+                padding: const EdgeInsets.only(
+                    left: defaultMargin,
+                    right: defaultMargin,
+                    top: defaultMargin,
+                    bottom: defaultMargin / 2),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
-                        Text(
-                          "No. Transaksi - 00414519797419",
-                          style: tsLabelLargeRegular(darkGrey),
-                        ),
-                        SizedBox(
-                          height: 10,
-                        ),
-                        Row(
-                          children: [
-                            Container(
-                              decoration: BoxDecoration(
-                                borderRadius: BorderRadius.circular(6),
-                              ),
-                              height: 60,
-                              width: 60,
-                            ),
-                            SizedBox(
-                              width: 10,
-                            ),
-                            Column(
-                              crossAxisAlignment: CrossAxisAlignment.start,
-                              children: [
-                                Text(
-                                  "Cuci Setrika - Bawwaz",
-                                  style: tsBodySmallSemibold(black),
-                                ),
-                                Text(
-                                  "Berat - 5Kg",
-                                  style: tsLabelLargeSemibold(darkGrey),
-                                ),
-                                Text(
-                                  "Rp. 25.000",
-                                  style: tsLabelLargeBold(successColor),
-                                )
-                              ],
-                            )
-                          ],
-                        ),
-                        Container(
-                          child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                            crossAxisAlignment: CrossAxisAlignment.end,
-                            children: [
-                              Text(
-                                "23 Maret 2024",
-                                style: tsLabelLargeRegular(black),
-                              ),
-                              Container(
-                                decoration: BoxDecoration(
-                                  borderRadius: BorderRadius.circular(6),
-                                  color: successColor,
-                                ),
-                                height: 30,
-                                width: 80,
-                                child: Expanded(
-                                  child: Center(
-                                    child: Text(
-                                      "on Progress",
-                                      style: tsLabelLargeSemibold(primaryColor),
-                                    ),
-                                  ),
-                                ),
-                              ),
-                            ],
-                          ),
-                        )
+                        Text("Selamat Datang",
+                            style: tsLabelLargeSemibold(darkGrey)),
+                        Text("Bapak Bajuri",
+                            style: tsTitleMediumSemibold(black)),
                       ],
                     ),
+                    Container(
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(50),
+                        color: grey,
+                      ),
+                      height: 45,
+                      width: 45,
+                      child: const Icon(
+                        Icons.person,
+                        color: primaryColor,
+                      ),
+                    ),
+                  ],
+                ),
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
+                child: TabBar(
+                  labelColor: black,
+                  unselectedLabelColor: darkGrey,
+                  indicatorColor: secondaryColor,
+                  dividerColor: Colors.transparent,
+                  controller: _tabController,
+                  splashBorderRadius: BorderRadius.circular(50),
+                  indicator: CircleTabIndicator(
+                    color: black,
+                    radius: 4,
                   ),
+                  tabs: const [
+                    Tab(text: "Order"),
+                    Tab(text: "Transaction"),
+                    Tab(text: "Berlangsung"),
+                  ],
+                ),
+              ),
+              SizedBox(
+                height: screenHeight * screenWidth,
+                child: TabBarView(
+                  controller: _tabController,
+                  children: const [
+                    Column(
+                      children: [
+                        MainDataVisualWidget(),
+                        NewestTransactionWidget(),
+                      ],
+                    ),
+                    Text("His"),
+                    Text("Hiz"),
+                  ],
                 ),
               ),
             ],
           ),
         ),
       ),
-    ));
+    );
   }
 }
