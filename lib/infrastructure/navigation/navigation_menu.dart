@@ -33,15 +33,15 @@ class NavigationMenu extends StatelessWidget {
               // New line: selected icon
               label: "Home",
             ),
-            // NavigationDestination(
-            //   icon: Icon(Iconsax.status),
-            //   selectedIcon: Icon(
-            //     Iconsax.status5,
-            //     color: darkGrey,
-            //   ),
-            //   // New line: selected icon
-            //   label: "Status",
-            // ),
+            NavigationDestination(
+              icon: Icon(Iconsax.status),
+              selectedIcon: Icon(
+                Iconsax.status5,
+                color: darkGrey,
+              ),
+              // New line: selected icon
+              label: "Status",
+            ),
             NavigationDestination(
               icon: Icon(Iconsax.message),
               selectedIcon: Icon(
@@ -73,6 +73,7 @@ class NavigationController extends GetxController {
   final screens = [
     HomePageScreen(),
     Container(color: Colors.red),
+    Container(color: Colors.blue),
     Container(color: Colors.yellow),
   ];
 }

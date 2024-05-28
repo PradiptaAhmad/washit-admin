@@ -10,6 +10,7 @@ dependencies:
   get: 4.6.6
   google_fonts: any
   iconsax: any
+  fl_chart: ^0.68.0
   get_storage: any
   flutter:
     sdk: flutter
