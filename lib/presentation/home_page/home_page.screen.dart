@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/widgets/main_data_visual_widget.dart';
-import 'package:washit_admin/presentation/home_page/widgets/newest_transaction_widget.dart';
+import 'package:washit_admin/presentation/home_page/widgets/newest_activity_widget.dart';
+import 'package:washit_admin/presentation/home_page/widgets/overview_visual_data_widget.dart';
 
 import '../../widget/common/circle_tab_indicator.dart';
 
@@ -80,6 +81,7 @@ class _HomePageScreenState extends State<HomePageScreen>
                   unselectedLabelColor: darkGrey,
                   indicatorColor: secondaryColor,
                   dividerColor: Colors.transparent,
+                  labelStyle: tsBodySmallSemibold(black),
                   controller: _tabController,
                   splashBorderRadius: BorderRadius.circular(50),
                   indicator: CircleTabIndicator(
@@ -87,9 +89,9 @@ class _HomePageScreenState extends State<HomePageScreen>
                     radius: 4,
                   ),
                   tabs: const [
+                    Tab(text: "Overview"),
                     Tab(text: "Order"),
-                    Tab(text: "Transaction"),
-                    Tab(text: "Berlangsung"),
+                    Tab(text: "Transaksi"),
                   ],
                 ),
               ),
@@ -97,15 +99,60 @@ class _HomePageScreenState extends State<HomePageScreen>
                 height: screenHeight * screenWidth,
                 child: TabBarView(
                   controller: _tabController,
-                  children: const [
+                  children: [
+                    OverviewVisualDataWidget(),
                     Column(
                       children: [
-                        MainDataVisualWidget(),
-                        NewestTransactionWidget(),
+                        MainDataVisualWidget(
+                          title1: "Hari Ini",
+                          desc1: "11",
+                          title2: "Bulan Ini",
+                          desc2: "25",
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: lightGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 1,
+                          width: double.infinity,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        NewestTransactionWidget(
+                          mainTitle: "Invoice Pemesanan",
+                        ),
                       ],
                     ),
-                    Text("His"),
-                    Text("Hiz"),
+                    Column(
+                      children: [
+                        MainDataVisualWidget(
+                          title1: "Hari Ini",
+                          desc1: "25000",
+                          title2: "Bulan Ini",
+                          desc2: "250000",
+                        ),
+                        const SizedBox(
+                          height: 15,
+                        ),
+                        Container(
+                          decoration: BoxDecoration(
+                              color: lightGrey,
+                              borderRadius: BorderRadius.circular(10)),
+                          height: 1,
+                          width: double.infinity,
+                        ),
+                        const SizedBox(
+                          height: 5,
+                        ),
+                        NewestTransactionWidget(
+                          mainTitle: "Invoice Transaksi",
+                        ),
+                      ],
+                    ),
                   ],
                 ),
               ),

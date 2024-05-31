@@ -2,11 +2,13 @@ import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 
-import '../../data/order_activity_line_chart_data.dart';
-import '../custom_card_widget.dart';
+import '../../../../widget/common/custom_card_widget.dart';
+import '../../data/order_line_chart_data.dart';
 
 class LineChartCard extends StatelessWidget {
-  const LineChartCard({super.key});
+  const LineChartCard({
+    super.key,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -25,7 +27,7 @@ class LineChartCard extends StatelessWidget {
             aspectRatio: 16 / 6,
             child: LineChart(
               LineChartData(
-                lineTouchData: LineTouchData(
+                lineTouchData: const LineTouchData(
                   handleBuiltInTouches: true,
                 ),
                 gridData: FlGridData(
@@ -48,21 +50,22 @@ class LineChartCard extends StatelessWidget {
                   },
                 ),
                 titlesData: FlTitlesData(
-                  rightTitles: AxisTitles(
+                  rightTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
-                  topTitles: AxisTitles(
+                  topTitles: const AxisTitles(
                     sideTitles: SideTitles(showTitles: false),
                   ),
                   bottomTitles: AxisTitles(
                     sideTitles: SideTitles(
                       showTitles: true,
                       getTitlesWidget: (double value, TitleMeta meta) {
-                        return data.bottomTitle[value.toInt()] != null
+                        return data.orderBottomTitle[value.toInt()] != null
                             ? SideTitleWidget(
                                 axisSide: meta.axisSide,
                                 child: Text(
-                                    data.bottomTitle[value.toInt()].toString(),
+                                    data.orderBottomTitle[value.toInt()]
+                                        .toString(),
                                     style: TextStyle(
                                         fontSize: 12, color: Colors.grey[400])),
                               )
@@ -73,8 +76,9 @@ class LineChartCard extends StatelessWidget {
                   leftTitles: AxisTitles(
                     sideTitles: SideTitles(
                       getTitlesWidget: (double value, TitleMeta meta) {
-                        return data.leftTitle[value.toInt()] != null
-                            ? Text(data.leftTitle[value.toInt()].toString(),
+                        return data.orderleftTitle[value.toInt()] != null
+                            ? Text(
+                                data.orderleftTitle[value.toInt()].toString(),
                                 style: TextStyle(
                                     fontSize: 12, color: Colors.grey[400]))
                             : const SizedBox();
@@ -111,7 +115,7 @@ class LineChartCard extends StatelessWidget {
                             strokeColor: successColor,
                           );
                         }),
-                    spots: data.spots,
+                    spots: data.orderSpots,
                   )
                 ],
                 minX: 0,
