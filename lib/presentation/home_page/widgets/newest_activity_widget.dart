@@ -4,8 +4,14 @@ import '../../../infrastructure/theme/themes.dart';
 
 class NewestTransactionWidget extends StatelessWidget {
   const NewestTransactionWidget({
+    this.mainTitle,
+    this.desc1,
+    this.title2,
+    this.desc2,
     super.key,
   });
+
+  final String? mainTitle, desc1, title2, desc2;
 
   @override
   Widget build(BuildContext context) {
@@ -14,11 +20,24 @@ class NewestTransactionWidget extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          SizedBox(
+          const SizedBox(
             height: 10,
           ),
-          Text("Pesanan Terakhir hari ini", style: tsBodyLargeSemibold(black)),
-          SizedBox(
+          Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Text(mainTitle ?? "Loading...",
+                      style: tsTitleSmallSemibold(darkBlue)),
+                  Text("20 Riwayat", style: tsLabelLargeSemibold(darkGrey)),
+                ],
+              ),
+              Icon(Icons.chevron_right_rounded)
+            ],
+          ),
+          const SizedBox(
             height: 10,
           ),
           Column(
@@ -28,28 +47,29 @@ class NewestTransactionWidget extends StatelessWidget {
                 children: [
                   Text(
                     "Nama akun",
-                    style: tsLabelLargeSemibold(darkGrey),
+                    style: tsLabelLargeSemibold(black),
                   ),
                   Text(
                     "Tanggal",
-                    style: tsLabelLargeSemibold(darkGrey),
+                    style: tsLabelLargeSemibold(black),
                   ),
                   Text(
                     "Via",
-                    style: tsLabelLargeSemibold(darkGrey),
+                    style: tsLabelLargeSemibold(black),
                   )
                 ],
               ),
-              SizedBox(
-                height: 4,
+              const SizedBox(
+                height: 5,
               ),
               Container(
-                decoration: BoxDecoration(color: grey),
+                decoration: BoxDecoration(
+                    color: grey, borderRadius: BorderRadius.circular(10)),
                 height: 1,
                 width: double.infinity,
               ),
-              SizedBox(
-                height: 8,
+              const SizedBox(
+                height: 10,
               ),
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -63,13 +83,13 @@ class NewestTransactionWidget extends StatelessWidget {
                         ),
                         height: 30,
                         width: 30,
-                        child: Icon(
+                        child: const Icon(
                           Icons.person,
                           color: primaryColor,
                           size: 15,
                         ),
                       ),
-                      SizedBox(
+                      const SizedBox(
                         width: 10,
                       ),
                       Text(
