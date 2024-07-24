@@ -98,7 +98,6 @@ class OverviewVisualDataWidget extends StatelessWidget {
           height: 1,
           width: double.infinity,
         ),
-        SizedBox(height: 15),
         OverviewMainChartBar(),
       ],
     );
