@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
-import 'package:washit_admin/presentation/home_page/home_page.screen.dart';
 import 'package:washit_admin/presentation/screens.dart';
 
 import '../theme/themes.dart';
@@ -25,37 +23,46 @@ class NavigationMenu extends StatelessWidget {
               controller.selectedIndex.value = index,
           destinations: const [
             NavigationDestination(
-              icon: Icon(Iconsax.home),
-              selectedIcon: Icon(
-                Iconsax.home1,
+              icon: Icon(
+                Icons.home_filled,
                 color: darkGrey,
               ),
-              // New line: selected icon
+              selectedIcon: Icon(
+                Icons.home_filled,
+                color: black,
+              ),
               label: "Home",
             ),
             NavigationDestination(
-              icon: Icon(Iconsax.status),
-              selectedIcon: Icon(
-                Iconsax.status5,
+              icon: Icon(
+                Icons.reorder_rounded,
                 color: darkGrey,
               ),
-              // New line: selected icon
+              selectedIcon: Icon(
+                Icons.reorder_rounded,
+                color: black,
+              ),
               label: "Status",
             ),
             NavigationDestination(
-              icon: Icon(Iconsax.message),
-              selectedIcon: Icon(
-                Iconsax.message5,
+              icon: Icon(
+                Icons.person,
                 color: darkGrey,
               ),
-              // New line: selected icon
-              label: "Messages",
+              selectedIcon: Icon(
+                Icons.person,
+                color: black,
+              ),
+              label: "Users",
             ),
             NavigationDestination(
-              icon: Icon(Iconsax.setting),
-              selectedIcon: Icon(
-                Iconsax.setting1,
+              icon: Icon(
+                Icons.settings,
                 color: darkGrey,
+              ),
+              selectedIcon: Icon(
+                Icons.settings,
+                color: black,
               ),
               label: "Settings",
             ),
@@ -72,8 +79,8 @@ class NavigationController extends GetxController {
 
   final screens = [
     HomePageScreen(),
-    Container(color: Colors.red),
-    Container(color: Colors.blue),
-    Container(color: Colors.yellow),
+    StatusPageScreen(),
+    UsersPageScreen(),
+    SettingsPageScreen(),
   ];
 }

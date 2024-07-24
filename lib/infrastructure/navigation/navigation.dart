@@ -47,5 +47,20 @@ class Nav {
       page: () => const RegisterPageScreen(),
       binding: RegisterPageControllerBinding(),
     ),
+    GetPage(
+      name: Routes.STATUS_PAGE,
+      page: () => const StatusPageScreen(),
+      binding: StatusPageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.USERS_PAGE,
+      page: () => const UsersPageScreen(),
+      binding: UsersPageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SETTINGS_PAGE,
+      page: () => const SettingsPageScreen(),
+      binding: SettingsPageControllerBinding(),
+    ),
   ];
 }
