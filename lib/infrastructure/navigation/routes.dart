@@ -8,4 +8,5 @@ class Routes {
   static const LOGIN_PAGE = '/login-page';
   static const NAVBAR = '/navigation_menu';
   static const REGISTER_PAGE = '/register-page';
+  static const TRANSACTION_PAGE = '/transaction_page.screen';
 }

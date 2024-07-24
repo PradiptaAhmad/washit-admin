@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';
 
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
+import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
 
 import '../../config.dart';
 import '../../presentation/screens.dart';
@@ -46,6 +48,11 @@ class Nav {
       name: Routes.REGISTER_PAGE,
       page: () => const RegisterPageScreen(),
       binding: RegisterPageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.TRANSACTION_PAGE,
+      page: () => TransactionPageScreen(),
+      binding: TransactionPageControllerBinding(),
     ),
   ];
 }
