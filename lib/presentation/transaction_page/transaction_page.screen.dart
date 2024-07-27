@@ -159,7 +159,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                   leftTitle: "Alamat", rightTitle: "${productData['alamat']}"),
               DetailDataWidget(
                   leftTitle: "Tipe Laundry",
-                  rightTitle: "${productData['laundry_id']}"),
+                  rightTitle: "${productData['jenis_pemesanan']}"),
               DetailDataWidget(
                 leftTitle: "Berat (Kg)",
                 rightTitle: productData['berat_laundry'] != null &&
