@@ -13,6 +13,7 @@ dependencies:
   iconsax: ^0.0.8
   fl_chart: ^0.68.0
   get_storage: any
+  shimmer: ^3.0.0
   flutter:
     sdk: flutter
 
@@ -26,3 +27,4 @@ flutter:
 
   assets:
     - assets/img_home/
+    - assets/img_user/avatar1.jpg
