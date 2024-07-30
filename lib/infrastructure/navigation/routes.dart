@@ -12,4 +12,5 @@ class Routes {
   static const STATUS_PAGE = '/status-page';
   static const USERS_PAGE = '/users-page';
   static const SETTINGS_PAGE = '/settings-page';
+  static const REVIEW_PAGE = '/review-page';
 }
