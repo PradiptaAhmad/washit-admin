@@ -73,7 +73,7 @@ class Nav {
     ),
     GetPage(
         name: Routes.REVIEW_PAGE,
-        page: () => ReviewPagescreen(),
+        page: () => ReviewPageScreen(),
         binding: ReviewPagecontrollerbinding(),
     ),
   ];
