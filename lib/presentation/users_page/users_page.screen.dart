@@ -87,7 +87,7 @@ class UsersPageScreen extends GetView<UsersPageController> {
                           },
                         );
                       }),
-                      ReviewPagescreen(),
+                      ReviewPageScreen(),
                     ],
                   ),
                 ),

@@ -1,38 +1,36 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'controllers/review_page.controller.dart';
+import 'package:washit_admin/presentation/review_page/controllers/review_page.controller.dart';
+import 'package:washit_admin/presentation/review_page/models/ReviewModel.dart';
 
-class ReviewPagescreen extends StatelessWidget {
-  final ReviewPagecontroller controller = Get.put(ReviewPagecontroller());
+class ReviewPageScreen extends StatelessWidget {
+  final ReviewPageController controller = Get.put(ReviewPageController());
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 15.0),
         child: Column(
           children: [
-            Padding(
-              padding: const EdgeInsets.all(16.0),
-              child: Obx(() {
-                double averageRating = controller.reviews.fold(0, (sum, item) => sum + item.rating) / controller.reviews.length;
-                return Row(
+            Obx(() {
+              double averageRating = controller.reviews.fold(0, (sum, item) => sum + item.rating) / controller.reviews.length;
+              return Padding(
+                padding: const EdgeInsets.all(16.0),
+                child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Text(
-                          "Average Rating: ${averageRating.toStringAsFixed(1)}",
-                          style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                          "Average Rating",
+                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
                         ),
-                        Row(
-                          children: List.generate(5, (index) {
-                            return Icon(
-                              index < averageRating ? Icons.star : Icons.star_border,
-                              color: Colors.amber,
-                              size: MediaQuery.of(context).size.width * 0.06,
-                            );
-                          }),
+                        SizedBox(height: 1),
+                        Text(
+                          averageRating.toStringAsFixed(1),
+                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
                         ),
                       ],
                     ),
@@ -49,50 +47,67 @@ class ReviewPagescreen extends StatelessWidget {
                       onChanged: (value) {
                         controller.selectedRating.value = value!;
                       },
-                      style: TextStyle(color: Colors.black),
-                      underline: Container(
-                        height: 2,
-                        color: Colors.grey,
-                      ),
                     ),
                   ],
-                );
-              }),
-            ),
+                ),
+              );
+            }),
             Expanded(
               child: Obx(() {
                 return ListView.builder(
                   itemCount: controller.filteredReviews.length,
                   itemBuilder: (context, index) {
                     var review = controller.filteredReviews[index];
-                    return Card(
-                      margin: EdgeInsets.symmetric(horizontal: 16, vertical: 8),
-                      child: Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Row(
-                              children: List.generate(5, (starIndex) {
-                                return Icon(
-                                  starIndex < review.rating ? Icons.star : Icons.star_border,
-                                  color: Colors.amber,
-                                  size: MediaQuery.of(context).size.width * 0.06,
-                                );
-                              }),
+                    return Container(
+                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
+                      child: Stack(
+                        clipBehavior: Clip.none,
+                        children: [
+                          Container(
+                            margin: EdgeInsets.only(left: 25),
+                            padding: EdgeInsets.only(top: 12, bottom: 12, left: 40, right: 16),
+                            decoration: BoxDecoration(
+                              color: Color(0xFFF9F9F9),
+                              borderRadius: BorderRadius.circular(10),
                             ),
-                            SizedBox(height: 8),
-                            Text(
-                              review.username, // Display username
-                              style: TextStyle(fontWeight: FontWeight.bold),
+                            child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                Row(
+                                  children: [
+                                    Text(
+                                      review.username,
+                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                    ),
+                                    SizedBox(width: 8),
+                                    Row(
+                                      children: List.generate(5, (starIndex) {
+                                        return Icon(
+                                          starIndex < review.rating ? Icons.star : Icons.star_border,
+                                          color: Colors.amber,
+                                          size: MediaQuery.of(context).size.width * 0.04,
+                                        );
+                                      }),
+                                    ),
+                                  ],
+                                ),
+                                SizedBox(height: 4),
+                                Text(
+                                  review.comment,
+                                  style: TextStyle(fontSize: 13),
+                                ),
+                              ],
                             ),
-                            SizedBox(height: 4),
-                            Text(
-                              review.comment,
-                              style: TextStyle(fontSize: 16),
+                          ),
+                          Positioned(
+                            left: -3,
+                            top: 7,
+                            child: CircleAvatar(
+                              backgroundImage: AssetImage('assets/images/user_profile.png'),
+                              radius: 26,
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     );
                   },

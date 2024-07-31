@@ -6,8 +6,8 @@ import '../../../../presentation/register_page/controllers/register_page.control
 class ReviewPagecontrollerbinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<ReviewPagecontroller>(
-          () => ReviewPagecontroller(),
+    Get.lazyPut<ReviewPageController>(
+          () => ReviewPageController(),
     );
   }
 }
