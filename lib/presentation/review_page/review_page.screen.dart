@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/presentation/review_page/controllers/review_page.controller.dart';
 import 'package:washit_admin/presentation/review_page/models/ReviewModel.dart';
+import 'package:washit_admin/infrastructure/theme/themes.dart';
 
 class ReviewPageScreen extends StatelessWidget {
   final ReviewPageController controller = Get.put(ReviewPageController());
@@ -10,7 +11,7 @@ class ReviewPageScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 15.0),
+        padding: const EdgeInsets.symmetric(horizontal: 5.0),
         child: Column(
           children: [
             Obx(() {
@@ -25,28 +26,42 @@ class ReviewPageScreen extends StatelessWidget {
                       children: [
                         Text(
                           "Average Rating",
-                          style: TextStyle(fontSize: 12, fontWeight: FontWeight.w300),
+                          style: tsBodySmallMedium(darkGrey),
                         ),
                         SizedBox(height: 1),
                         Text(
                           averageRating.toStringAsFixed(1),
-                          style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
+                          style: tsHeadlineSmallBold(black),
                         ),
                       ],
                     ),
-                    DropdownButton<int>(
-                      value: controller.selectedRating.value,
-                      items: [
-                        DropdownMenuItem(child: Text("All"), value: 0),
-                        DropdownMenuItem(child: Text("5 Stars"), value: 5),
-                        DropdownMenuItem(child: Text("4 Stars"), value: 4),
-                        DropdownMenuItem(child: Text("3 Stars"), value: 3),
-                        DropdownMenuItem(child: Text("2 Stars"), value: 2),
-                        DropdownMenuItem(child: Text("1 Star"), value: 1),
-                      ],
-                      onChanged: (value) {
-                        controller.selectedRating.value = value!;
-                      },
+                    Container(
+                      decoration: BoxDecoration(
+                        border: Border.all(color: Colors.grey),
+                        borderRadius: BorderRadius.circular(5),
+                      ),
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: DropdownButton<int>(
+                        value: controller.selectedRating.value,
+                        items: [
+                          DropdownMenuItem(
+                              child: Text(
+                                "All",
+                                style: tsBodyMediumMedium(black),
+                              ),
+                              value: 0
+                          ),
+                          DropdownMenuItem(child: Text("5 Stars", style: tsBodyMediumRegular(black)), value: 5),
+                          DropdownMenuItem(child: Text("4 Stars", style: tsBodyMediumRegular(black)), value: 4),
+                          DropdownMenuItem(child: Text("3 Stars", style: tsBodyMediumRegular(black)), value: 3),
+                          DropdownMenuItem(child: Text("2 Stars", style: tsBodyMediumRegular(black)), value: 2),
+                          DropdownMenuItem(child: Text("1 Star", style: tsBodyMediumRegular(black)), value: 1),
+                        ],
+                        onChanged: (value) {
+                          controller.selectedRating.value = value!;
+                        },
+                        underline: SizedBox(),
+                      ),
                     ),
                   ],
                 ),
@@ -59,27 +74,31 @@ class ReviewPageScreen extends StatelessWidget {
                   itemBuilder: (context, index) {
                     var review = controller.filteredReviews[index];
                     return Container(
-                      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 9),
-                      child: Stack(
-                        clipBehavior: Clip.none,
+                      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 9), // Margin kanan kiri diubah jadi 15
+                      padding: EdgeInsets.all(12),
+                      decoration: BoxDecoration(
+                        color: Colors.white,
+                        borderRadius: BorderRadius.circular(10),
+                        border: Border.all(color: Colors.grey.shade300),
+                      ),
+                      child: Row(
                         children: [
-                          Container(
-                            margin: EdgeInsets.only(left: 25),
-                            padding: EdgeInsets.only(top: 12, bottom: 12, left: 40, right: 16),
-                            decoration: BoxDecoration(
-                              color: Color(0xFFF9F9F9),
-                              borderRadius: BorderRadius.circular(10),
-                            ),
+                          CircleAvatar(
+                            backgroundImage: AssetImage('assets/images/user_profile.png'),
+                            radius: 26,
+                          ),
+                          SizedBox(width: 10),
+                          Expanded(
                             child: Column(
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Row(
+                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                   children: [
                                     Text(
                                       review.username,
-                                      style: TextStyle(fontWeight: FontWeight.w500),
+                                      style: tsBodyMediumMedium(black),
                                     ),
-                                    SizedBox(width: 8),
                                     Row(
                                       children: List.generate(5, (starIndex) {
                                         return Icon(
@@ -94,17 +113,9 @@ class ReviewPageScreen extends StatelessWidget {
                                 SizedBox(height: 4),
                                 Text(
                                   review.comment,
-                                  style: TextStyle(fontSize: 13),
+                                  style: tsBodySmallRegular(darkGrey),
                                 ),
                               ],
-                            ),
-                          ),
-                          Positioned(
-                            left: -3,
-                            top: 7,
-                            child: CircleAvatar(
-                              backgroundImage: AssetImage('assets/images/user_profile.png'),
-                              radius: 26,
                             ),
                           ),
                         ],
