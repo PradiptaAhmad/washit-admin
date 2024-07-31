@@ -1,12 +1,14 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/bindings/controllers/review_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';
 
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
 
 import '../../config.dart';
+import '../../presentation/review_page/review_page.screen.dart';
 import '../../presentation/screens.dart';
 import 'bindings/controllers/controllers_bindings.dart';
 import 'routes.dart';
@@ -68,7 +70,11 @@ class Nav {
       name: Routes.SETTINGS_PAGE,
       page: () => const SettingsPageScreen(),
       binding: SettingsPageControllerBinding(),
-
+    ),
+    GetPage(
+        name: Routes.REVIEW_PAGE,
+        page: () => ReviewPagescreen(),
+        binding: ReviewPagecontrollerbinding(),
     ),
   ];
 }

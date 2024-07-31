@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import '../../infrastructure/theme/themes.dart';
 import '../../widget/common/circle_tab_indicator.dart';
 import 'controllers/users_page.controller.dart';
+import '../review_page/review_page.screen.dart';
 
 class UsersPageScreen extends GetView<UsersPageController> {
   const UsersPageScreen({Key? key}) : super(key: key);
@@ -86,11 +87,7 @@ class UsersPageScreen extends GetView<UsersPageController> {
                           },
                         );
                       }),
-                      Container(
-                        child: Center(
-                          child: Text("Tidak ada Riwayat"),
-                        ),
-                      ),
+                      ReviewPagescreen(),
                     ],
                   ),
                 ),
