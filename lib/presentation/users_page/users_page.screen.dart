@@ -21,7 +21,7 @@ class UsersPageScreen extends GetView<UsersPageController> {
         child: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
           child: Container(
-            margin: EdgeInsets.all(defaultMargin),
+            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: defaultMargin),
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -54,34 +54,62 @@ class UsersPageScreen extends GetView<UsersPageController> {
                           itemBuilder: (context, index) {
                             final user = controller.users[index];
                             return Container(
-                              margin: EdgeInsets.symmetric(vertical: 8.0, horizontal: 16.0),
+                              margin: EdgeInsets.symmetric(vertical: 5.0),
                               padding: EdgeInsets.all(8.0),
                               decoration: BoxDecoration(
                                 color: Colors.white,
                                 borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey.withOpacity(0.5)),
                                 boxShadow: [
                                   BoxShadow(
-                                    color: Colors.grey.withOpacity(0.5),
-                                    spreadRadius: 2,
-                                    blurRadius: 5,
-                                    offset: Offset(0, 3),
+                                    color: Colors.grey.withOpacity(0.1),
                                   ),
                                 ],
                               ),
-                              child: ListTile(
-                                leading: CircleAvatar(
-                                  backgroundImage: AssetImage(user.imagePath),
-                                  onBackgroundImageError: (exception, stackTrace) {
-                                    print('Error loading asset: ${user.imagePath}');
-                                  },
-                                ),
-                                title: Row(
-                                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Text(user.name),
-                                    Text(user.phoneNumber),
-                                  ],
-                                ),
+                              child: Row(
+                                children: [
+                                  CircleAvatar(
+                                    backgroundImage: AssetImage(user.imagePath),
+                                    onBackgroundImageError: (exception, stackTrace) {
+                                      print('Error loading asset: ${user.imagePath}');
+                                    },
+                                  ),
+                                  SizedBox(width: 12),
+                                  Expanded(
+                                    child: Column(
+                                      crossAxisAlignment: CrossAxisAlignment.start,
+                                      children: [
+                                        Row(
+                                          children: [
+                                            Text(user.name, style: TextStyle(fontWeight: FontWeight.bold)),
+                                            SizedBox(width: 8),
+                                            Container(
+                                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                              decoration: BoxDecoration(
+                                                color: Colors.green,
+                                                borderRadius: BorderRadius.circular(12),
+                                              ),
+                                              child: Text(
+                                                "Status",
+                                                style: TextStyle(color: Colors.white, fontSize: 12),
+                                              ),
+                                            ),
+                                          ],
+                                        ),
+                                        SizedBox(height: 4),
+                                        Text(user.phoneNumber, style: TextStyle(color: Colors.grey)),
+                                      ],
+                                    ),
+                                  ),
+                                  Column(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      Text('12:00', style: TextStyle(fontSize: 12, color: Colors.grey)),
+                                      SizedBox(height: 4),
+                                      Icon(Icons.more_vert, color: Colors.grey),
+                                    ],
+                                  ),
+                                ],
                               ),
                             );
                           },
