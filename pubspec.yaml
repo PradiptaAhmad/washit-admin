@@ -12,6 +12,8 @@ dependencies:
   google_fonts: any
   iconsax: ^0.0.8
   fl_chart: ^0.68.0
+  http: ^1.2.1
+  image_picker: ^1.1.2
   get_storage: any
   shimmer: ^3.0.0
   flutter:
