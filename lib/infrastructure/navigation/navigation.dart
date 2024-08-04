@@ -68,7 +68,7 @@ class Nav {
     ),
     GetPage(
       name: Routes.SETTINGS_PAGE,
-      page: () => const SettingsPageScreen(),
+      page: () => SettingPage(),
       binding: SettingsPageControllerBinding(),
     ),
     GetPage(

@@ -81,6 +81,6 @@ class NavigationController extends GetxController {
     HomePageScreen(),
     StatusPageScreen(),
     UsersPageScreen(),
-    SettingsPageScreen(),
+    SettingPage(),
   ];
 }
