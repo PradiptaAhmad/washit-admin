@@ -100,12 +100,12 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                     SizedBox(height: 5),
                     DetailDataWidget(
                       leftTitle: "Berat Laundry",
-                      rightTitle: "7 kg",
+                      rightTitle: "Berat Belum Tercatat",
                     ),
                     SizedBox(height: 5),
                     DetailDataWidget(
                       leftTitle: "Catatan",
-                      rightTitle: "Tidak ditulis",
+                      rightTitle: "Tidak ada catatan",
                     ),
                     SizedBox(height: 5),
                   ],
@@ -157,7 +157,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                     SizedBox(height: 5),
                     DetailDataWidget(
                       leftTitle: "Harga Laundry",
-                      rightTitle: "Rp 6.000 X 7 Kg",
+                      rightTitle: "Harga Belum Tercatat",
                     ),
                     SizedBox(height: 5),
                     Padding(
@@ -166,7 +166,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                     ),
                     DetailDataWidget(
                       leftTitle: "Total Harga",
-                      rightTitle: "Rp 42.000",
+                      rightTitle: "Harga Belum Tercatat",
                     ),
                     SizedBox(height: 5),
                   ],
@@ -176,54 +176,6 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
           ],
         ),
       ),
-      floatingActionButton: Padding(
-        padding: const EdgeInsets.all(defaultMargin),
-        child: Row(
-          children: [
-            Expanded(
-              flex: 1,
-              child: InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(15),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  height: 50,
-                  child: Center(
-                    child: Icon(
-                      Icons.menu_rounded,
-                      color: primaryColor,
-                      size: 25,
-                    ),
-                  ),
-                ),
-              ),
-            ),
-            SizedBox(width: 5),
-            Expanded(
-              flex: 6,
-              child: InkWell(
-                onTap: () {},
-                borderRadius: BorderRadius.circular(15),
-                child: Container(
-                  decoration: BoxDecoration(
-                    color: secondaryColor,
-                    borderRadius: BorderRadius.circular(15),
-                  ),
-                  height: 50,
-                  child: Center(
-                    child: Text("Ulas Sekarang",
-                        style: tsBodySmallSemibold(primaryColor)),
-                  ),
-                ),
-              ),
-            ),
-          ],
-        ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
