@@ -13,6 +13,8 @@ class AuthTextField extends StatelessWidget {
   final Widget? suffixIcon;
   final List<TextInputFormatter>? formatter;
   final TextInputType? keyboardType;
+  final bool readOnly;
+  final TextEditingController? controller;
 
   AuthTextField({
     this.formKey,
@@ -24,6 +26,8 @@ class AuthTextField extends StatelessWidget {
     this.suffixIcon,
     this.formatter,
     this.keyboardType,
+    this.readOnly = false,
+    this.controller,
   });
 
   @override
@@ -37,24 +41,28 @@ class AuthTextField extends StatelessWidget {
       inputFormatters: formatter,
       autovalidateMode: AutovalidateMode.onUserInteraction,
       keyboardType: keyboardType ?? TextInputType.text,
+      readOnly: readOnly,
+      controller: controller,
       decoration: InputDecoration(
-          isCollapsed: true,
-          isDense: true,
-          contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
-          hintText: hintText,
-          hintStyle: tsBodySmallMedium(darkGrey),
-          focusedBorder: OutlineInputBorder(
-              borderRadius: BorderRadius.circular(10),
-              borderSide: BorderSide(color: secondaryColor, width: 2)),
-          enabledBorder: OutlineInputBorder(
-            borderSide: BorderSide(color: lightGrey, width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          border: OutlineInputBorder(
-            borderSide: BorderSide(color: warningColor, width: 2),
-            borderRadius: BorderRadius.circular(10),
-          ),
-          suffixIcon: suffixIcon),
+        isCollapsed: true,
+        isDense: true,
+        contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 12),
+        hintText: hintText,
+        hintStyle: tsBodySmallMedium(darkGrey),
+        focusedBorder: OutlineInputBorder(
+          borderRadius: BorderRadius.circular(10),
+          borderSide: BorderSide(color: secondaryColor, width: 2),
+        ),
+        enabledBorder: OutlineInputBorder(
+          borderSide: BorderSide(color: lightGrey, width: 2),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        border: OutlineInputBorder(
+          borderSide: BorderSide(color: warningColor, width: 2),
+          borderRadius: BorderRadius.circular(10),
+        ),
+        suffixIcon: suffixIcon,
+      ),
     );
   }
 }

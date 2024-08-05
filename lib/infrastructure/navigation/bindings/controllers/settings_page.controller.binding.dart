@@ -5,8 +5,8 @@ import '../../../../presentation/settings_page/controllers/settings_page.control
 class SettingsPageControllerBinding extends Bindings {
   @override
   void dependencies() {
-    Get.lazyPut<SettingsPageController>(
-      () => SettingsPageController(),
+    Get.lazyPut<SettingController>(
+      () => SettingController(),
     );
   }
 }
