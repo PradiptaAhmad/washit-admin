@@ -27,7 +27,7 @@ class OverviewMainChartBar extends StatelessWidget {
           ),
           SizedBox(height: 10),
           Padding(
-            padding: const EdgeInsets.only(bottom: 15),
+            padding: const EdgeInsets.only(top: 15),
             child: InkWell(
               onTap: () => Get.toNamed(Routes.TRANSACTION_PAGE),
               child: MainContainerWidget(
@@ -42,13 +42,13 @@ class OverviewMainChartBar extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "No. Transaksi",
+                                "id Pesanan",
                                 style: tsLabelLargeMedium(grey),
                               ),
                               Text(
                                 "ORD001",
                                 style: tsLabelLargeMedium(black),
-                              ),
+                              )
                             ],
                           ),
                           Row(
@@ -59,7 +59,7 @@ class OverviewMainChartBar extends StatelessWidget {
                                   vertical: 2,
                                 ),
                                 child: Text(
-                                  "Estimasi: ",
+                                  "Estimasi: 28-03-2024",
                                   style: tsLabelLargeMedium(darkGrey),
                                 ),
                               ),
@@ -69,7 +69,8 @@ class OverviewMainChartBar extends StatelessWidget {
                       ),
                       Padding(
                         padding: const EdgeInsets.symmetric(vertical: 1),
-                        child: Divider(color: lightGrey, thickness: 0.5),
+                        child: Divider(
+                            color: lightGrey, thickness: 0.5),
                       ),
                       Row(
                         mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -78,15 +79,15 @@ class OverviewMainChartBar extends StatelessWidget {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               Text(
-                                "Cuci Setrika - Marlen",
+                                "Marlen",
                                 style: tsBodySmallSemibold(black),
                               ),
                               Text(
-                                "7 Kg",
+                                "Antar Jemput",
                                 style: tsLabelLargeSemibold(darkGrey),
                               ),
                               Text(
-                                "Rp 42.000",
+                                "Berat Belum Tercatat",
                                 style: tsLabelLargeSemibold(darkGrey),
                               ),
                               Text(
@@ -105,6 +106,38 @@ class OverviewMainChartBar extends StatelessWidget {
                               textAlign: TextAlign.right,
                               maxLines: 4,
                             ),
+                          )
+                        ],
+                      ),
+                      SizedBox(height: 18),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "Total harga",
+                                style: tsLabelMediumMedium(black),
+                              ),
+                              Text(
+                                "Harga Belum Tercatat",
+                                style: tsBodySmallSemibold(black),
+                              ),
+                            ],
+                          ),
+                          Column(
+                            crossAxisAlignment: CrossAxisAlignment.end,
+                            children: [
+                              Text(
+                                "Status laundry",
+                                style: tsLabelMediumMedium(black),
+                              ),
+                              Text(
+                                'Pesanan Telah Dikonfirmasi',
+                                style: tsBodySmallSemibold(secondaryColor),
+                              ),
+                            ],
                           ),
                         ],
                       ),
