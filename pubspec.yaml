@@ -17,6 +17,10 @@ dependencies:
   get_storage: any
   shimmer: ^3.0.0
   intl: ^0.17.0
+
+  firebase_core: any
+  firebase_messaging: any
+  flutter_local_notifications: any
   flutter:
     sdk: flutter
 
