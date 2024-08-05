@@ -35,6 +35,11 @@ class Nav {
     GetPage(
       name: Routes.NAVBAR,
       page: () => NavigationMenu(),
+      bindings: [
+      HomePageControllerBinding(),
+      TransactionPageControllerBinding(),
+      SettingsPageControllerBinding(),
+    ]
     ),
     GetPage(
       name: Routes.HOME_PAGE,
