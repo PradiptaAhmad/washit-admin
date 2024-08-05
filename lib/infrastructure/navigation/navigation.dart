@@ -39,6 +39,7 @@ class Nav {
       HomePageControllerBinding(),
       TransactionPageControllerBinding(),
       SettingsPageControllerBinding(),
+      UsersPageControllerBinding(),
     ]
     ),
     GetPage(
