@@ -1,18 +1,14 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
+import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/settings_page/controllers/settings_page.controller.dart';
-import 'package:washit_admin/presentation/settings_page/setting_change_page.dart';
-
-import '../../infrastructure/theme/themes.dart';
-import '../../widget/common/content_title_widget.dart';
+import 'package:washit_admin/widget/common/content_title_widget.dart';
 
 class SettingPage extends GetView<SettingController> {
   SettingPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final SettingController controller = Get.put(SettingController());
     return Scaffold(
       body: SafeArea(
         child: RefreshIndicator(
@@ -34,7 +30,7 @@ class SettingPage extends GetView<SettingController> {
                   if (controller.isLoading.value) {
                     return Center(child: CircularProgressIndicator());
                   } else {
-                    return MainSettingWidget();
+                    return MainProfileWidget();
                   }
                 }),
                 SizedBox(height: 5),
@@ -44,102 +40,75 @@ class SettingPage extends GetView<SettingController> {
                   lefttextSize: tsBodyMediumMedium(black),
                 ),
                 SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Username', style: tsBodySmallRegular(darkGrey)),
-                    InkWell(
-                      onTap: () => Get.to(
-                        SettingChangePage(
-                          title: 'Username',
-                          hintText: controller.userData['username'],
-                          validator: (newValue) {
-                            controller.updateUserName(newValue);
-                            return null;
-                          },
-                          onTap: () => controller.updateUserNameData(),
+                Obx(() {
+                  if (controller.isLoading.value) {
+                    return Center(child: CircularProgressIndicator());
+                  } else {
+                    return Column(
+                      children: [
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Username',
+                                style: tsBodySmallRegular(darkGrey)),
+                            Row(
+                              children: [
+                                Text('${controller.userData['username']}',
+                                    overflow: TextOverflow.ellipsis,
+                                    style: tsBodySmallRegular(black)),
+                                SizedBox(width: 20),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: darkGrey,
+                                  size: 15,
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Text('${controller.userData['username']}',
-                              overflow: TextOverflow.ellipsis,
-                              style: tsBodySmallRegular(black)),
-                          SizedBox(width: 20),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: darkGrey,
-                            size: 15,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Email', style: tsBodySmallRegular(darkGrey)),
-                    InkWell(
-                      onTap: () => Get.to(
-                        SettingChangePage(
-                          title: 'Email',
-                          hintText: controller.userData['email'],
-                          validator: (newValue) {
-                            controller.updateEmail(newValue);
-                            return null;
-                          },
-                          onTap: () => controller.updateEmailData(),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Email', style: tsBodySmallRegular(darkGrey)),
+                            Row(
+                              children: [
+                                Text('${controller.userData['email']}',
+                                    style: tsBodySmallRegular(black)),
+                                SizedBox(width: 20),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: darkGrey,
+                                  size: 15,
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Text('${controller.userData['email']}',
-                              style: tsBodySmallRegular(black)),
-                          SizedBox(width: 20),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: darkGrey,
-                            size: 15,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 20),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text('Nomor Hp', style: tsBodySmallRegular(darkGrey)),
-                    InkWell(
-                      onTap: () => Get.to(
-                        SettingChangePage(
-                          title: 'Nomor Telepon',
-                          hintText: controller.userData['phone'],
-                          validator: (newValue) {
-                            controller.updatePhoneNumber(newValue);
-                            return null;
-                          },
-                          onTap: () => controller.updateUserPhoneData(),
+                        SizedBox(height: 20),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                          children: [
+                            Text('Nomor Hp',
+                                style: tsBodySmallRegular(darkGrey)),
+                            Row(
+                              children: [
+                                Text('${controller.userData['phone']}',
+                                    style: tsBodySmallRegular(black)),
+                                SizedBox(width: 20),
+                                Icon(
+                                  Icons.arrow_forward_ios_rounded,
+                                  color: darkGrey,
+                                  size: 15,
+                                ),
+                              ],
+                            )
+                          ],
                         ),
-                      ),
-                      child: Row(
-                        children: [
-                          Text('${controller.userData['phone']}',
-                              style: tsBodySmallRegular(black)),
-                          SizedBox(width: 20),
-                          Icon(
-                            Icons.arrow_forward_ios_rounded,
-                            color: darkGrey,
-                            size: 15,
-                          ),
-                        ],
-                      ),
-                    )
-                  ],
-                ),
+                      ],
+                    );
+                  }
+                }),
                 SizedBox(height: 10),
                 ContentTitleWidget(
                   title: "Info Profil",
@@ -149,14 +118,6 @@ class SettingPage extends GetView<SettingController> {
                   alignment: Alignment.centerLeft,
                   child: Column(
                     children: [
-                      SizedBox(height: 20),
-                      InkWell(
-                        onTap: () {},
-                        child: Text(
-                          'Hapus akun',
-                          style: tsBodySmallRegular(warningColor),
-                        ),
-                      ),
                       SizedBox(height: 20),
                       InkWell(
                         onTap: () =>
@@ -211,8 +172,8 @@ class SettingPage extends GetView<SettingController> {
   }
 }
 
-class MainSettingWidget extends GetView<SettingController> {
-  const MainSettingWidget({
+class MainProfileWidget extends GetView<SettingController> {
+  const MainProfileWidget({
     super.key,
   });
 
@@ -225,7 +186,7 @@ class MainSettingWidget extends GetView<SettingController> {
           radius: 40,
           backgroundColor: grey,
           backgroundImage: NetworkImage(controller.userData['image_path'] ==
-              null
+                  null
               ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
               : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}'),
         ),

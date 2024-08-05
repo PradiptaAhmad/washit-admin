@@ -53,6 +53,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
                 } else if (!emailRegex.hasMatch(value)) {
                   return "Email tidak valid";
                 } else {
+                  controller.email.value = value;
                   return null;
                 }
               },
@@ -71,6 +72,14 @@ class LoginPageScreen extends GetView<LoginPageController> {
                   hintText: "Masukkan Password",
                   onChanged: (value) {},
                   isObsecure: controller.isObsecure.value,
+                  validator: (value) {
+                    if (value == null || value.isEmpty) {
+                      return "Password tidak boleh kosong";
+                    } else {
+                      controller.password.value = value;
+                      return null;
+                    }
+                  },
                   suffixIcon: IconButton(
                     onPressed: () {
                       controller.isObsecure.value =
@@ -78,8 +87,8 @@ class LoginPageScreen extends GetView<LoginPageController> {
                     },
                     icon: Icon(
                       controller.isObsecure.value
-                          ? Icons.visibility
-                          : Icons.visibility_off,
+                          ? Icons.visibility_off
+                          : Icons.visibility,
                       size: 22,
                     ),
                   ),
@@ -97,16 +106,29 @@ class LoginPageScreen extends GetView<LoginPageController> {
             SizedBox(
               height: 10,
             ),
-            ButtonWidget(
-              backgroundColor: secondaryColor,
-              child: Text(
-                "Login",
-                style: tsBodySmallSemibold(primaryColor),
-              ),
-              onPressed: () {
-                controller.login();
-              },
-            ),
+            Obx(() => ButtonWidget(
+                  backgroundColor: secondaryColor,
+                  child: controller.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.all(8.0),
+                          child: Transform.scale(
+                            scale: 0.5,
+                            child: CircularProgressIndicator(
+                              color: primaryColor,
+                            ),
+                          ),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.all(16),
+                          child: Text(
+                            "Login",
+                            style: tsBodySmallSemibold(primaryColor),
+                          ),
+                        ),
+                  onPressed: () {
+                    controller.login();
+                  },
+                )),
             SizedBox(
               height: 15,
             ),
