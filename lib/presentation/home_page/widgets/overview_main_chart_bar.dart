@@ -3,9 +3,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/presentation/home_page/controllers/orverview_main_controller.dart';
-import 'package:washit_admin/presentation/home_page/models/OrdersModel.dart';
 import 'package:washit_admin/widget/common/content_title_widget.dart';
-import 'package:washit_admin/widget/common/detail_widget.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 import '../../../infrastructure/theme/themes.dart';
 

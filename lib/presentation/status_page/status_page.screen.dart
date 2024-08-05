@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
 import 'package:washit_admin/widget/common/content_title_widget.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 import '../../infrastructure/navigation/routes.dart';

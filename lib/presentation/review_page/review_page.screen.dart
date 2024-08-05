@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/presentation/review_page/controllers/review_page.controller.dart';
-import 'package:washit_admin/presentation/review_page/models/ReviewModel.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 
 class ReviewPageScreen extends StatelessWidget {
