@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/presentation/users_page/components/user_tab_view.dart';
 
 import '../../infrastructure/theme/themes.dart';
 import '../../widget/common/circle_tab_indicator.dart';
@@ -48,73 +49,7 @@ class UsersPageScreen extends GetView<UsersPageController> {
                   child: TabBarView(
                     controller: controller.tabController,
                     children: [
-                      Obx(() {
-                        return ListView.builder(
-                          itemCount: controller.users.length,
-                          itemBuilder: (context, index) {
-                            final user = controller.users[index];
-                            return Container(
-                              margin: EdgeInsets.symmetric(vertical: 5.0),
-                              padding: EdgeInsets.all(8.0),
-                              decoration: BoxDecoration(
-                                color: Colors.white,
-                                borderRadius: BorderRadius.circular(10),
-                                border: Border.all(color: Colors.grey.withOpacity(0.5)),
-                                boxShadow: [
-                                  BoxShadow(
-                                    color: Colors.grey.withOpacity(0.1),
-                                  ),
-                                ],
-                              ),
-                              child: Row(
-                                children: [
-                                  CircleAvatar(
-                                    backgroundImage: AssetImage(user.imagePath),
-                                    onBackgroundImageError: (exception, stackTrace) {
-                                      print('Error loading asset: ${user.imagePath}');
-                                    },
-                                  ),
-                                  SizedBox(width: 12),
-                                  Expanded(
-                                    child: Column(
-                                      crossAxisAlignment: CrossAxisAlignment.start,
-                                      children: [
-                                        Row(
-                                          children: [
-                                            Text(user.name, style: TextStyle(fontWeight: FontWeight.bold)),
-                                            SizedBox(width: 8),
-                                            Container(
-                                              padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                              decoration: BoxDecoration(
-                                                color: Colors.green,
-                                                borderRadius: BorderRadius.circular(12),
-                                              ),
-                                              child: Text(
-                                                "Status",
-                                                style: TextStyle(color: Colors.white, fontSize: 12),
-                                              ),
-                                            ),
-                                          ],
-                                        ),
-                                        SizedBox(height: 4),
-                                        Text(user.phoneNumber, style: TextStyle(color: Colors.grey)),
-                                      ],
-                                    ),
-                                  ),
-                                  Column(
-                                    mainAxisSize: MainAxisSize.min,
-                                    children: [
-                                      Text('12:00', style: TextStyle(fontSize: 12, color: Colors.grey)),
-                                      SizedBox(height: 4),
-                                      Icon(Icons.more_vert, color: Colors.grey),
-                                    ],
-                                  ),
-                                ],
-                              ),
-                            );
-                          },
-                        );
-                      }),
+                      UserTabView(),
                       ReviewPageScreen(),
                     ],
                   ),
