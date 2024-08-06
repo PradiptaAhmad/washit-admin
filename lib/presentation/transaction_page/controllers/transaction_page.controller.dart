@@ -19,7 +19,7 @@ class TransactionPageController extends GetxController {
     isLoading.value = true;
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
-      final token = box.read('token')?.toString();
+      final token = box.read('token');
 
       var headers = {
         'Accept': 'application/json',
@@ -27,7 +27,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.get(
-        Uri.parse('$url/admin/orders/detail?order_id=${argument}'),
+        Uri.parse('$url/admin/orders/detail?order_id=${argument['id']}'),
         headers: headers,
       );
 
@@ -57,13 +57,42 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.get(
-        Uri.parse('$url/orders/status/last?order_id=${argument}'),
+        Uri.parse('$url/admin/order/status/last?order_id=${argument['id']}'),
         headers: headers,
       );
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['order_status'];
         statusList.value = jsonResponse;
+      } else {
+        Get.snackbar('Error', '${response.statusCode}');
+        print(response.statusCode);
+      }
+    } catch (e) {
+      Get.snackbar('Error ', e.toString());
+      print(e);
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
+  Future<void> updateStatus() async {
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read('token');
+
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      final response = await http.put(
+        Uri.parse('$url/admin/orders/status/update?order_id=${argument['id']}'),
+        headers: headers,
+      );
+
+      if (response.statusCode == 201) {
+        update();
       } else {
         Get.snackbar('Error', '${response.statusCode}');
         print(response.statusCode);
