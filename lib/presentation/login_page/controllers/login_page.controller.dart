@@ -44,7 +44,7 @@ class LoginPageController extends GetxController {
       final token = json.decode(response.body)['token'];
       final admin = json.decode(response.body)['user'];
       box.write("token", token);
-      Get.snackbar("Sukses Login", "Selamat datang ${admin['name']}",
+      Get.snackbar("Sukses Login", "Selamat datang ${admin['username']}",
           snackPosition: SnackPosition.TOP, backgroundColor: successColor);
       Get.offAllNamed(Routes.NAVBAR);
     } else {
