@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
+import 'package:slider_button/slider_button.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/transaction_page/widget/detail_text_widget.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
@@ -48,7 +49,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                         child: Column(
                           children: [
                             SizedBox(height: 5),
-                            // OrderStatusIcons(controller: controller),
+                            OrderStatusIcons(controller: controller),
                           ],
                         ),
                       ),
@@ -232,84 +233,32 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                         ),
                       ),
                     ),
-                  )
+                  ),
+                  SizedBox(
+                    height: 20,
+                  ),
+                  SliderButton(
+                    width: double.infinity,
+                    action: () async {
+                      controller.updateStatus();
+                      return true;
+                    },
+                    icon: Text(">"),
+                    label: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Update Status",
+                        style: tsBodyMediumMedium(darkGrey),
+                      ),
+                    ),
+                  ),
+                  
                 ],
               ),
             ),
           );
         },
       ),
-      floatingActionButton: Obx(
-        () => controller.isLoading.value
-            ? Container()
-            : Padding(
-                padding: const EdgeInsets.all(defaultMargin),
-                child: Row(
-                  children: [
-                    Expanded(
-                      flex: 1,
-                      child: InkWell(
-                        // onTap: () => optionPopUp(context, controller),
-                        borderRadius: BorderRadius.circular(15),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          height: 50,
-                          child: Center(
-                            child: Icon(
-                              Icons.menu_rounded,
-                              color: primaryColor,
-                              size: 25,
-                            ),
-                          ),
-                        ),
-                      ),
-                    ),
-                    SizedBox(width: 5),
-                    Expanded(
-                      flex: 6,
-                      child: InkWell(
-                        onTap: () {
-                          // if (controller.statusList['status_code'] == 5) {
-                          //   controller.completeOrder();
-                          // } else if (controller.argument[1] == 'order') {
-                          //   controller.ordersList['total_harga'] == null
-                          //       ? customSnackBar(
-                          //           'Gagal',
-                          //           'Total harga belum terhitung',
-                          //           warningColor,
-                          //           primaryColor)
-                          //       : Get.toNamed(Routes.PAYMENT_PAGE, arguments: [
-                          //           controller.ordersList['id'],
-                          //           controller.ordersList['total_harga'],
-                          //           controller.ordersList['metode_pembayaran'],
-                          //         ]);
-                          //   ;
-                          // } else {
-                          //   reviewPopUp(context, controller);
-                          // }
-                        },
-                        borderRadius: BorderRadius.circular(15),
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: secondaryColor,
-                            borderRadius: BorderRadius.circular(15),
-                          ),
-                          height: 50,
-                          child: Center(
-                            child: Text("tst",
-                                style: tsBodySmallSemibold(primaryColor)),
-                          ),
-                        ),
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-      ),
-      floatingActionButtonLocation: FloatingActionButtonLocation.centerDocked,
     );
   }
 }
