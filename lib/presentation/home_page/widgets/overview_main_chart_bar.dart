@@ -48,97 +48,103 @@ class OverviewMainChartBar extends StatelessWidget {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final order = controller.ordersList[index];
-                        return MainContainerWidget(
-                          childs: Padding(
-                            padding: const EdgeInsets.all(15),
-                            child: Column(
-                              children: [
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "id Pesanan",
-                                          style: tsLabelLargeMedium(grey),
-                                        ),
-                                        Text(
-                                          '${order['no_pemesanan']}',
-                                          style: tsLabelLargeMedium(black),
-                                        )
-                                      ],
-                                    ),
-                                    Row(
-                                      children: [
-                                        Padding(
-                                          padding: const EdgeInsets.symmetric(
-                                            horizontal: 5,
-                                            vertical: 2,
+                        return Padding(
+                          padding: const EdgeInsets.only(bottom: defaultMargin),
+                          child: MainContainerWidget(
+                            childs: Padding(
+                              padding: const EdgeInsets.all(15),
+                              child: Column(
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "id Pesanan",
+                                            style: tsLabelLargeMedium(grey),
                                           ),
-                                          child: Text(
-                                            "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}}",
-                                            style: tsLabelLargeMedium(darkGrey),
-                                          ),
-                                        ),
-                                      ],
-                                    )
-                                  ],
-                                ),
-                                Padding(
-                                  padding:
-                                      const EdgeInsets.symmetric(vertical: 1),
-                                  child:
-                                      Divider(color: lightGrey, thickness: 0.5),
-                                ),
-                                Row(
-                                  mainAxisAlignment:
-                                      MainAxisAlignment.spaceBetween,
-                                  children: [
-                                    Column(
-                                      crossAxisAlignment:
-                                          CrossAxisAlignment.start,
-                                      children: [
-                                        Text(
-                                          "${order['nama_pemesan']}",
-                                          style: tsBodySmallSemibold(black),
-                                        ),
-                                        Text(
-                                          order['jenis_pemesanan'] ==
-                                                  'antar_jemput'
-                                              ? "Antar Jemput"
-                                              : "Antar Mandiri",
-                                          style: tsLabelLargeSemibold(darkGrey),
-                                        ),
-                                        Text(
-                                          order['berat_laundry'] == null
-                                              ? "Berat belum tercatat"
-                                              : "${order['berat_laundry']} Kg",
-                                          style: tsLabelLargeSemibold(darkGrey),
-                                        ),
-                                        Text(
-                                          "${order['nama_laundry']}",
-                                          style:
-                                              tsBodySmallSemibold(successColor),
-                                        ),
-                                      ],
-                                    ),
-                                    Container(
-                                      width: 120,
-                                      child: Text(
-                                        "${order['alamat']}",
-                                        style: tsLabelLargeSemibold(grey),
-                                        softWrap: true,
-                                        overflow: TextOverflow.ellipsis,
-                                        textAlign: TextAlign.right,
-                                        maxLines: 4,
+                                          Text(
+                                            '${order['no_pemesanan']}',
+                                            style: tsLabelLargeMedium(black),
+                                          )
+                                        ],
                                       ),
-                                    )
-                                  ],
-                                )
-                              ],
+                                      Row(
+                                        children: [
+                                          Padding(
+                                            padding: const EdgeInsets.symmetric(
+                                              horizontal: 5,
+                                              vertical: 2,
+                                            ),
+                                            child: Text(
+                                              "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}}",
+                                              style:
+                                                  tsLabelLargeMedium(darkGrey),
+                                            ),
+                                          ),
+                                        ],
+                                      )
+                                    ],
+                                  ),
+                                  Padding(
+                                    padding:
+                                        const EdgeInsets.symmetric(vertical: 1),
+                                    child: Divider(
+                                        color: lightGrey, thickness: 0.5),
+                                  ),
+                                  Row(
+                                    mainAxisAlignment:
+                                        MainAxisAlignment.spaceBetween,
+                                    children: [
+                                      Column(
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
+                                        children: [
+                                          Text(
+                                            "${order['nama_pemesan']}",
+                                            style: tsBodySmallSemibold(black),
+                                          ),
+                                          Text(
+                                            order['jenis_pemesanan'] ==
+                                                    'antar_jemput'
+                                                ? "Antar Jemput"
+                                                : "Antar Mandiri",
+                                            style:
+                                                tsLabelLargeSemibold(darkGrey),
+                                          ),
+                                          Text(
+                                            order['berat_laundry'] == null
+                                                ? "Berat belum tercatat"
+                                                : "${order['berat_laundry']} Kg",
+                                            style:
+                                                tsLabelLargeSemibold(darkGrey),
+                                          ),
+                                          Text(
+                                            "${order['nama_laundry']}",
+                                            style: tsBodySmallSemibold(
+                                                successColor),
+                                          ),
+                                        ],
+                                      ),
+                                      Container(
+                                        width: 120,
+                                        child: Text(
+                                          "${order['alamat']}",
+                                          style: tsLabelLargeSemibold(grey),
+                                          softWrap: true,
+                                          overflow: TextOverflow.ellipsis,
+                                          textAlign: TextAlign.right,
+                                          maxLines: 4,
+                                        ),
+                                      )
+                                    ],
+                                  )
+                                ],
+                              ),
                             ),
                           ),
                         );

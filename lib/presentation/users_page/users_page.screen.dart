@@ -4,8 +4,8 @@ import 'package:washit_admin/presentation/users_page/components/user_tab_view.da
 
 import '../../infrastructure/theme/themes.dart';
 import '../../widget/common/circle_tab_indicator.dart';
-import 'controllers/users_page.controller.dart';
 import '../review_page/review_page.screen.dart';
+import 'controllers/users_page.controller.dart';
 
 class UsersPageScreen extends GetView<UsersPageController> {
   const UsersPageScreen({Key? key}) : super(key: key);
@@ -18,44 +18,56 @@ class UsersPageScreen extends GetView<UsersPageController> {
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(kToolbarHeight), // Add extra height for margin
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            AppBar(
+              backgroundColor: secondaryColor,
+              title: Text('Laman Pengguna',
+                  style: tsTitleSmallMedium(primaryColor)),
+            ),
+          ],
+        ),
+      ),
       body: SafeArea(
         child: SingleChildScrollView(
           physics: NeverScrollableScrollPhysics(),
-          child: Container(
-            margin: EdgeInsets.symmetric(horizontal: 16.0, vertical: defaultMargin),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                TabBar(
-                  labelColor: black,
-                  unselectedLabelColor: darkGrey,
-                  indicatorColor: secondaryColor,
-                  dividerColor: Colors.transparent,
-                  labelStyle: tsBodySmallSemibold(black),
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              SizedBox(height: 10),
+              TabBar(
+                labelColor: black,
+                unselectedLabelColor: darkGrey,
+                indicatorColor: secondaryColor,
+                dividerColor: Colors.transparent,
+                labelStyle: tsBodySmallSemibold(black),
+                controller: controller.tabController,
+                splashBorderRadius: BorderRadius.circular(10),
+                indicator: CircleTabIndicator(
+                  color: black,
+                  radius: 4,
+                ),
+                tabs: const [
+                  Tab(text: "Pengguna"),
+                  Tab(text: "Feedback"),
+                ],
+              ),
+              SizedBox(height: 5),
+              SizedBox(
+                height: screenHeight * screenWidth,
+                child: TabBarView(
                   controller: controller.tabController,
-                  splashBorderRadius: BorderRadius.circular(75),
-                  indicator: CircleTabIndicator(
-                    color: black,
-                    radius: 4,
-                  ),
-                  tabs: const [
-                    Tab(text: "Pengguna"),
-                    Tab(text: "Feedback"),
+                  children: [
+                    UserTabView(),
+                    ReviewPageScreen(),
                   ],
                 ),
-                SizedBox(height: 5),
-                SizedBox(
-                  height: screenHeight * screenWidth,
-                  child: TabBarView(
-                    controller: controller.tabController,
-                    children: [
-                      UserTabView(),
-                      ReviewPageScreen(),
-                    ],
-                  ),
-                ),
-              ],
-            ),
+              ),
+            ],
           ),
         ),
       ),
