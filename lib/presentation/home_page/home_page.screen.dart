@@ -40,7 +40,6 @@ class _HomePageScreenState extends State<HomePageScreen>
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [

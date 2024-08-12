@@ -252,7 +252,6 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                       ),
                     ),
                   ),
-                  
                 ],
               ),
             ),

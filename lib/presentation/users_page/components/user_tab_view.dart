@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
@@ -20,13 +19,13 @@ class UserTabView extends GetView<UsersPageController> {
           itemBuilder: (context, index) {
             final user = controller.userData[index];
             return Container(
-              margin: EdgeInsets.symmetric(vertical: 8),
+              margin: EdgeInsets.only(
+                  bottom: 10, right: defaultMargin, left: defaultMargin),
               padding: EdgeInsets.symmetric(horizontal: 10, vertical: 15),
               alignment: Alignment.center,
               decoration: BoxDecoration(
-                color: Colors.white,
-                borderRadius: BorderRadius.circular(10),
-                border: Border.all(color: secondaryColor, width: 2),
+                borderRadius: BorderRadius.circular(15),
+                border: Border.all(color: lightGrey, width: 1),
               ),
               child: Row(
                 children: [
@@ -44,7 +43,7 @@ class UserTabView extends GetView<UsersPageController> {
                         Row(
                           children: [
                             Text(user['username'],
-                                style: tsBodyLargeSemibold(black)),
+                                style: tsBodyMediumMedium(black)),
                             SizedBox(width: 8),
                           ],
                         ),
@@ -56,7 +55,12 @@ class UserTabView extends GetView<UsersPageController> {
                     ),
                   ),
                   Spacer(),
-                  IconButton(onPressed: () {}, icon: Icon(Icons.more_vert))
+                  IconButton(
+                      onPressed: () {},
+                      icon: Icon(
+                        Icons.more_vert,
+                        size: 20,
+                      ))
                 ],
               ),
             );
