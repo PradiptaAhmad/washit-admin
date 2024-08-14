@@ -105,6 +105,42 @@ class TransactionPageController extends GetxController {
     }
   }
 
+  Future<void> updateLaundryWeight(double weight) async {
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read('token');
+
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+        'Content-Type': 'application/json'
+      };
+
+      final response = await http.put(
+        Uri.parse('$url/admin/orders/update-weight?order_id=${argument['id']}'),
+        headers: headers,
+        body: jsonEncode({
+          'id': argument['id'],
+          'berat_laundry': weight
+        }),
+      );
+
+      if (response.statusCode == 201) {
+        Get.snackbar('Success', 'Weight updated successfully');
+        await fetchDetailsOrder();
+      } else {
+        final responseBody = jsonDecode(response.body);
+        Get.snackbar('Error', 'Status Code: ${response.statusCode}, Message: ${responseBody['message']}');
+        print('Status Code: ${response.statusCode}');
+        print('Response Body: ${responseBody}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+      print(e);
+    }
+  }
+
+
   @override
   void onInit() async {
     super.onInit();
