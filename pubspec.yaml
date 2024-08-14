@@ -18,7 +18,7 @@ dependencies:
   shimmer: ^3.0.0
   intl: ^0.17.0
   slider_button: ^2.1.0
-  device_info_plus: any
+  device_info_plus: ^9.1.2
 
   firebase_core: any
   firebase_messaging: any
