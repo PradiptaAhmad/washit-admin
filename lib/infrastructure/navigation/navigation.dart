@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/bindings/controllers/fitur_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/review_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';
 
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
+import 'package:washit_admin/presentation/fiturService_page/fiturService_page.screen.dart';
 import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
 
 import '../../config.dart';
@@ -75,6 +77,11 @@ class Nav {
         name: Routes.REVIEW_PAGE,
         page: () => ReviewPageScreen(),
         binding: ReviewPagecontrollerbinding(),
+    ),
+    GetPage(
+      name: Routes.FITUR_PAGE,
+      page: () => FiturView(),
+      binding: FiturPageControllerBinding(),
     ),
   ];
 }

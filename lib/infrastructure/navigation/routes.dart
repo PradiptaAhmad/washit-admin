@@ -1,7 +1,7 @@
 class Routes {
   static Future<String> get initialRoute async {
     // TODO: implement method
-    return NAVBAR;
+    return FITUR_PAGE;
   }
 
   static const HOME_PAGE = '/home-page';
@@ -13,4 +13,5 @@ class Routes {
   static const USERS_PAGE = '/users-page';
   static const SETTINGS_PAGE = '/settings-page';
   static const REVIEW_PAGE = '/review-page';
+  static const FITUR_PAGE = '/fitur-page';
 }
