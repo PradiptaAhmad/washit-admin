@@ -28,8 +28,6 @@ class ButtonWidget extends StatelessWidget {
         ),
       ),
       child: Container(
-          padding: EdgeInsets.symmetric(vertical: 15),
-          width: double.infinity,
           alignment: Alignment.center,
           child: child),
     );

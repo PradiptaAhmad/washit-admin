@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
+import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
 import 'package:washit_admin/presentation/home_page/widgets/main_data_visual_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/newest_activity_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/overview_visual_data_widget.dart';
@@ -31,13 +33,13 @@ class _HomePageScreenState extends State<HomePageScreen>
 
   @override
   Widget build(BuildContext context) {
+    final controller = Get.find<HomePageController>();
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
 
     return Scaffold(
       body: SafeArea(
         child: SingleChildScrollView(
-          physics: const BouncingScrollPhysics(),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
@@ -50,15 +52,18 @@ class _HomePageScreenState extends State<HomePageScreen>
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text("Selamat Datang",
-                            style: tsLabelLargeSemibold(darkGrey)),
-                        Text("Bapak Bajuri",
-                            style: tsTitleMediumSemibold(black)),
-                      ],
-                    ),
+                    Obx(() => Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text("Selamat Datang",
+                                style: tsLabelLargeSemibold(darkGrey)),
+                            Text(
+                                controller.isLoading.value
+                                    ? "Loading..."
+                                    : "${controller.userData['username']}",
+                                style: tsTitleMediumSemibold(black)),
+                          ],
+                        )),
                     Container(
                       decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(50),
