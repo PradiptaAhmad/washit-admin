@@ -3,15 +3,17 @@ import 'package:flutter/material.dart';
 
 import '../../../../infrastructure/theme/themes.dart';
 import '../../../../widget/common/custom_card_widget.dart';
-import '../../data/order_line_chart_data.dart';
+import '../../data/line_chart_data.dart';
 
 class MiniLineChartCard extends StatelessWidget {
   const MiniLineChartCard({
     this.graphColor,
+    this.dataChart = const [],
     Key? key,
   }) : super(key: key);
 
   final Color? graphColor;
+  final List<FlSpot>? dataChart;
 
   @override
   Widget build(BuildContext context) {
@@ -118,7 +120,7 @@ class MiniLineChartCard extends StatelessWidget {
                             strokeColor: colorToUse,
                           );
                         }),
-                    spots: data.orderSpots,
+                    spots: dataChart ?? [],
                   )
                 ],
                 minX: 0,

@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:washit_admin/presentation/home_page/widgets/charts/line_chart_card.dart';
 import 'package:washit_admin/presentation/home_page/widgets/charts/mini_line_chart_card.dart';
@@ -10,13 +11,17 @@ class MainDataVisualWidget extends StatelessWidget {
     super.key,
     this.title1,
     this.desc1,
+    this.dataChart1,
     this.title2,
     this.desc2,
+    this.dataChart2,
+    this.dataChart3,
     this.titleStyle,
     this.numStyle,
   });
 
   final String? title1, desc1, title2, desc2;
+  final List<FlSpot>? dataChart1, dataChart2, dataChart3;
   final TextStyle? titleStyle, numStyle;
 
   @override
@@ -38,6 +43,7 @@ class MainDataVisualWidget extends StatelessWidget {
                 context,
                 title1,
                 desc1,
+                dataChart1,
                 successColor,
                 Icons.arrow_drop_up,
                 tsLabelLargeSemibold(darkGrey),
@@ -49,6 +55,7 @@ class MainDataVisualWidget extends StatelessWidget {
                 context,
                 title2,
                 desc2,
+                dataChart2,
                 warningColor,
                 Icons.arrow_drop_down,
                 tsLabelLargeSemibold(darkGrey),
@@ -69,9 +76,9 @@ class MainDataVisualWidget extends StatelessWidget {
             ),
             height: screenWidth * 0.51,
             width: double.infinity,
-            child: const Padding(
-              padding: EdgeInsets.all(20.0),
-              child: LineChartCard(),
+            child: Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: LineChartCard(dataChart: dataChart3 ?? []),
             ),
           ),
         ),
@@ -80,8 +87,9 @@ class MainDataVisualWidget extends StatelessWidget {
   }
 }
 
+
 Widget miniVisualCardWidget(
-    context, title, num, mainColor, icons, titleStyle, numStyle) {
+    context, title, num, data, mainColor, icons, titleStyle, numStyle) {
   return Expanded(
     child: InkWell(
       onTap: () {},
@@ -123,6 +131,7 @@ Widget miniVisualCardWidget(
                   ),
                   MiniLineChartCard(
                     graphColor: mainColor,
+                    dataChart: data,
                   )
                 ],
               ),

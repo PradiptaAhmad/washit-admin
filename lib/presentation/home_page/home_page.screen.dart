@@ -2,11 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
+import 'package:washit_admin/presentation/home_page/widgets/charts/line_chart_card.dart';
 import 'package:washit_admin/presentation/home_page/widgets/main_data_visual_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/newest_activity_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/overview_visual_data_widget.dart';
 
 import '../../widget/common/circle_tab_indicator.dart';
+import 'data/line_chart_data.dart';
 
 class HomePageScreen extends StatefulWidget {
   const HomePageScreen({Key? key}) : super(key: key);
@@ -36,6 +38,7 @@ class _HomePageScreenState extends State<HomePageScreen>
     final controller = Get.find<HomePageController>();
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
+    final data = LineData();
 
     return Scaffold(
       body: SafeArea(
@@ -108,12 +111,21 @@ class _HomePageScreenState extends State<HomePageScreen>
                     OverviewVisualDataWidget(),
                     Column(
                       children: [
-                        MainDataVisualWidget(
-                          title1: "Hari Ini",
-                          desc1: "11",
-                          title2: "Bulan Ini",
-                          desc2: "25",
-                        ),
+                        Obx(() {
+                          // Ensure data is available and not loading
+                          if (controller.isLoading.value) {
+                            return Center(child: CircularProgressIndicator());
+                          }
+                          return MainDataVisualWidget(
+                            title1: "Hari Ini",
+                            desc1: controller.dailyOrders.length.toString(),
+                            dataChart1: controller.dailyChartData,
+                            title2: "Bulan Ini",
+                            desc2: controller.monthlyOrders.length.toString(),
+                            dataChart2: controller.monthlyChartData,
+                            dataChart3: controller.weeklyChartData,
+                          );
+                        }),
                         const SizedBox(
                           height: 15,
                         ),
@@ -137,8 +149,11 @@ class _HomePageScreenState extends State<HomePageScreen>
                         MainDataVisualWidget(
                           title1: "Hari Ini",
                           desc1: "25000",
+                          dataChart1: data.transactionSpotsDaily,
                           title2: "Bulan Ini",
                           desc2: "250000",
+                          dataChart2: data.transactionSpotsMonthly,
+                          dataChart3: data.transactionSpotsWeekly,
                         ),
                         const SizedBox(
                           height: 15,

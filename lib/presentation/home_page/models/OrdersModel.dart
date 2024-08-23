@@ -10,19 +10,22 @@ class OrdersModel {
   int? beratLaundry;
   int? totalHarga;
   String? status;
+  String? totalOrder;
 
-  OrdersModel(
-      {this.id,
-      this.noPemesanan,
-      this.namaLaundry,
-      this.jenisPemesanan,
-      this.alamat,
-      this.tanggalEstimasi,
-      this.tanggalPemesanan,
-      this.namaPemesan,
-      this.beratLaundry,
-      this.totalHarga,
-      this.status});
+  OrdersModel({
+    this.id,
+    this.noPemesanan,
+    this.namaLaundry,
+    this.jenisPemesanan,
+    this.alamat,
+    this.tanggalEstimasi,
+    this.tanggalPemesanan,
+    this.namaPemesan,
+    this.beratLaundry,
+    this.totalHarga,
+    this.status,
+    this.totalOrder,
+  });
 
   OrdersModel.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -36,6 +39,7 @@ class OrdersModel {
     beratLaundry = json['berat_laundry'];
     totalHarga = json['total_harga'];
     status = json['status'];
+    totalOrder = json['total_orders'];
   }
 
   Map<String, dynamic> toJson() {
@@ -51,6 +55,7 @@ class OrdersModel {
     data['berat_laundry'] = this.beratLaundry;
     data['total_harga'] = this.totalHarga;
     data['status'] = this.status;
+    data['total_orders'] = this.totalOrder;
     return data;
   }
 }
