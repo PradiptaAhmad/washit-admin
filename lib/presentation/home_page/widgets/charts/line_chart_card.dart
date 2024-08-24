@@ -3,12 +3,15 @@ import 'package:flutter/material.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 
 import '../../../../widget/common/custom_card_widget.dart';
-import '../../data/order_line_chart_data.dart';
+import '../../data/line_chart_data.dart';
 
 class LineChartCard extends StatelessWidget {
   const LineChartCard({
-    super.key,
-  });
+    this.dataChart = const [],
+    Key? key,
+  }) : super(key: key);
+
+  final List<FlSpot>? dataChart;
 
   @override
   Widget build(BuildContext context) {
@@ -115,7 +118,7 @@ class LineChartCard extends StatelessWidget {
                             strokeColor: successColor,
                           );
                         }),
-                    spots: data.orderSpots,
+                    spots: dataChart ?? [],
                   )
                 ],
                 minX: 0,
