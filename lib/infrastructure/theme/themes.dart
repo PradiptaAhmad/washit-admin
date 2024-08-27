@@ -1,5 +1,4 @@
-import 'dart:ui';
-import 'package:flutter/src/painting/text_style.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:google_fonts/google_fonts.dart';
 
 // Color Styles
@@ -26,6 +25,14 @@ const double defaultPadding = 24;
 // Text Styles
 figmaFontsize(int fontSize) {
   return fontSize * 1.1;
+}
+
+screenWidth(context) {
+  return MediaQuery.of(context).size.width;
+}
+
+screenHeight(context) {
+  return MediaQuery.of(context).size.height;
 }
 
 // Headline Text Styles

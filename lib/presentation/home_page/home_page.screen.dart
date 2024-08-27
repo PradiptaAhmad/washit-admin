@@ -2,184 +2,151 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
-import 'package:washit_admin/presentation/home_page/widgets/charts/line_chart_card.dart';
-import 'package:washit_admin/presentation/home_page/widgets/main_data_visual_widget.dart';
-import 'package:washit_admin/presentation/home_page/widgets/newest_activity_widget.dart';
-import 'package:washit_admin/presentation/home_page/widgets/overview_visual_data_widget.dart';
+import 'package:washit_admin/presentation/home_page/widgets/tabs/center_tab_widget.dart';
+import 'package:washit_admin/presentation/home_page/widgets/tabs/left_tab_widget.dart';
+import 'package:washit_admin/presentation/home_page/widgets/tabs/right_tab_widget.dart';
 
 import '../../widget/common/circle_tab_indicator.dart';
+import '../../widget/common/main_container_widget.dart';
+import '../../widget/shimmer/shimmer_widget.dart';
 import 'data/line_chart_data.dart';
 
-class HomePageScreen extends StatefulWidget {
-  const HomePageScreen({Key? key}) : super(key: key);
-
-  @override
-  _HomePageScreenState createState() => _HomePageScreenState();
-}
-
-class _HomePageScreenState extends State<HomePageScreen>
-    with SingleTickerProviderStateMixin {
-  late TabController _tabController;
-
-  @override
-  void initState() {
-    super.initState();
-    _tabController = TabController(length: 3, vsync: this);
-  }
-
-  @override
-  void dispose() {
-    _tabController.dispose();
-    super.dispose();
-  }
+class HomePageScreen extends GetView<HomePageController> {
+  HomePageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.find<HomePageController>();
-    double screenHeight = MediaQuery.of(context).size.height;
-    double screenWidth = MediaQuery.of(context).size.width;
     final data = LineData();
 
     return Scaffold(
-      body: SafeArea(
-        child: SingleChildScrollView(
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.only(
-                    left: defaultMargin,
-                    right: defaultMargin,
-                    top: defaultMargin,
-                    bottom: defaultMargin / 2),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Obx(() => Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text("Selamat Datang",
-                                style: tsLabelLargeSemibold(darkGrey)),
-                            Text(
-                                controller.isLoading.value
-                                    ? "Loading..."
-                                    : "${controller.userData['username']}",
-                                style: tsTitleMediumSemibold(black)),
-                          ],
-                        )),
-                    Container(
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(50),
-                        color: grey,
-                      ),
-                      height: 45,
-                      width: 45,
-                      child: const Icon(
-                        Icons.person,
-                        color: primaryColor,
-                      ),
-                    ),
-                  ],
-                ),
-              ),
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
-                child: TabBar(
-                  labelColor: black,
-                  unselectedLabelColor: darkGrey,
-                  indicatorColor: secondaryColor,
-                  dividerColor: Colors.transparent,
-                  labelStyle: tsBodySmallSemibold(black),
-                  controller: _tabController,
-                  splashBorderRadius: BorderRadius.circular(50),
-                  indicator: CircleTabIndicator(
-                    color: black,
-                    radius: 4,
-                  ),
-                  tabs: const [
-                    Tab(text: "Overview"),
-                    Tab(text: "Order"),
-                    Tab(text: "Transaksi"),
-                  ],
-                ),
-              ),
-              SizedBox(
-                height: screenHeight * screenWidth,
-                child: TabBarView(
-                  controller: _tabController,
-                  children: [
-                    OverviewVisualDataWidget(),
-                    Column(
-                      children: [
-                        Obx(() {
-                          // Ensure data is available and not loading
-                          if (controller.isLoading.value) {
-                            return Center(child: CircularProgressIndicator());
-                          }
-                          return MainDataVisualWidget(
-                            title1: "Hari Ini",
-                            desc1: controller.dailyOrders.length.toString(),
-                            dataChart1: controller.dailyChartData,
-                            title2: "Bulan Ini",
-                            desc2: controller.monthlyOrders.length.toString(),
-                            dataChart2: controller.monthlyChartData,
-                            dataChart3: controller.weeklyChartData,
-                          );
-                        }),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: lightGrey,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 1,
-                          width: double.infinity,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        NewestTransactionWidget(
-                          mainTitle: "Invoice Pemesanan",
-                        ),
-                      ],
-                    ),
-                    Column(
-                      children: [
-                        MainDataVisualWidget(
-                          title1: "Hari Ini",
-                          desc1: "25000",
-                          dataChart1: data.transactionSpotsDaily,
-                          title2: "Bulan Ini",
-                          desc2: "250000",
-                          dataChart2: data.transactionSpotsMonthly,
-                          dataChart3: data.transactionSpotsWeekly,
-                        ),
-                        const SizedBox(
-                          height: 15,
-                        ),
-                        Container(
-                          decoration: BoxDecoration(
-                              color: lightGrey,
-                              borderRadius: BorderRadius.circular(10)),
-                          height: 1,
-                          width: double.infinity,
-                        ),
-                        const SizedBox(
-                          height: 5,
-                        ),
-                        NewestTransactionWidget(
-                          mainTitle: "Invoice Transaksi",
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-            ],
-          ),
-        ),
+      backgroundColor: lightGrey.withOpacity(0.1),
+      appBar: PreferredSize(
+        preferredSize:
+            Size.fromHeight(kToolbarHeight + screenHeight(context) * 0.1),
+        child: _buildAppbar(controller),
+      ),
+      body: TabBarView(
+        controller: controller.tabController,
+        children: [
+          LeftTabWidget(),
+          CenterTabWidget(),
+          RightTabWidget(data: data),
+        ],
       ),
     );
   }
+}
+
+Widget _buildAppbar(HomePageController controller) {
+  return MainContainerWidget(
+    color: primaryColor,
+    borderRadius: 25,
+    childs: Column(
+      children: [
+        SizedBox(height: 55.00),
+        _buildMainTitleWidet(controller),
+        Divider(color: lightGrey.withOpacity(0.2), thickness: 2, height: 10),
+        InkWell(
+          onTap: () {},
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
+            child: TabBar(
+              labelColor: black,
+              unselectedLabelColor: darkGrey,
+              indicatorColor: secondaryColor,
+              dividerColor: Colors.transparent,
+              labelStyle: tsBodySmallSemibold(black),
+              controller: controller.tabController,
+              splashBorderRadius: BorderRadius.circular(50),
+              indicator: CircleTabIndicator(color: black, radius: 4),
+              padding: const EdgeInsets.symmetric(horizontal: 10),
+              tabs: const [
+                Tab(text: "Overview"),
+                Tab(text: "Order"),
+                Tab(text: "Transaksi"),
+              ],
+            ),
+          ),
+        )
+      ],
+    ),
+  );
+}
+
+Widget _buildMainTitleWidet(HomePageController controller) {
+  return Padding(
+    padding:
+        const EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 10),
+    child: Row(
+      children: [
+        Expanded(
+            flex: 1,
+            child: Obx(() => !controller.isLoading.value
+                ? ClipRRect(
+                    borderRadius: BorderRadius.circular(10),
+                    child: Container(
+                      height: 45,
+                      width: 45,
+                      child: Image.network(
+                        controller.userData['image_path'] == null
+                            ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
+                            : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}',
+                        fit: BoxFit.cover,
+                      ),
+                    ),
+                  )
+                : ShimmerWidget(radius: 10, height: 50))),
+        Expanded(
+          flex: 7,
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Obx(
+                  () => !controller.isLoading.value
+                      ? Text(
+                          "Halo,",
+                          style: tsBodyLargeMedium(darkGrey),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.only(bottom: 5),
+                          child:
+                              ShimmerWidget(radius: 8, height: 20, width: 80),
+                        ),
+                ),
+                Obx(() => !controller.isLoading.value
+                    ? ConstrainedBox(
+                        constraints: BoxConstraints(maxWidth: 300),
+                        child: Text(
+                          controller.userData['username'] ?? "Anon",
+                          style: tsBodyLargeSemibold(black),
+                          overflow: TextOverflow.ellipsis,
+                        ))
+                    : ShimmerWidget(radius: 8, height: 20, width: 200)),
+              ],
+            ),
+          ),
+        ),
+        Expanded(
+          flex: 1,
+          child: InkWell(
+            onTap: () {
+              print(controller.weeklyChartDatas);
+            },
+            borderRadius: BorderRadius.circular(50),
+            child: Container(
+              height: 45,
+              width: 45,
+              child: const Icon(
+                Icons.notification_add_rounded,
+                color: darkGrey,
+                size: 22,
+              ),
+            ),
+          ),
+        ),
+      ],
+    ),
+  );
 }
