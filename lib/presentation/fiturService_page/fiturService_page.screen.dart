@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/fiturService_page/controllers/fiturService_controller.dart';
 import 'package:washit_admin/presentation/fiturService_page/models/fiturService_model.dart';
 
@@ -27,40 +28,46 @@ class FiturView extends StatelessWidget {
         } else if (controller.fitur.isEmpty) {
           return Center(child: Text('No fitur available'));
         } else {
-          return ListView.builder(
-            itemCount: controller.fitur.length,
-            itemBuilder: (context, index) {
-              final fitur = controller.fitur[index];
-              return Card(
-                margin: EdgeInsets.symmetric(vertical: 8, horizontal: 16),
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                child: ListTile(
-                  title: Text(
-                    fitur.name,
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
-                  trailing: Row(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      IconButton(
-                        icon: Icon(Icons.edit, color: Colors.yellow[700]),
-                        onPressed: () {
-                          _showEditDialog(context, fitur);
-                        },
+          return RefreshIndicator(
+            onRefresh: controller.refreshFitur,
+            child: ListView.builder(
+              itemCount: controller.fitur.length,
+              itemBuilder: (context, index) {
+                final fitur = controller.fitur[index];
+                return Padding(
+                  padding: const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
+                  child: Card(
+                    elevation: 3,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(12),
+                    ),
+                    child: ListTile(
+                      title: Text(
+                        fitur.name,
+                        style: TextStyle(fontWeight: FontWeight.bold),
                       ),
-                      IconButton(
-                        icon: Icon(Icons.delete, color: Colors.red),
-                        onPressed: () {
-                          _showDeleteConfirmation(context, fitur);
-                        },
+                      trailing: Row(
+                        mainAxisSize: MainAxisSize.min,
+                        children: [
+                          IconButton(
+                            icon: Icon(Icons.edit, color: Colors.blue),
+                            onPressed: () {
+                              _showEditDialog(context, fitur);
+                            },
+                          ),
+                          IconButton(
+                            icon: Icon(Icons.delete, color: Colors.red),
+                            onPressed: () {
+                              _showDeleteConfirmation(context, fitur);
+                            },
+                          ),
+                        ],
                       ),
-                    ],
+                    ),
                   ),
-                ),
-              );
-            },
+                );
+              },
+            ),
           );
         }
       }),
@@ -69,7 +76,7 @@ class FiturView extends StatelessWidget {
           _showAddDialog(context);
         },
         child: Icon(Icons.add),
-        backgroundColor: Colors.blue,
+        backgroundColor: secondaryColor,
       ),
     );
   }
@@ -106,7 +113,7 @@ class FiturView extends StatelessWidget {
       textConfirm: 'Add',
       onConfirm: () {
         if (_formKey.currentState!.validate()) {
-          controller.addFitur(nameController.text);
+          controller.addFitur(nameController.text, 0, true);
           Get.back();
           Get.snackbar('Success', 'Fitur added successfully',
               snackPosition: SnackPosition.BOTTOM);
@@ -119,6 +126,7 @@ class FiturView extends StatelessWidget {
   void _showEditDialog(BuildContext context, FiturModel fitur) {
     final _formKey = GlobalKey<FormState>();
     final TextEditingController nameController = TextEditingController();
+
     nameController.text = fitur.name;
 
     Get.defaultDialog(
@@ -149,7 +157,7 @@ class FiturView extends StatelessWidget {
       textConfirm: 'Update',
       onConfirm: () {
         if (_formKey.currentState!.validate()) {
-          controller.updateFitur(fitur.id, nameController.text);
+          controller.updateFitur(fitur.id, nameController.text, 0, true);
           Get.back();
           Get.snackbar('Success', 'Fitur updated successfully',
               snackPosition: SnackPosition.BOTTOM);
