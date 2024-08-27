@@ -17,13 +17,13 @@ class SettingController extends GetxController {
   final count = 0.obs;
   var isLoading = true.obs;
   var imageFile = Rx<File?>(null);
-  final userData = {}.obs;
+  final adminData = {}.obs;
 
   GetStorage box = GetStorage();
 
-  Future<void> fetchUserData() async {
+  Future<void> fetchAdminData() async {
+    isLoading.value = true; // Set loading state sebelum request
     try {
-      isLoading.value = true;
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
 
@@ -39,17 +39,17 @@ class SettingController extends GetxController {
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['admin'];
-        userData.value = jsonResponse; // Store raw JSON in userData
-        isLoading.value = false;
+        adminData.value = jsonResponse;
       } else {
         Get.snackbar('Error', '${response.statusCode}');
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
     } finally {
-      isLoading.value = false;
+      isLoading.value = false; // Reset loading state setelah selesai request
     }
   }
+
 
   Future<void> logout() async {
     final url = ConfigEnvironments.getEnvironments()['url'];
@@ -92,7 +92,7 @@ class SettingController extends GetxController {
     };
 
     final request = http.MultipartRequest(
-        'POST', Uri.parse('$url/users/update/profile-picture'));
+        'POST', Uri.parse('$url/admin/accounts/update/profile-picture'));
     request.headers.addAll(headers);
     request.files.add(await http.MultipartFile.fromPath(
       'image',
@@ -104,13 +104,52 @@ class SettingController extends GetxController {
       Get.snackbar("Berhasil", "Foto profil telah berhasil diganti",
           snackPosition: SnackPosition.TOP, backgroundColor: successColor);
       isLoading.value = false;
-      fetchUserData();
+      fetchAdminData();
     } else {
       Get.snackbar(
           "Gagal ${response.statusCode}", "Foto profil gagal untuk diganti",
           snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
     }
   }
+
+  Future<void> fetchUpdateAccount() async {
+    try {
+      isLoading.value = true;
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read('token');
+
+      var headers = {
+        'Content-Type': 'application/json',
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
+
+      var body = jsonEncode({
+        'username': adminData['username'],
+        'email': adminData['email'],
+        'phone': adminData['phone'],
+      });
+
+      final response = await http.put(
+        Uri.parse('$url/admin/accounts/update'),
+        headers: headers,
+        body: body,
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body)['admin'];
+        adminData.value = jsonResponse; // Update adminData with new data
+        Get.snackbar("Success", "Account information updated successfully");
+      } else {
+        Get.snackbar('Error', '${response.statusCode}');
+      }
+    } catch (e) {
+      Get.snackbar('Error', e.toString());
+    } finally {
+      isLoading.value = false;
+    }
+  }
+
 
   void pickImage() async {
     final picker = ImagePicker();
@@ -150,9 +189,27 @@ class SettingController extends GetxController {
     );
   }
 
+  void updateAdminNameData() => fetchUpdateAccount();
+  void updateEmailData() => fetchUpdateAccount();
+  void updateAdminPhoneData() => fetchUpdateAccount();
+
+  void updateAdminName(String newValue) {
+    adminData['username'] = newValue;
+  }
+
+  void updateEmail(String newValue) {
+    adminData['email'] = newValue;
+  }
+
+  void updatePhoneNumber(String newValue) {
+    adminData['phone'] = newValue;
+  }
+
+
+
   @override
   void onInit() {
-    fetchUserData();
+    fetchAdminData();
     super.onInit();
   }
 

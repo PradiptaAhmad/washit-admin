@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/settings_page/controllers/settings_page.controller.dart';
+import 'package:washit_admin/presentation/settings_page/setting_change_page.dart';
 import 'package:washit_admin/widget/common/content_title_widget.dart';
 
 class SettingPage extends GetView<SettingController> {
@@ -13,105 +15,136 @@ class SettingPage extends GetView<SettingController> {
       body: SafeArea(
         child: RefreshIndicator(
           onRefresh: () async {
-            controller.fetchUserData();
+            controller.fetchAdminData();
             controller.updatePhotoProfile();
           },
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             padding: const EdgeInsets.all(defaultMargin),
-            child: Column(
+            child: controller.isLoading.value
+                ? Center(child: CircularProgressIndicator())
+                : Column(
               children: [
                 ContentTitleWidget(
-                  title: "Profil Saya",
+                  title: "Pengaturan Akun",
                   lefttextSize: tsTitleSmallMedium(black),
                 ),
                 SizedBox(height: 10),
-                Obx(() {
-                  if (controller.isLoading.value) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    return MainProfileWidget();
-                  }
-                }),
+                MainProfileWidget(),
                 SizedBox(height: 5),
                 Divider(color: lightGrey, thickness: 1),
                 ContentTitleWidget(
-                  title: "Info Profil",
+                  title: "Detail Akun",
                   lefttextSize: tsBodyMediumMedium(black),
                 ),
                 SizedBox(height: 20),
-                Obx(() {
-                  if (controller.isLoading.value) {
-                    return Center(child: CircularProgressIndicator());
-                  } else {
-                    return Column(
-                      children: [
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Username',
-                                style: tsBodySmallRegular(darkGrey)),
-                            Row(
-                              children: [
-                                Text('${controller.userData['username']}',
-                                    overflow: TextOverflow.ellipsis,
-                                    style: tsBodySmallRegular(black)),
-                                SizedBox(width: 20),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: darkGrey,
-                                  size: 15,
-                                ),
-                              ],
-                            )
-                          ],
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Username', style: tsBodySmallRegular(darkGrey)),
+                    InkWell(
+                      onTap: () => Get.to(
+                        SettingChangePage(
+                          title: 'Username',
+                          hintText: controller.adminData['username'],
+                          validator: (newValue) {
+                            controller.updateAdminName(newValue ?? '');
+                            return null;
+                          },
+                          onTap: () => controller.updateAdminNameData(),
                         ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Email', style: tsBodySmallRegular(darkGrey)),
-                            Row(
-                              children: [
-                                Text('${controller.userData['email']}',
-                                    style: tsBodySmallRegular(black)),
-                                SizedBox(width: 20),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: darkGrey,
-                                  size: 15,
-                                ),
-                              ],
-                            )
-                          ],
+                      )!.then((value) {
+                        controller.fetchAdminData();
+                      }),
+                      child: Row(
+                        children: [
+                          Text('${controller.adminData['username']}',
+                              overflow: TextOverflow.ellipsis,
+                              style: tsBodySmallRegular(black)),
+                          SizedBox(width: 20),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: darkGrey,
+                            size: 15,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Email', style: tsBodySmallRegular(darkGrey)),
+                    InkWell(
+                      onTap: () async {
+                        await Get.to(SettingChangePage(
+                          title: 'Email',
+                          hintText: controller.adminData['email'],
+                          validator: (newValue) {
+                            controller.updateEmail(newValue ?? '');
+                            return null;
+                          },
+                          onTap: () => controller.updateEmailData(),
+                        ))!.then((value) {
+                          controller.fetchAdminData();
+                        });
+                      },
+                      child: Row(
+                        children: [
+                          Text('${controller.adminData['email']}',
+                              style: tsBodySmallRegular(black)),
+                          SizedBox(width: 20),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: darkGrey,
+                            size: 15,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
+                SizedBox(height: 20),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Nomor Telepon',
+                        style: tsBodySmallRegular(darkGrey)),
+                    InkWell(
+                      onTap: () => Get.to(
+                        SettingChangePage(
+                          title: 'Nomor Telepon',
+                          hintText: controller.adminData['phone'],
+                          validator: (newValue) {
+                            controller.updatePhoneNumber(newValue ?? '');
+                            return null;
+                          },
+                          onTap: () =>
+                              controller.updateAdminPhoneData(),
                         ),
-                        SizedBox(height: 20),
-                        Row(
-                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                          children: [
-                            Text('Nomor Hp',
-                                style: tsBodySmallRegular(darkGrey)),
-                            Row(
-                              children: [
-                                Text('${controller.userData['phone']}',
-                                    style: tsBodySmallRegular(black)),
-                                SizedBox(width: 20),
-                                Icon(
-                                  Icons.arrow_forward_ios_rounded,
-                                  color: darkGrey,
-                                  size: 15,
-                                ),
-                              ],
-                            )
-                          ],
-                        ),
-                      ],
-                    );
-                  }
-                }),
+                      )!.then((value) {
+                        controller.fetchAdminData();
+                      }),
+                      child: Row(
+                        children: [
+                          Text('${controller.adminData['phone']}',
+                              style: tsBodySmallRegular(black)),
+                          SizedBox(width: 20),
+                          Icon(
+                            Icons.arrow_forward_ios_rounded,
+                            color: darkGrey,
+                            size: 15,
+                          ),
+                        ],
+                      ),
+                    )
+                  ],
+                ),
                 SizedBox(height: 10),
                 ContentTitleWidget(
-                  title: "Info Profil",
+                  title: "Pengaturan Tambahan",
                   lefttextSize: tsBodyMediumMedium(black),
                 ),
                 Align(
@@ -120,49 +153,22 @@ class SettingPage extends GetView<SettingController> {
                     children: [
                       SizedBox(height: 20),
                       InkWell(
-                        onTap: () =>
-                            controller.showExitConfirmationDialog(context),
+                        onTap: () {},
+                        child: Text(
+                          'Hapus akun',
+                          style: tsBodySmallRegular(warningColor),
+                        ),
+                      ),
+                      SizedBox(height: 20),
+                      InkWell(
+                        onTap: () => controller
+                            .showExitConfirmationDialog(context),
                         child: Text('Keluar akun',
                             style: tsBodySmallRegular(black)),
                       ),
                     ],
                   ),
-                )
-                // ListTileButton(
-                //   label: 'Ganti Password',
-                //   onTap: () => Get.to(
-                //     ProfileChangePage(
-                //       title: 'Password',
-                //       // validator: (newValue) {
-                //       //   controller.updateEmail(newValue);
-                //       //   return null;
-                //       // },
-                //     ),
-                //   ),
-                // ),
-                // Divider(color: lightGrey, thickness: 1),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
-                //   child: ContentTitleWidget(
-                //     title: 'Pengaturan Akun',
-                //     lefttextSize: tsBodyMediumMedium(black),
-                //   ),
-                // ),
-                // ListTile(
-                //     dense: true,
-                //     title: Text('Nonaktifkan Akun',
-                //         style: tsBodySmallRegular(warningColor)),
-                //     onTap: () {}),
-                // Padding(
-                //   padding: const EdgeInsets.all(5),
-                //   child: Divider(color: Color(0xFFDEDEDE), thickness: 1),
-                // ),
-                // ListTile(
-                //     title:
-                //         Text('Logout', style: tsBodyMediumMedium(warningColor)),
-                //     onTap: () {
-                //       controller.logout();
-                //     }),
+                ),
               ],
             ),
           ),
@@ -185,10 +191,11 @@ class MainProfileWidget extends GetView<SettingController> {
         CircleAvatar(
           radius: 40,
           backgroundColor: grey,
-          backgroundImage: NetworkImage(controller.userData['image_path'] ==
-                  null
-              ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
-              : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}'),
+          backgroundImage: NetworkImage(
+            controller.adminData['image_path'] == null
+                ? 'https://ui-avatars.com/api/?name=${controller.adminData['username']}&background=random&size=128'
+                : 'https://pradiptaahmad.tech/image/${controller.adminData['image_path']}',
+          ),
         ),
         SizedBox(height: 5),
         InkWell(
@@ -200,32 +207,6 @@ class MainProfileWidget extends GetView<SettingController> {
             style: tsBodySmallSemibold(successColor),
           ),
         ),
-        /* Stack(
-          children: [
-
-            Positioned(
-                bottom: 0,
-                right: 4,
-                child: GestureDetector(
-                    onTap: () {},
-                    child: CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.edit,
-                          size: 15,
-                          color: Colors.black,
-                        )))),
-          ],
-        ),*/
-        // Text(
-        //   controller.userData['username'] ?? "default Username",
-        //   style: tsBodyMediumMedium(black),
-        // ),
-        // Text(
-        //   controller.userData['email'] ?? "default Email",
-        //   style: tsBodySmallMedium(black),
-        // ),
       ],
     );
   }
