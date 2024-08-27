@@ -41,7 +41,7 @@ class _UpdateWeightBottomSheetState extends State<UpdateWeightBottomSheet> {
             children: [
               Text(
                 'Update Berat Laundry',
-                style: Theme.of(context).textTheme.headline6?.copyWith(
+                style: Theme.of(context).textTheme.headlineSmall?.copyWith(
                   fontWeight: FontWeight.bold,
                 ),
               ),
