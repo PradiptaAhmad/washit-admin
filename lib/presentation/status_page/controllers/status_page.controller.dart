@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -52,11 +51,11 @@ class StatusPageController extends GetxController
     }
   }
 
-    Future<void> fetchStatusData(orderId) async {
-      isLoading.value = true;
-      try {
-        final url = ConfigEnvironments.getEnvironments()["url"];
-        final token = box.read('token');
+  Future<void> fetchStatusData(orderId) async {
+    isLoading.value = true;
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read('token');
 
       var headers = {
         'Accept': 'application/json',
@@ -82,7 +81,6 @@ class StatusPageController extends GetxController
       isLoading.value = false;
     }
   }
-
 
   @override
   void onInit() async {
