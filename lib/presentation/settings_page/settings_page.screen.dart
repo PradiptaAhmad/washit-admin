@@ -5,6 +5,7 @@ import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/settings_page/controllers/settings_page.controller.dart';
 import 'package:washit_admin/presentation/settings_page/setting_change_page.dart';
 import 'package:washit_admin/widget/common/content_title_widget.dart';
+import '../../infrastructure/navigation/routes.dart';
 
 class SettingPage extends GetView<SettingController> {
   SettingPage({Key? key}) : super(key: key);
@@ -164,11 +165,17 @@ class SettingPage extends GetView<SettingController> {
                         onTap: () => controller
                             .showExitConfirmationDialog(context),
                         child: Text('Keluar akun',
-                            style: tsBodySmallRegular(black)),
+                            style: tsBodySmallRegular(warningColor)),
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.FITUR_PAGE);
+                        },
+                        child: Text('Edit Fitur'),
                       ),
                     ],
                   ),
-                ),
               ],
             ),
           ),

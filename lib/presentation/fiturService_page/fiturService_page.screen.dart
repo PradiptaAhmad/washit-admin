@@ -12,10 +12,16 @@ class FiturView extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: Text('Manage Fitur'),
+        leading: IconButton(
+          icon: Icon(Icons.arrow_back),
+          onPressed: () {
+            Get.back();
+          },
+        ),
         actions: [
           IconButton(
             icon: Icon(Icons.add),
-            color: Colors.white,
+            color: primaryColor,
             onPressed: () {
               _showAddDialog(context);
             },
@@ -56,7 +62,7 @@ class FiturView extends StatelessWidget {
                             },
                           ),
                           IconButton(
-                            icon: Icon(Icons.delete, color: Colors.red),
+                            icon: Icon(Icons.delete, color: warningColor),
                             onPressed: () {
                               _showDeleteConfirmation(context, fitur);
                             },
@@ -78,6 +84,22 @@ class FiturView extends StatelessWidget {
         child: Icon(Icons.add),
         backgroundColor: secondaryColor,
       ),
+    );
+  }
+
+  void _showDeleteConfirmation(BuildContext context, FiturModel fitur) {
+    Get.defaultDialog(
+      title: 'Delete Fitur',
+      content: Text('Are you sure you want to delete ${fitur.name}?'),
+      textConfirm: 'Delete',
+      confirmTextColor: Colors.white,
+      onConfirm: () {
+        controller.deleteFitur(fitur.id);
+        Get.back();
+        Get.snackbar('Deleted', '${fitur.name} has been deleted',
+            snackPosition: SnackPosition.BOTTOM);
+      },
+      textCancel: 'Cancel',
     );
   }
 
@@ -113,10 +135,10 @@ class FiturView extends StatelessWidget {
       textConfirm: 'Add',
       onConfirm: () {
         if (_formKey.currentState!.validate()) {
-          controller.addFitur(nameController.text, 0, true);
+          controller.addFitur(nameController.text);
           Get.back();
           Get.snackbar('Success', 'Fitur added successfully',
-              snackPosition: SnackPosition.BOTTOM);
+              snackPosition: SnackPosition.TOP);
         }
       },
       textCancel: 'Cancel',
@@ -157,27 +179,11 @@ class FiturView extends StatelessWidget {
       textConfirm: 'Update',
       onConfirm: () {
         if (_formKey.currentState!.validate()) {
-          controller.updateFitur(fitur.id, nameController.text, 0, true);
+          controller.updateFitur(fitur.id, nameController.text);
           Get.back();
           Get.snackbar('Success', 'Fitur updated successfully',
               snackPosition: SnackPosition.BOTTOM);
         }
-      },
-      textCancel: 'Cancel',
-    );
-  }
-
-  void _showDeleteConfirmation(BuildContext context, FiturModel fitur) {
-    Get.defaultDialog(
-      title: 'Delete Fitur',
-      content: Text('Are you sure you want to delete ${fitur.name}?'),
-      textConfirm: 'Delete',
-      confirmTextColor: Colors.white,
-      onConfirm: () {
-        controller.deleteFitur(fitur.id);
-        Get.back();
-        Get.snackbar('Deleted', '${fitur.name} has been deleted',
-            snackPosition: SnackPosition.BOTTOM);
       },
       textCancel: 'Cancel',
     );
