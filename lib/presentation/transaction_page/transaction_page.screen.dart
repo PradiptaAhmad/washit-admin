@@ -129,6 +129,10 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                           DetailDataWidget(
                             leftTitle: "Tipe laundry",
                             rightTitle:
+                            controller.detailData['laundry_service'] ==
+                                null
+                                ? "Tidak ada tipe"
+                                : "${controller.detailData['laundry_service']}"
                                 "${controller.detailData['laundry_service']}",
                           ),
                           SizedBox(height: 5),
