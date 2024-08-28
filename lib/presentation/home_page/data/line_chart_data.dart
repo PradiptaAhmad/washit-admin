@@ -1,30 +1,20 @@
 import 'package:fl_chart/fl_chart.dart';
-import 'package:get/get.dart';
-import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
-import 'package:washit_admin/presentation/home_page/models/OrdersModel.dart';
 
 class LineData {
-  final HomePageController controller = Get.put(HomePageController());
-
-  List<FlSpot> get orderSpotsDaily {
-    return controller.dailyChartData;
-  }
-
-  List<FlSpot> get orderSpotsMonthly {
-    return controller.monthlyChartData;
-  }
-
-  List<FlSpot> get orderSpotsWeekly {
-    return controller.weeklyChartData;
-  }
+  final orderList = {
+    0: '0',
+    5: '5',
+    10: '10',
+    15: '15',
+    20: '20',
+  };
 
   final orderleftTitle = {
     0: '0',
+    5: '5',
     10: '10',
+    15: '15',
     20: '20',
-    30: '30',
-    40: '40',
-    50: '50',
   };
   final orderBottomTitle = {
     0: 'Sen',

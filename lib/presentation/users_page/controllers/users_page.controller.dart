@@ -3,11 +3,13 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
-import 'package:http/http.dart' as http;  
 
+import '../models/ReviewModel.dart';
 
-class UsersPageController extends GetxController with GetSingleTickerProviderStateMixin {
+class UsersPageController extends GetxController
+    with GetSingleTickerProviderStateMixin {
   final count = 0.obs;
   late TabController tabController;
 
@@ -17,28 +19,24 @@ class UsersPageController extends GetxController with GetSingleTickerProviderSta
   var userData = [].obs;
   var isLoading = false.obs;
 
-  @override
-  void onInit() {
-    tabController = TabController(length: 2, vsync: this);
-    isLoading.value = true;
-    fetchUserData();
-    isLoading.value = false;
-    super.onInit();
-    // fetchUsers();
-  }
+  var selectedRating = 0.obs;
+  var reviews = <Review>[
+    Review(rating: 5, comment: "Excellent!", username: "User A"),
+    Review(rating: 4, comment: "Very Good!", username: "User B"),
+    Review(rating: 3, comment: "Good", username: "User C"),
+    Review(rating: 2, comment: "Not bad", username: "User D"),
+    Review(rating: 1, comment: "Needs improvement", username: "User E"),
+  ].obs;
 
-  // void fetchUsers() async {
-  //   users.value = [
-  //     User(name: 'Marlen', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '081-872-9011'),
-  //     User(name: 'Adib', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '083-562-7721'),
-  //     User(name: 'Abid', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '085-377-8767'),
-  //     User(name: 'Vania', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '089-122-7121'),
-  //     User(name: 'Daffa', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '086-882-1121'),
-  //     User(name: 'Dika', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '084-991-7112'),
-  //     User(name: 'Vino', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '082-770-4411'),
-  //     User(name: 'Roro', imagePath: 'assets/img_user/avatar1.jpg', phoneNumber: '087-619-0192'),
-  //   ];
-  // }
+  List<Review> get filteredReviews {
+    if (selectedRating.value == 0) {
+      return reviews;
+    } else {
+      return reviews
+          .where((review) => review.rating == selectedRating.value)
+          .toList();
+    }
+  }
 
   Future<void> fetchUserData() async {
     final token = box.read("token");
@@ -63,10 +61,18 @@ class UsersPageController extends GetxController with GetSingleTickerProviderSta
   }
 
   @override
+  void onInit() {
+    tabController = TabController(length: 2, vsync: this);
+    isLoading.value = true;
+    fetchUserData();
+    isLoading.value = false;
+    super.onInit();
+  }
+
+  @override
   void onClose() {
     tabController.dispose();
     super.onClose();
-
   }
 
   void increment() => count.value++;
@@ -77,5 +83,6 @@ class User {
   final String imagePath;
   final String phoneNumber;
 
-  User({required this.name, required this.imagePath, required this.phoneNumber});
+  User(
+      {required this.name, required this.imagePath, required this.phoneNumber});
 }
