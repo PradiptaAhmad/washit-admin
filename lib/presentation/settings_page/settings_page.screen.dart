@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/settings_page/controllers/settings_page.controller.dart';
 import 'package:washit_admin/widget/common/content_title_widget.dart';
+import '../../infrastructure/navigation/routes.dart';
 
 class SettingPage extends GetView<SettingController> {
   SettingPage({Key? key}) : super(key: key);
@@ -123,46 +124,18 @@ class SettingPage extends GetView<SettingController> {
                         onTap: () =>
                             controller.showExitConfirmationDialog(context),
                         child: Text('Keluar akun',
-                            style: tsBodySmallRegular(black)),
+                            style: tsBodySmallRegular(warningColor)),
+                      ),
+                      SizedBox(height: 20),
+                      ElevatedButton(
+                        onPressed: () {
+                          Get.toNamed(Routes.FITUR_PAGE);
+                        },
+                        child: Text('Edit Fitur'),
                       ),
                     ],
                   ),
                 )
-                // ListTileButton(
-                //   label: 'Ganti Password',
-                //   onTap: () => Get.to(
-                //     ProfileChangePage(
-                //       title: 'Password',
-                //       // validator: (newValue) {
-                //       //   controller.updateEmail(newValue);
-                //       //   return null;
-                //       // },
-                //     ),
-                //   ),
-                // ),
-                // Divider(color: lightGrey, thickness: 1),
-                // Padding(
-                //   padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
-                //   child: ContentTitleWidget(
-                //     title: 'Pengaturan Akun',
-                //     lefttextSize: tsBodyMediumMedium(black),
-                //   ),
-                // ),
-                // ListTile(
-                //     dense: true,
-                //     title: Text('Nonaktifkan Akun',
-                //         style: tsBodySmallRegular(warningColor)),
-                //     onTap: () {}),
-                // Padding(
-                //   padding: const EdgeInsets.all(5),
-                //   child: Divider(color: Color(0xFFDEDEDE), thickness: 1),
-                // ),
-                // ListTile(
-                //     title:
-                //         Text('Logout', style: tsBodyMediumMedium(warningColor)),
-                //     onTap: () {
-                //       controller.logout();
-                //     }),
               ],
             ),
           ),
@@ -186,7 +159,7 @@ class MainProfileWidget extends GetView<SettingController> {
           radius: 40,
           backgroundColor: grey,
           backgroundImage: NetworkImage(controller.userData['image_path'] ==
-                  null
+              null
               ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
               : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}'),
         ),
@@ -200,32 +173,6 @@ class MainProfileWidget extends GetView<SettingController> {
             style: tsBodySmallSemibold(successColor),
           ),
         ),
-        /* Stack(
-          children: [
-
-            Positioned(
-                bottom: 0,
-                right: 4,
-                child: GestureDetector(
-                    onTap: () {},
-                    child: CircleAvatar(
-                        radius: 15,
-                        backgroundColor: Colors.white,
-                        child: Icon(
-                          Icons.edit,
-                          size: 15,
-                          color: Colors.black,
-                        )))),
-          ],
-        ),*/
-        // Text(
-        //   controller.userData['username'] ?? "default Username",
-        //   style: tsBodyMediumMedium(black),
-        // ),
-        // Text(
-        //   controller.userData['email'] ?? "default Email",
-        //   style: tsBodySmallMedium(black),
-        // ),
       ],
     );
   }

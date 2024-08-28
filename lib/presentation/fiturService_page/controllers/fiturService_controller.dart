@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -17,40 +16,9 @@ class FiturController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    fetchFitur();
   }
 
-  Future<void> fetchFitur() async {
-    isLoading(true);
-    try {
-      final url = ConfigEnvironments.getEnvironments()["url"];
-      final token = box.read('token');
-
-      var headers = {
-        'Accept': 'application/json',
-        'Authorization': 'Bearer $token',
-        'Content-Type': 'application/json',
-      };
-
-      final response = await http.get(
-        Uri.parse('$url/admin/laundry/details'),
-        headers: headers,
-      );
-
-      if (response.statusCode == 200) {
-        var data = json.decode(response.body) as List;
-        fitur.value = data.map((e) => FiturModel.fromJson(e)).toList();
-      } else {
-        Get.snackbar("Error", "Failed to fetch data. Status code: ${response.statusCode}");
-      }
-    } catch (e) {
-      Get.snackbar("Error", "An error occurred: $e");
-    } finally {
-      isLoading(false);
-    }
-  }
-
-  Future<void> addFitur(String name, int estimasiWaktu, bool isActive) async {
+  Future<void> addFitur(String name) async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
@@ -70,8 +38,10 @@ class FiturController extends GetxController {
       );
 
       if (response.statusCode == 201) {
-        fetchFitur();
         Get.snackbar("Success", "Fitur added successfully");
+      } else if (response.statusCode == 422) {
+        var errorData = json.decode(response.body);
+        Get.snackbar("Validation Error", errorData['message'] ?? "Failed to add fitur. Status code: ${response.statusCode}");
       } else {
         Get.snackbar("Error", "Failed to add fitur. Status code: ${response.statusCode}");
       }
@@ -80,7 +50,7 @@ class FiturController extends GetxController {
     }
   }
 
-  Future<void> updateFitur(int id, String name, int estimasiWaktu, bool isActive) async {
+  Future<void> updateFitur(int id, String name) async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
@@ -100,7 +70,6 @@ class FiturController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        fetchFitur();
         Get.snackbar("Success", "Fitur updated successfully");
       } else {
         Get.snackbar("Error", "Failed to update fitur. Status code: ${response.statusCode}");
@@ -127,7 +96,6 @@ class FiturController extends GetxController {
       );
 
       if (response.statusCode == 200) {
-        fetchFitur();
         Get.snackbar("Success", "Fitur deleted successfully");
       } else {
         Get.snackbar("Error", "Failed to delete fitur. Status code: ${response.statusCode}");
@@ -139,7 +107,6 @@ class FiturController extends GetxController {
 
   Future<void> refreshFitur() async {
     isRefreshing(true);
-    await fetchFitur();
     isRefreshing(false);
   }
 }
