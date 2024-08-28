@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/presentation/status_page/controllers/status_page.controller.dart';
 
 import '../../../infrastructure/theme/themes.dart';
 
@@ -44,7 +45,8 @@ Future statusCategoriesFilterPopUp(context, controller) {
   );
 }
 
-Widget buildFilterOption(controller, String text, int index) {
+Widget buildFilterOption(
+    StatusPageController controller, String text, int index) {
   return InkWell(
     onTap: () {
       controller.selectedFilter.value = index;
@@ -88,7 +90,7 @@ class circleRadioButton extends StatelessWidget {
             width: 20,
             decoration: BoxDecoration(
               border:
-              Border.all(color: selected ? secondaryColor : grey, width: 2),
+                  Border.all(color: selected ? secondaryColor : grey, width: 2),
               borderRadius: BorderRadius.circular(50),
             ),
           ),

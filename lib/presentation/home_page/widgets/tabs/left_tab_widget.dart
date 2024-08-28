@@ -157,7 +157,25 @@ class LeftTabWidget extends GetView<HomePageController> {
             highlightColor: Colors.transparent,
             child: MainContainerWidget(
               margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-              height: 100,
+              padding: EdgeInsets.all(15),
+              childs: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.local_laundry_service_rounded,
+                          color: black, size: 20),
+                      SizedBox(width: 10),
+                      Text("Fitur Layanan", style: tsBodySmallSemibold(black)),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Lihat fitur layanan yang tersedia",
+                    style: tsLabelLargeMedium(darkGrey),
+                  ),
+                ],
+              ),
             ),
           ),
           SizedBox(height: 25),

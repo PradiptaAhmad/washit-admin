@@ -28,6 +28,8 @@ class MainContainerWidget extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onPressed,
+      splashColor: Colors.transparent,
+      highlightColor: Colors.transparent,
       child: Container(
           margin: margin,
           padding: padding,

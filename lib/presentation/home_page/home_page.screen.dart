@@ -9,15 +9,12 @@ import 'package:washit_admin/presentation/home_page/widgets/tabs/right_tab_widge
 import '../../widget/common/circle_tab_indicator.dart';
 import '../../widget/common/main_container_widget.dart';
 import '../../widget/shimmer/shimmer_widget.dart';
-import 'data/line_chart_data.dart';
 
 class HomePageScreen extends GetView<HomePageController> {
   HomePageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final data = LineData();
-
     return Scaffold(
       backgroundColor: lightGrey.withOpacity(0.1),
       appBar: PreferredSize(
@@ -30,7 +27,7 @@ class HomePageScreen extends GetView<HomePageController> {
         children: [
           LeftTabWidget(),
           CenterTabWidget(),
-          RightTabWidget(data: data),
+          RightTabWidget(),
         ],
       ),
     );

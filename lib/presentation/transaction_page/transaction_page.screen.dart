@@ -1,9 +1,6 @@
-import 'dart:convert';
-import 'package:dotted_line/dotted_line.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:iconsax/iconsax.dart';
 import 'package:intl/intl.dart';
 import 'package:slider_button/slider_button.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
@@ -18,8 +15,6 @@ import 'controllers/transaction_page.controller.dart';
 class TransactionPageScreen extends GetView<TransactionPageController> {
   TransactionPageScreen({Key? key}) : super(key: key);
 
-
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -27,7 +22,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
         title: 'Detail transaksi',
       ),
       body: Obx(
-            () {
+        () {
           if (controller.isLoading.value) {
             return Center(
               child: CupertinoActivityIndicator(),
@@ -36,7 +31,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
           return RefreshIndicator(
             onRefresh: () async {
               await controller.fetchDetailsOrder();
-              await controller.fetchStatusData();
+              // await controller.fetchStatusData();
             },
             child: SingleChildScrollView(
               physics: AlwaysScrollableScrollPhysics(),
@@ -77,13 +72,13 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                           DetailDataWidget(
                             leftTitle: "Tanggal pemesanan",
                             rightTitle:
-                            "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pemesanan'] ?? "1443-07-31 00:00:00"))}",
+                                "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pemesanan'] ?? "1443-07-31 00:00:00"))}",
                           ),
                           SizedBox(height: 5),
                           DetailDataWidget(
                             leftTitle: "Tanggal estimasi",
                             rightTitle:
-                            "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pengambilan'] ?? "2007-07-31 00:00:00"))}",
+                                "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pengambilan'] ?? "2007-07-31 00:00:00"))}",
                           ),
                           SizedBox(height: 5),
                           DetailDataWidget(
@@ -112,36 +107,36 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                           DetailDataWidget(
                             leftTitle: "Nama",
                             rightTitle:
-                            "${controller.detailData['nama_pemesan']}",
+                                "${controller.detailData['nama_pemesan']}",
                             textTitleOverflow: TextOverflow.visible,
                           ),
                           SizedBox(height: 5),
                           DetailDataWidget(
                             leftTitle: "No. Pemesanan",
                             rightTitle:
-                            "${controller.detailData['no_pemesanan']}",
+                                "${controller.detailData['no_pemesanan']}",
                           ),
                           SizedBox(height: 5),
                           DetailDataWidget(
                             leftTitle: "Jenis pemesanan",
                             rightTitle:
-                            controller.detailData['jenis_pemesanan'] ==
-                                'antar_mandiri'
-                                ? "Antar mandiri"
-                                : "Antar Jemput",
+                                controller.detailData['jenis_pemesanan'] ==
+                                        'antar_mandiri'
+                                    ? "Antar mandiri"
+                                    : "Antar Jemput",
                           ),
                           SizedBox(height: 5),
                           DetailDataWidget(
                             leftTitle: "Tipe laundry",
                             rightTitle:
-                            "${controller.detailData['laundry_service']}",
+                                "${controller.detailData['laundry_service']}",
                           ),
                           SizedBox(height: 5),
                           DetailDataWidget(
                             leftTitle: "Berat laundry",
                             rightTitle: controller
-                                .detailData['berat_laundry'] ==
-                                null
+                                        .detailData['berat_laundry'] ==
+                                    null
                                 ? "Berat belum tercatat"
                                 : "${controller.detailData['berat_laundry'].toString()} Kg",
                           ),
@@ -159,7 +154,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                   ),
                   Visibility(
                       visible: controller.detailData['jenis_pemesanan'] ==
-                          'antar_mandiri'
+                              'antar_mandiri'
                           ? false
                           : true,
                       child: Column(children: [
@@ -180,14 +175,14 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                                 DetailDataWidget(
                                   leftTitle: "Nomor ponsel",
                                   rightTitle:
-                                  "${controller.detailData['nomor_telepon']}",
+                                      "${controller.detailData['nomor_telepon']}",
                                   textTitleOverflow: TextOverflow.visible,
                                 ),
                                 SizedBox(height: 5),
                                 DetailDataWidget(
                                   leftTitle: "Alamat",
                                   rightTitle:
-                                  "${controller.detailData['alamat']}",
+                                      "${controller.detailData['alamat']}",
                                   textTitleOverflow: TextOverflow.ellipsis,
                                 ),
                                 SizedBox(height: 5),
@@ -208,10 +203,10 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                             DetailDataWidget(
                               leftTitle: "Metode pembayaran",
                               rightTitle:
-                              controller.detailData['metode_pembayaran'] ==
-                                  "tunai"
-                                  ? "Tunai"
-                                  : "Non Tunai",
+                                  controller.detailData['metode_pembayaran'] ==
+                                          "tunai"
+                                      ? "Tunai"
+                                      : "Non Tunai",
                             ),
                             SizedBox(height: 5),
                             DetailDataWidget(
@@ -222,14 +217,14 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                             SizedBox(height: 5),
                             Padding(
                               padding:
-                              const EdgeInsets.symmetric(horizontal: 5),
+                                  const EdgeInsets.symmetric(horizontal: 5),
                               child: Divider(color: lightGrey, thickness: 0.5),
                             ),
                             DetailDataWidget(
                               leftTitle: "Total harga",
                               rightTitle: controller
-                                  .detailData['total_harga'] ==
-                                  null
+                                          .detailData['total_harga'] ==
+                                      null
                                   ? "Harga belum tercatat"
                                   : "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(controller.detailData['total_harga'])}",
                             ),
@@ -258,23 +253,24 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                     ),
                   ),
                   SizedBox(height: 10),
-                ButtonWidget(
-                  onPressed: () => _showUpdateWeightSheet(context),
-                  text: "Update Berat Laundry",
-                  backgroundColor: secondaryColor,
-                  textColor: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.update, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        "Update Berat Laundry",
-                      style: tsBodyMediumRegular(black), // Text style
+                  ButtonWidget(
+                    onPressed: () => _showUpdateWeightSheet(context),
+                    text: "Update Berat Laundry",
+                    backgroundColor: secondaryColor,
+                    textColor: Colors.white,
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Icon(Icons.update, color: Colors.white),
+                        SizedBox(width: 8),
+                        Text(
+                          "Update Berat Laundry",
+                          style: tsBodyMediumRegular(black), // Text style
+                        ),
+                      ],
                     ),
-                  ],
-                ),
-              )],
+                  )
+                ],
               ),
             ),
           );
@@ -376,4 +372,3 @@ void _showUpdateWeightSheet(BuildContext context) {
 //     );
 //   }
 // }
-

@@ -6,7 +6,6 @@ import 'package:washit_admin/widget/common/main_container_widget.dart';
 import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
 import '../../../../infrastructure/theme/themes.dart';
-import '../../../../widget/common/content_title_widget.dart';
 import '../../controllers/home_page.controller.dart';
 
 class CenterTabWidget extends GetView<HomePageController> {
@@ -44,19 +43,19 @@ class CenterTabWidget extends GetView<HomePageController> {
                   : ShimmerWidget(
                       height: 201.5, margin: defaultMargin, radius: 10),
             ),
-            const SizedBox(height: 15),
-            ContentTitleWidget(
-              margin: const EdgeInsets.symmetric(horizontal: 15),
-              title: "STATUS PESANAN",
-              lefttextSize: tsBodySmallSemibold(grey),
-            ),
-            const SizedBox(height: 10),
-            ListView.builder(
-              physics: const NeverScrollableScrollPhysics(),
-              itemCount: 2,
-              shrinkWrap: true,
-              itemBuilder: (context, index) => _buildItemList(),
-            ),
+            // const SizedBox(height: 15),
+            // ContentTitleWidget(
+            //   margin: const EdgeInsets.symmetric(horizontal: 15),
+            //   title: "STATUS PESANAN",
+            //   lefttextSize: tsBodySmallSemibold(grey),
+            // ),
+            // const SizedBox(height: 10),
+            // ListView.builder(
+            //   physics: const NeverScrollableScrollPhysics(),
+            //   itemCount: 2,
+            //   shrinkWrap: true,
+            //   itemBuilder: (context, index) => _buildItemList(),
+            // ),
           ],
         ),
       ),

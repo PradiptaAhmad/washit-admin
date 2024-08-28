@@ -62,6 +62,35 @@ class HomePageController extends GetxController
       };
 
       var response = await http.get(
+        Uri.parse("$url/charts/transactions/daily"),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body)['data'];
+        dailyTransactionData.value = jsonResponse;
+      } else {
+        Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    }
+  }
+
+  Future<void> fetchDailyTransactionChartData() async {
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+
+      var response = await http.get(
         Uri.parse("$url/charts/orders/daily"),
         headers: headers,
       );
@@ -142,6 +171,7 @@ class HomePageController extends GetxController
     isLoading.value = true;
     await fetchUserData();
     await fetchDailyOrderChartData();
+    await fetchDailyTransactionChartData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
     isLoading.value = false;
