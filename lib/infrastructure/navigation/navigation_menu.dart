@@ -1,86 +1,99 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:washit_admin/presentation/screens.dart';
-
-import '../theme/themes.dart';
 
 class NavigationMenu extends StatelessWidget {
   const NavigationMenu({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final controller = Get.put(NavigationController());
+    // Initialize the NavbarController
+    final NavigationController controller = Get.put(NavigationController());
 
     return Scaffold(
-      bottomNavigationBar: Obx(
-        () => NavigationBar(
-          height: 80,
-          elevation: 0,
-          selectedIndex: controller.selectedIndex.value,
-          backgroundColor: primaryColor,
-          indicatorColor: Color(0xFFFFFBFE),
-          onDestinationSelected: (index) =>
-              controller.selectedIndex.value = index,
-          destinations: const [
-            NavigationDestination(
-              icon: Icon(
-                Icons.home_filled,
-                color: darkGrey,
-              ),
-              selectedIcon: Icon(
-                Icons.home_filled,
-                color: black,
-              ),
-              label: "Home",
+      body: Obx(() {
+        return controller.currentScreen;
+      }),
+      bottomNavigationBar: Obx(() {
+        return BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          // Ensure labels are fixed
+          currentIndex: controller.selectedIndex.value,
+          onTap: (index) {
+            controller.changeIndex(index);
+          },
+          selectedFontSize: 11,
+          unselectedItemColor: Colors.grey,
+          unselectedLabelStyle: TextStyle(
+            fontSize: 11,
+            color: Colors.grey,
+            fontFamily: GoogleFonts.poppins().fontFamily,
+          ),
+          selectedLabelStyle: TextStyle(
+            color: Colors.black.withOpacity(0.7),
+            fontFamily: GoogleFonts.poppins().fontFamily,
+          ),
+          selectedItemColor: Colors.black.withOpacity(0.7),
+          items: [
+            BottomNavigationBarItem(
+              icon: Icon(Icons.local_laundry_service_rounded, size: 22),
+              activeIcon: Icon(Icons.local_laundry_service_rounded, size: 22),
+              label: 'Beranda', // Label will always be visible
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
               icon: Icon(
-                Icons.reorder_rounded,
-                color: darkGrey,
+                Icons.donut_large_rounded,
+                size: 22,
               ),
-              selectedIcon: Icon(
-                Icons.reorder_rounded,
-                color: black,
-              ),
-              label: "Status",
+              activeIcon: Icon(Icons.donut_large_rounded,
+                  size: 22, color: Colors.black.withOpacity(0.7)),
+              label: 'Status', // Label will always be visible
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
               icon: Icon(
-                Icons.person,
-                color: darkGrey,
+                Icons.person_rounded,
+                size: 22,
               ),
-              selectedIcon: Icon(
-                Icons.person,
-                color: black,
-              ),
-              label: "Users",
+              activeIcon: Icon(Icons.person_rounded,
+                  size: 22, color: Colors.black.withOpacity(0.7)),
+              label: 'Pengguna', // Label will always be visible
             ),
-            NavigationDestination(
+            BottomNavigationBarItem(
               icon: Icon(
-                Icons.settings,
-                color: darkGrey,
+                Icons.more_horiz_rounded,
+                size: 22,
               ),
-              selectedIcon: Icon(
-                Icons.settings,
-                color: black,
-              ),
-              label: "Settings",
+              activeIcon: Icon(Icons.more_horiz_rounded,
+                  size: 22, color: Colors.black.withOpacity(0.7)),
+              label: 'Lainnya', // Label will always be visible
             ),
           ],
-        ),
-      ),
-      body: Obx(() => controller.screens[controller.selectedIndex.value]),
+        );
+      }),
     );
   }
 }
 
 class NavigationController extends GetxController {
-  final Rx<int> selectedIndex = 0.obs;
+  var selectedIndex = 0.obs;
 
-  final screens = [
-    HomePageScreen(),
-    StatusPageScreen(),
-    UsersPageScreen(),
-    SettingPage(),
-  ];
+  void changeIndex(int index) {
+    selectedIndex.value = index;
+  }
+
+  Widget get currentScreen {
+    switch (selectedIndex.value) {
+      case 0:
+        return HomePageScreen();
+      case 1:
+        return StatusPageScreen();
+      case 2:
+        return UsersPageScreen();
+      case 3:
+        return SettingPage();
+      default:
+        return HomePageScreen();
+    }
+  }
 }

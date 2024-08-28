@@ -1,11 +1,13 @@
 import 'dart:convert';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../../../config.dart';
 import 'package:http/http.dart' as http;
 
-class OrverviewMainController extends GetxController {
+import '../../../config.dart';
+
+class OverviewMainController extends GetxController {
   var ordersList = [].obs;
   var jenisList = <String>[].obs;
   var isLoading = false.obs;
@@ -69,8 +71,4 @@ class OrverviewMainController extends GetxController {
     isLoading.value = false;
     super.onInit();
   }
-
 }
-
-
-
