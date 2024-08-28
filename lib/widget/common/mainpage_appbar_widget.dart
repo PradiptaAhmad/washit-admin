@@ -14,6 +14,7 @@ class MainpageAppbarWidget extends StatelessWidget
     this.textStyle,
     this.elevation,
     this.noLeading = false,
+    this.iconSize,
   }) : super(key: key);
 
   final VoidCallback? onPressed;
@@ -22,7 +23,7 @@ class MainpageAppbarWidget extends StatelessWidget
   final Color? backgroundColor;
   final TextStyle? textStyle;
   final bool noLeading;
-  final double? elevation;
+  final double? elevation, iconSize;
 
   @override
   Widget build(BuildContext context) {
@@ -30,13 +31,14 @@ class MainpageAppbarWidget extends StatelessWidget
       leading: noLeading
           ? null
           : IconButton(
-        icon: Icon(
-          icon ?? Icons.arrow_back_ios_rounded,
-          color: darkGrey,
-          size: 20,
-        ),
-        onPressed: onPressed ?? Get.back,
-      ),
+              splashColor: Colors.transparent,
+              icon: Icon(
+                Icons.close_rounded,
+                color: darkGrey,
+                size: iconSize ?? 25,
+              ),
+              onPressed: onPressed ?? Get.back,
+            ),
       elevation: elevation,
       automaticallyImplyLeading: !noLeading,
       backgroundColor: backgroundColor,

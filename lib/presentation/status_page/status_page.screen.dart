@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -6,7 +5,6 @@ import 'package:washit_admin/presentation/status_page/widgets/status_categories_
 
 import '../../infrastructure/navigation/routes.dart';
 import '../../infrastructure/theme/themes.dart';
-import '../../widget/common/categories_button_widget.dart';
 import '../../widget/common/main_container_widget.dart';
 import 'controllers/status_page.controller.dart';
 
@@ -44,12 +42,14 @@ class StatusPageScreen extends GetView<StatusPageController> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
                 child: Obx(
-                      () {
+                  () {
                     if (controller.isLoading.value) {
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
                         shrinkWrap: true,
-                        itemCount: controller.ordersList.length,
+                        itemCount: controller.selectedFilter.value == 0
+                            ? controller.ordersList.length
+                            : controller.filteredOrdersList.length,
                         itemBuilder: (context, index) => Padding(
                           padding: const EdgeInsets.only(bottom: 10),
                           child: Container(
@@ -87,11 +87,11 @@ class StatusPageScreen extends GetView<StatusPageController> {
                                     children: [
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "id Pesanan",
@@ -100,7 +100,7 @@ class StatusPageScreen extends GetView<StatusPageController> {
                                               Text(
                                                 "${order['no_pemesanan']}",
                                                 style:
-                                                tsLabelLargeMedium(black),
+                                                    tsLabelLargeMedium(black),
                                               )
                                             ],
                                           ),
@@ -108,7 +108,7 @@ class StatusPageScreen extends GetView<StatusPageController> {
                                             children: [
                                               Padding(
                                                 padding:
-                                                const EdgeInsets.symmetric(
+                                                    const EdgeInsets.symmetric(
                                                   horizontal: 5,
                                                   vertical: 2,
                                                 ),
@@ -130,20 +130,20 @@ class StatusPageScreen extends GetView<StatusPageController> {
                                       ),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "${order['nama_pemesan']}",
                                                 style:
-                                                tsBodySmallSemibold(black),
+                                                    tsBodySmallSemibold(black),
                                               ),
                                               Text(
                                                 order['jenis_pemesanan'] ==
-                                                    'antar_jemput'
+                                                        'antar_jemput'
                                                     ? 'Antar Jemput'
                                                     : 'Antar Sendiri',
                                                 style: tsLabelLargeSemibold(
@@ -179,34 +179,34 @@ class StatusPageScreen extends GetView<StatusPageController> {
                                       SizedBox(height: 18),
                                       Row(
                                         mainAxisAlignment:
-                                        MainAxisAlignment.spaceBetween,
+                                            MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.start,
+                                                CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "Total harga",
                                                 style:
-                                                tsLabelMediumMedium(black),
+                                                    tsLabelMediumMedium(black),
                                               ),
                                               Text(
                                                 order['total_harga'] == null
                                                     ? "Belum tercatat"
                                                     : "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}",
                                                 style:
-                                                tsBodySmallSemibold(black),
+                                                    tsBodySmallSemibold(black),
                                               ),
                                             ],
                                           ),
                                           Column(
                                             crossAxisAlignment:
-                                            CrossAxisAlignment.end,
+                                                CrossAxisAlignment.end,
                                             children: [
                                               Text(
                                                 "Status laundry",
                                                 style:
-                                                tsLabelMediumMedium(black),
+                                                    tsLabelMediumMedium(black),
                                               ),
                                               Text(
                                                 '${order['status']}',
