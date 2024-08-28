@@ -33,7 +33,7 @@ class OverviewMainChartBar extends GetView<OverviewMainController> {
                   );
                 } else {
                   return ListView.builder(
-                      itemCount: controller.ordersList.length,
+                      itemCount: 2,
                       physics: NeverScrollableScrollPhysics(),
                       shrinkWrap: true,
                       itemBuilder: (context, index) {

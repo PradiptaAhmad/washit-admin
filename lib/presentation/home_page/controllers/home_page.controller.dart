@@ -7,6 +7,8 @@ import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
 import 'package:washit_admin/presentation/home_page/models/order_chart_model.dart';
 
+import '../models/transaction_weekly_chart_model.dart';
+
 class HomePageController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final count = 0.obs;
@@ -15,9 +17,12 @@ class HomePageController extends GetxController
 
   // Init Data
   var userData = {}.obs;
-  var dailyData = {}.obs;
-  var weeklyChartDatas = <orderChartModel>[].obs;
+  var dailyOrderData = {}.obs;
+  var dailyTransactionData = {}.obs;
+  var weeklyOrderChartDatas = <orderChartModel>[].obs;
+  var weeklyTransactionChartDatas = <TransactionWeeklyChartModel>[].obs;
   var sumTotalOrders = 0.obs;
+  var sumTotalEarnings = 0.obs;
   final box = GetStorage();
 
   Future<void> fetchUserData() async {
@@ -46,7 +51,7 @@ class HomePageController extends GetxController
     }
   }
 
-  Future<void> fetchDailyChartData() async {
+  Future<void> fetchDailyOrderChartData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -63,7 +68,7 @@ class HomePageController extends GetxController
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['data'];
-        dailyData.value = jsonResponse;
+        dailyOrderData.value = jsonResponse;
       } else {
         Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
@@ -75,7 +80,7 @@ class HomePageController extends GetxController
     }
   }
 
-  Future<void> getWeeklyChartData() async {
+  Future<void> getWeeklyOrderChartData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -93,8 +98,38 @@ class HomePageController extends GetxController
         final jsonResponse = jsonDecode(response.body)['total_orders'];
         List<dynamic> data = json.decode(response.body)['data'];
         sumTotalOrders.value = jsonResponse;
-        weeklyChartDatas.value =
+        weeklyOrderChartDatas.value =
             data.map((json) => orderChartModel.fromJson(json)).toList();
+      } else {
+        throw Exception('Failed to load chart data${response.statusCode}');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
+  Future<void> getWeeklyTransactionChartData() async {
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+
+      var response = await http.get(
+        Uri.parse("$url/charts/transactions/weekly"),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body)['total_income'];
+        List<dynamic> data = json.decode(response.body)['data'];
+        print(data);
+        sumTotalEarnings.value = jsonResponse;
+        weeklyTransactionChartDatas.value = data
+            .map((json) => TransactionWeeklyChartModel.fromJson(json))
+            .toList();
       } else {
         throw Exception('Failed to load chart data${response.statusCode}');
       }
@@ -106,8 +141,9 @@ class HomePageController extends GetxController
   Future<void> onRefresh() async {
     isLoading.value = true;
     await fetchUserData();
-    await fetchDailyChartData();
-    await getWeeklyChartData();
+    await fetchDailyOrderChartData();
+    await getWeeklyOrderChartData();
+    await getWeeklyTransactionChartData();
     isLoading.value = false;
   }
 

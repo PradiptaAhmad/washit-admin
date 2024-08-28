@@ -132,7 +132,7 @@ Widget _buildMainTitleWidet(HomePageController controller) {
           flex: 1,
           child: InkWell(
             onTap: () {
-              print(controller.weeklyChartDatas);
+              print(controller.weeklyOrderChartDatas);
             },
             borderRadius: BorderRadius.circular(50),
             child: Container(

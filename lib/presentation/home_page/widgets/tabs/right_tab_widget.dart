@@ -1,3 +1,4 @@
+import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
@@ -8,9 +9,19 @@ import 'package:washit_admin/widget/common/main_container_widget.dart';
 import '../../controllers/home_page.controller.dart';
 
 class RightTabWidget extends GetView<HomePageController> {
-  const RightTabWidget({Key? key, required this.data}) : super(key: key);
+  RightTabWidget({Key? key, required this.data}) : super(key: key);
 
   final LineData data;
+
+  final dayToXValue = {
+    'Senin': 0.0, //  M o n d a y
+    'Selasa': 10.0, //  T u e s d a y
+    'Rabu': 20.0, //  W e d n e s d a y
+    'Kamis': 30.0, //  T h u r s d a y
+    'Jumat': 40.0, //  F r i d a y
+    'Sabtu': 50.0, //  S a t u r d a y
+    'Minggu': 60.0, //  S u n d a y
+  };
 
   @override
   Widget build(BuildContext context) {
@@ -42,7 +53,7 @@ class RightTabWidget extends GetView<HomePageController> {
                         children: [
                           Text("PENDAPATAN HARI INI",
                               style: tsLabelLargeSemibold(grey)),
-                          Text("Rp. 220.000,000",
+                          Text("${controller.sumTotalEarnings.value}",
                               style: tsBodyLargeSemibold(black)),
                         ],
                       ),
@@ -59,8 +70,16 @@ class RightTabWidget extends GetView<HomePageController> {
             ),
             const SizedBox(height: 10),
             LineChartCard(
-              chartData: data.transactionSpotsWeekly,
-            )
+              title: "TRANSAKSI MINGGU INI",
+              chartData: controller.weeklyTransactionChartDatas
+                  .map((e) => FlSpot(dayToXValue[e.createdAt] ?? 0.0,
+                      double.parse(e.totalTransactions.toString())))
+                  .toList(),
+            ),
+            ElevatedButton(
+                onPressed: () => print(controller.weeklyTransactionChartDatas),
+                child: Text("data")),
+
             // const SizedBox(height: 10),
             // MainDataVisualWidget(
             //   title1: "Hari Ini",

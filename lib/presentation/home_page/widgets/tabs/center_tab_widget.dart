@@ -37,7 +37,7 @@ class CenterTabWidget extends GetView<HomePageController> {
               () => !controller.isLoading.value
                   ? LineChartCard(
                       title: "PESANAN MINGGU INI",
-                      chartData: controller.weeklyChartDatas
+                      chartData: controller.weeklyOrderChartDatas
                           .map((e) => FlSpot(dayToXValue[e.createdAt] ?? 0.0,
                               double.parse(e.totalOrders ?? '0')))
                           .toList())
@@ -77,7 +77,7 @@ Widget UpperInformationWidget(HomePageController controller) {
             children: [
               Text("TOTAL HARI INI", style: tsLabelLargeSemibold(grey)),
               const SizedBox(height: 5),
-              Text("${controller.dailyData['total_orders']}",
+              Text("${controller.dailyOrderData['total_orders']}",
                   style: tsTitleLargeSemibold(black)),
             ],
           ),
