@@ -1,22 +1,22 @@
-class ChartModel {
+class orderChartModel {
   String? totalOrders;
   String? createdAt;
 
-  ChartModel({
+  orderChartModel({
     this.totalOrders,
     this.createdAt,
   });
 
-  ChartModel.fromJson(dynamic json) {
+  orderChartModel.fromJson(dynamic json) {
     totalOrders = json['total_orders'];
     createdAt = json['created_at'];
   }
 
-  ChartModel copyWith({
+  orderChartModel copyWith({
     String? totalOrders,
     String? createdAt,
   }) =>
-      ChartModel(
+      orderChartModel(
         totalOrders: totalOrders ?? this.totalOrders,
         createdAt: createdAt ?? this.createdAt,
       );

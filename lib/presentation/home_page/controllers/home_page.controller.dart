@@ -5,7 +5,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
-import 'package:washit_admin/presentation/home_page/models/chart_model.dart';
+import 'package:washit_admin/presentation/home_page/models/order_chart_model.dart';
 
 class HomePageController extends GetxController
     with GetSingleTickerProviderStateMixin {
@@ -16,7 +16,7 @@ class HomePageController extends GetxController
   // Init Data
   var userData = {}.obs;
   var dailyData = {}.obs;
-  var weeklyChartDatas = <ChartModel>[].obs;
+  var weeklyChartDatas = <orderChartModel>[].obs;
   var sumTotalOrders = 0.obs;
   final box = GetStorage();
 
@@ -94,7 +94,7 @@ class HomePageController extends GetxController
         List<dynamic> data = json.decode(response.body)['data'];
         sumTotalOrders.value = jsonResponse;
         weeklyChartDatas.value =
-            data.map((json) => ChartModel.fromJson(json)).toList();
+            data.map((json) => orderChartModel.fromJson(json)).toList();
       } else {
         throw Exception('Failed to load chart data${response.statusCode}');
       }
