@@ -14,6 +14,7 @@ class StatusPageController extends GetxController
   var isLoading = false.obs;
   var jenisList = [].obs;
   var laundries = [].obs;
+  var filteredOrdersList = [].obs;
   var statusList = {}.obs;
   var selectedFilter = 0.obs;
   var statusSelectedFilterName = ''.obs;
@@ -80,6 +81,23 @@ class StatusPageController extends GetxController
     } finally {
       isLoading.value = false;
     }
+  }
+
+  void applyFilter() {
+    final filters = [
+      null,
+      (order) => order['status'] == "Pesanan Telah Dibuat",
+      (order) => order['status'] == "Menunggu Penjemputan",
+      (order) => order['status'] == "Sedang Diproses",
+      (order) => order['status'] == "Belum Dibayar",
+      (order) => order['status'] == "Selesai",
+      (order) => order['jenis_pemesanan'] == "antar_jemput",
+      (order) => order['jenis_pemesanan'] == "antar_mandiri"
+    ];
+
+    filteredOrdersList.value = ordersList
+        .where(filters[selectedFilter.value] ?? (order) => true)
+        .toList();
   }
 
   @override

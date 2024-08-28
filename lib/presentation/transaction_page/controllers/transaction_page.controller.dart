@@ -119,10 +119,7 @@ class TransactionPageController extends GetxController {
       final response = await http.put(
         Uri.parse('$url/admin/orders/update-weight?order_id=${argument['id']}'),
         headers: headers,
-        body: jsonEncode({
-          'id': argument['id'],
-          'berat_laundry': weight
-        }),
+        body: jsonEncode({'id': argument['id'], 'berat_laundry': weight}),
       );
 
       if (response.statusCode == 201) {
@@ -130,7 +127,8 @@ class TransactionPageController extends GetxController {
         await fetchDetailsOrder();
       } else {
         final responseBody = jsonDecode(response.body);
-        Get.snackbar('Error', 'Status Code: ${response.statusCode}, Message: ${responseBody['message']}');
+        Get.snackbar('Error',
+            'Status Code: ${response.statusCode}, Message: ${responseBody['message']}');
         print('Status Code: ${response.statusCode}');
         print('Response Body: ${responseBody}');
       }
@@ -140,13 +138,12 @@ class TransactionPageController extends GetxController {
     }
   }
 
-
   @override
   void onInit() async {
     super.onInit();
     argument = Get.arguments;
     await fetchDetailsOrder();
-    await fetchStatusData();
+    // await fetchStatusData();
   }
 
   @override

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 
 import '../../../../infrastructure/theme/themes.dart';
@@ -65,49 +66,49 @@ class LeftTabWidget extends GetView<HomePageController> {
     );
   }
 
-  Widget _buildHorizontalLayout(List<Map<String, dynamic>> visualData) {
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        SizedBox(height: 20),
-        Padding(
-          padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
-          child: GridView.builder(
-            shrinkWrap: true,
-            physics: NeverScrollableScrollPhysics(),
-            gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
-              crossAxisCount: 4,
-              crossAxisSpacing: 10,
-              mainAxisSpacing: 10,
-              childAspectRatio: 1.5,
-            ),
-            itemCount: visualData.length,
-            itemBuilder: (context, index) {
-              final data = visualData[index];
-              return visualCardWidget(
-                mainIcons: data['mainIcons'],
-                mainNum: data['mainNum'],
-                secIcon: data['secIcon'],
-                mainDesc: data['mainDesc'],
-                descNum: data['descNum'],
-                mainColor: data['mainColor'],
-              );
-            },
-          ),
-        ),
-        SizedBox(height: 25),
-        Container(
-          decoration: BoxDecoration(
-            color: lightGrey,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          height: 1,
-          width: double.infinity,
-        ),
-        OverviewMainChartBar(),
-      ],
-    );
-  }
+  // Widget _buildHorizontalLayout(List<Map<String, dynamic>> visualData) {
+  //   return Column(
+  //     crossAxisAlignment: CrossAxisAlignment.start,
+  //     children: [
+  //       SizedBox(height: 20),
+  //       Padding(
+  //         padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
+  //         child: GridView.builder(
+  //           shrinkWrap: true,
+  //           physics: NeverScrollableScrollPhysics(),
+  //           gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+  //             crossAxisCount: 4,
+  //             crossAxisSpacing: 10,
+  //             mainAxisSpacing: 10,
+  //             childAspectRatio: 1.5,
+  //           ),
+  //           itemCount: visualData.length,
+  //           itemBuilder: (context, index) {
+  //             final data = visualData[index];
+  //             return visualCardWidget(
+  //               mainIcons: data['mainIcons'],
+  //               mainNum: data['mainNum'],
+  //               secIcon: data['secIcon'],
+  //               mainDesc: data['mainDesc'],
+  //               descNum: data['descNum'],
+  //               mainColor: data['mainColor'],
+  //             );
+  //           },
+  //         ),
+  //       ),
+  //       SizedBox(height: 25),
+  //       Container(
+  //         decoration: BoxDecoration(
+  //           color: lightGrey,
+  //           borderRadius: BorderRadius.circular(10),
+  //         ),
+  //         height: 1,
+  //         width: double.infinity,
+  //       ),
+  //       OverviewMainChartBar(),
+  //     ],
+  //   );
+  // }
 
   Widget _buildVerticalLayout(List<Map<String, dynamic>> visualData) {
     return SingleChildScrollView(
@@ -142,12 +143,46 @@ class LeftTabWidget extends GetView<HomePageController> {
             ),
           ),
           SizedBox(height: 25),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15.0),
-            child: ContentTitleWidget(
-              title: "SEDANG BERLANGSUNG",
-              lefttextSize: tsBodySmallSemibold(grey),
+          ContentTitleWidget(
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            title: "SERVICE",
+            lefttextSize: tsBodySmallSemibold(grey),
+          ),
+          SizedBox(height: 10),
+          InkWell(
+            onTap: () {
+              Get.toNamed(Routes.FITUR_PAGE);
+            },
+            splashColor: Colors.transparent,
+            highlightColor: Colors.transparent,
+            child: MainContainerWidget(
+              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+              padding: EdgeInsets.all(15),
+              childs: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    children: [
+                      Icon(Icons.local_laundry_service_rounded,
+                          color: black, size: 20),
+                      SizedBox(width: 10),
+                      Text("Fitur Layanan", style: tsBodySmallSemibold(black)),
+                    ],
+                  ),
+                  SizedBox(height: 10),
+                  Text(
+                    "Lihat fitur layanan yang tersedia",
+                    style: tsLabelLargeMedium(darkGrey),
+                  ),
+                ],
+              ),
             ),
+          ),
+          SizedBox(height: 25),
+          ContentTitleWidget(
+            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+            title: "SEDANG BERLANGSUNG",
+            lefttextSize: tsBodySmallSemibold(grey),
           ),
           OverviewMainChartBar(),
         ],
