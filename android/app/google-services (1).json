@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "566515632756",
+    "project_id": "wash-it-3879c",
+    "storage_bucket": "wash-it-3879c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:566515632756:android:7b137ef3cc8c6417259f21",
+        "android_client_info": {
+          "package_name": "com.example.washit_admin"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCaDMUbs6Xd7JxNwXyqcRrKfFBHEKCdbCQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
