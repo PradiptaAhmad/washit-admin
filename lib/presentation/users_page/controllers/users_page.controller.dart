@@ -19,14 +19,11 @@ class UsersPageController extends GetxController
   var userData = [].obs;
   var isLoading = false.obs;
 
+  var reviews = <Review>[].obs;
+  var averageRating = 0.0.obs;
+  var totalReviews = 0.obs;
+
   var selectedRating = 0.obs;
-  var reviews = <Review>[
-    Review(rating: 5, comment: "Excellent!", username: "User A"),
-    Review(rating: 4, comment: "Very Good!", username: "User B"),
-    Review(rating: 3, comment: "Good", username: "User C"),
-    Review(rating: 2, comment: "Not bad", username: "User D"),
-    Review(rating: 1, comment: "Needs improvement", username: "User E"),
-  ].obs;
 
   List<Review> get filteredReviews {
     if (selectedRating.value == 0) {
@@ -37,6 +34,7 @@ class UsersPageController extends GetxController
           .toList();
     }
   }
+
 
   Future<void> fetchUserData() async {
     final token = box.read("token");
@@ -60,11 +58,97 @@ class UsersPageController extends GetxController
     }
   }
 
+  Future<void> fetchRatingReviews() async {
+    final token = box.read("token");
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var response = await http.get(
+      Uri.parse("$url/admin/ratings/all"),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      var reviewList = json.decode(response.body)['rating'] as List;
+      reviews.assignAll(
+        reviewList.map((review) => Review(
+          id: review['id'],
+          rating: review['rating'],
+          comment: review['review'],
+          username: review['user']['username'],
+        )).toList(),
+      );
+      print(response.body);
+    } else {
+      print(response.body);
+      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    }
+  }
+
+
+  Future<void> fetchRatingSummary() async {
+    final token = box.read("token");
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var response = await http.get(
+      Uri.parse("$url/admin/ratings/summary"),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body);
+      averageRating.value = data['average_rating'].toDouble();
+      totalReviews.value = data['total_review'];
+      print(response.body);
+    } else {
+      print(response.body);
+      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    }
+  }
+
+  Future<void> deleteRating(int id) async {
+    final token = box.read("token");
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var response = await http.delete(
+      Uri.parse("$url/admin/ratings/delete?id=$id"),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      reviews.removeWhere((review) => review.id == id);
+      fetchRatingReviews();
+      Get.snackbar("Sukses", "Rating berhasil dihapus",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+      );
+    } else {
+      print(response.body);
+      Get.snackbar("Gagal Menghapus Data", "Silahkan coba lagi",
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.red,
+      );
+    }
+  }
+
+
   @override
   void onInit() {
     tabController = TabController(length: 2, vsync: this);
     isLoading.value = true;
     fetchUserData();
+    fetchRatingReviews();
+    fetchRatingSummary();
     isLoading.value = false;
     super.onInit();
   }
