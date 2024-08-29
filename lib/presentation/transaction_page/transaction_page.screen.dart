@@ -211,3 +211,104 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
     );
   }
 }
+
+//    Visibility(
+//        visible:
+//        controller.argument[1] == 'histories' ? false : true,
+//        child: MainContainerWidget(
+//          width: double.infinity,
+//        childs: Padding(
+//          padding: const EdgeInsets.all(8.0),
+//        child: Column(
+//        children: [
+//          SizedBox(height: 5),
+//          OrderStatusIcons(controller: controller),
+//        ],
+//      ),
+//    ),
+//  ),
+// ),
+
+// class OrderStatusIcons extends StatelessWidget {
+//   const OrderStatusIcons({
+//     super.key,
+//     required this.controller,
+//   });
+//
+//   final TransactionPageController controller;
+//
+//   @override
+//   Widget build(BuildContext context) {
+//
+//     final statusCode = controller.statusList['status_code'] ?? 0;
+//
+//     return Column(
+//       children: [
+//         Row(
+//           mainAxisAlignment: MainAxisAlignment.spaceBetween,
+//           children: [
+//             Icon(
+//               Iconsax.receipt,
+//               size: 30,
+//               color: statusCode >= 0 ? successColor : lightGrey,
+//             ),
+//             DottedLine(
+//               direction: Axis.horizontal,
+//               lineLength: 40,
+//               lineThickness: 2,
+//               dashLength: 5,
+//               dashColor: statusCode >= 2 ? successColor : lightGrey,
+//             ),
+//             Icon(
+//               Iconsax.wallet_1,
+//               size: 30,
+//               color: statusCode >= 2 ? successColor : lightGrey,
+//             ),
+//             DottedLine(
+//               direction: Axis.horizontal,
+//               lineLength: 40,
+//               lineThickness: 2,
+//               dashLength: 5,
+//               dashColor: statusCode >= 3 ? successColor : lightGrey,
+//             ),
+//             Icon(
+//               Iconsax.bubble,
+//               size: 30,
+//               color: statusCode >= 3 ? successColor : lightGrey,
+//             ),
+//             DottedLine(
+//               direction: Axis.horizontal,
+//               lineLength: 40,
+//               lineThickness: 2,
+//               dashLength: 5,
+//               dashColor: statusCode >= 4 ? successColor : lightGrey,
+//             ),
+//             Icon(
+//               Iconsax.location,
+//               size: 30,
+//               color: statusCode >= 4 ? successColor : lightGrey,
+//             ),
+//             DottedLine(
+//               direction: Axis.horizontal,
+//               lineLength: 40,
+//               lineThickness: 2,
+//               dashLength: 5,
+//               dashColor: statusCode >= 5 ? successColor : lightGrey,
+//             ),
+//             Icon(
+//               Iconsax.verify,
+//               size: 30,
+//               color: statusCode >= 5 ? successColor : lightGrey,
+//             ),
+//           ],
+//         ),
+//         SizedBox(height: 10),
+//         Text(
+//           "${controller.statusList['status_description']}",
+//           style: tsBodySmallMedium(black),
+//         ),
+//       ],
+//     );
+//   }
+// }
+
