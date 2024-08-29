@@ -15,12 +15,15 @@ class HomePageScreen extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
+    final isTablet = screenWidth >= 600;
+
     return Scaffold(
       backgroundColor: lightGrey.withOpacity(0.1),
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(kToolbarHeight + screenHeight(context) * 0.1),
-        child: _buildAppbar(controller),
+        preferredSize: Size.fromHeight(isTablet ? screenHeight * 0.15 : screenHeight * 0.2),
+        child: _buildAppbar(controller, screenWidth, screenHeight, isTablet),
       ),
       body: TabBarView(
         controller: controller.tabController,
@@ -34,65 +37,64 @@ class HomePageScreen extends GetView<HomePageController> {
   }
 }
 
-Widget _buildAppbar(HomePageController controller) {
+Widget _buildAppbar(HomePageController controller, double screenWidth, double screenHeight, bool isTablet) {
   return MainContainerWidget(
     color: primaryColor,
     borderRadius: 25,
     childs: Column(
       children: [
-        SizedBox(height: 55.00),
-        _buildMainTitleWidet(controller),
+        SizedBox(height: isTablet ? screenHeight * 0.05 : screenHeight * 0.07),
+        _buildMainTitleWidget(controller, screenWidth, isTablet),
         Divider(color: lightGrey.withOpacity(0.2), thickness: 2, height: 10),
-        InkWell(
-          onTap: () {},
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: TabBar(
-              labelColor: black,
-              unselectedLabelColor: darkGrey,
-              indicatorColor: secondaryColor,
-              dividerColor: Colors.transparent,
-              labelStyle: tsBodySmallSemibold(black),
-              controller: controller.tabController,
-              splashBorderRadius: BorderRadius.circular(50),
-              indicator: CircleTabIndicator(color: black, radius: 4),
-              padding: const EdgeInsets.symmetric(horizontal: 10),
-              tabs: const [
-                Tab(text: "Overview"),
-                Tab(text: "Order"),
-                Tab(text: "Transaksi"),
-              ],
-            ),
+        Padding(
+          padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04),
+          child: TabBar(
+            labelColor: black,
+            unselectedLabelColor: darkGrey,
+            indicatorColor: secondaryColor,
+            dividerColor: Colors.transparent,
+            labelStyle: tsBodySmallSemibold(black),
+            controller: controller.tabController,
+            splashBorderRadius: BorderRadius.circular(50),
+            indicator: CircleTabIndicator(color: black, radius: 4),
+            padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.02),
+            tabs: const [
+              Tab(text: "Overview"),
+              Tab(text: "Order"),
+              Tab(text: "Transaksi"),
+            ],
           ),
-        )
+        ),
       ],
     ),
   );
 }
 
-Widget _buildMainTitleWidet(HomePageController controller) {
+Widget _buildMainTitleWidget(HomePageController controller, double screenWidth, bool isTablet) {
   return Padding(
-    padding:
-        const EdgeInsets.symmetric(horizontal: defaultMargin, vertical: 10),
+    padding: EdgeInsets.symmetric(horizontal: screenWidth * 0.04, vertical: 4),
     child: Row(
       children: [
         Expanded(
-            flex: 1,
-            child: Obx(() => !controller.isLoading.value
+          flex: 1,
+          child: Obx(
+                () => !controller.isLoading.value
                 ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: 45,
-                      width: 45,
-                      child: Image.network(
-                        controller.userData['image_path'] == null
-                            ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
-                            : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-                : ShimmerWidget(radius: 10, height: 50))),
+              borderRadius: BorderRadius.circular(10),
+              child: Container(
+                height: isTablet ? screenWidth * 0.08 : screenWidth * 0.1,
+                width: isTablet ? screenWidth * 0.08 : screenWidth * 0.1,
+                child: Image.network(
+                  controller.userData['image_path'] == null
+                      ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
+                      : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}',
+                  fit: BoxFit.cover,
+                ),
+              ),
+            )
+                : ShimmerWidget(radius: 10, height: isTablet ? screenWidth * 0.1 : screenWidth * 0.12),
+          ),
+        ),
         Expanded(
           flex: 7,
           child: Padding(
@@ -101,26 +103,28 @@ Widget _buildMainTitleWidet(HomePageController controller) {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Obx(
-                  () => !controller.isLoading.value
+                      () => !controller.isLoading.value
                       ? Text(
-                          "Halo,",
-                          style: tsBodyLargeMedium(darkGrey),
-                        )
+                    "Halo,",
+                    style: tsBodyLargeMedium(darkGrey),
+                  )
                       : Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child:
-                              ShimmerWidget(radius: 8, height: 20, width: 80),
-                        ),
+                    padding: const EdgeInsets.only(bottom: 5),
+                    child: ShimmerWidget(radius: 8, height: 20, width: 80),
+                  ),
                 ),
-                Obx(() => !controller.isLoading.value
-                    ? ConstrainedBox(
-                        constraints: BoxConstraints(maxWidth: 300),
-                        child: Text(
-                          controller.userData['username'] ?? "Anon",
-                          style: tsBodyLargeSemibold(black),
-                          overflow: TextOverflow.ellipsis,
-                        ))
-                    : ShimmerWidget(radius: 8, height: 20, width: 200)),
+                Obx(
+                      () => !controller.isLoading.value
+                      ? ConstrainedBox(
+                    constraints: BoxConstraints(maxWidth: screenWidth * 0.6),
+                    child: Text(
+                      controller.userData['username'] ?? "Anon",
+                      style: tsBodyLargeSemibold(black),
+                      overflow: TextOverflow.ellipsis,
+                    ),
+                  )
+                      : ShimmerWidget(radius: 8, height: 20, width: 200),
+                ),
               ],
             ),
           ),
@@ -133,8 +137,8 @@ Widget _buildMainTitleWidet(HomePageController controller) {
             },
             borderRadius: BorderRadius.circular(50),
             child: Container(
-              height: 45,
-              width: 45,
+              height: isTablet ? screenWidth * 0.08 : screenWidth * 0.1,
+              width: isTablet ? screenWidth * 0.08 : screenWidth * 0.1,
               child: const Icon(
                 Icons.notification_add_rounded,
                 color: darkGrey,

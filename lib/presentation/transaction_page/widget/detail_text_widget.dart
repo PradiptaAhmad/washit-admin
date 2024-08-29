@@ -6,9 +6,11 @@ class DetailDataWidget extends StatelessWidget {
   final String leftTitle;
   final String rightTitle;
 
-  final leftTitleStyle, rightTitleStyle;
-  final leftTitleAlignment, rightTitleAlignment;
-  final textTitleOverflow;
+  final TextStyle? leftTitleStyle;
+  final TextStyle? rightTitleStyle;
+  final TextAlign? leftTitleAlignment;
+  final TextAlign? rightTitleAlignment;
+  final TextOverflow? textTitleOverflow;
 
   const DetailDataWidget({
     required this.leftTitle,
@@ -23,6 +25,7 @@ class DetailDataWidget extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         Container(
           margin: EdgeInsets.symmetric(horizontal: 5),
@@ -30,13 +33,16 @@ class DetailDataWidget extends StatelessWidget {
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Text(
-                leftTitle,
-                style: leftTitleStyle ?? tsBodySmallRegular(darkGrey),
-                textAlign: leftTitleAlignment ?? TextAlign.left,
+              Expanded(
+                flex: 2, // Lebar fleksibel untuk leftTitle
+                child: Text(
+                  leftTitle,
+                  style: leftTitleStyle ?? tsBodySmallRegular(darkGrey),
+                  textAlign: leftTitleAlignment ?? TextAlign.left,
+                ),
               ),
-              Container(
-                width: 200,
+              Expanded(
+                flex: 3, // Lebar fleksibel untuk rightTitle
                 child: Text(
                   rightTitle,
                   style: rightTitleStyle ?? tsBodySmallRegular(black),

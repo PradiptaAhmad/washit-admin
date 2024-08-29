@@ -148,14 +148,6 @@ class SettingPage extends GetView<SettingController> {
                           children: [
                             SizedBox(height: 20),
                             InkWell(
-                              onTap: () {},
-                              child: Text(
-                                'Hapus akun',
-                                style: tsBodySmallRegular(warningColor),
-                              ),
-                            ),
-                            SizedBox(height: 20),
-                            InkWell(
                               onTap: () => controller
                                   .showExitConfirmationDialog(context),
                               child: Text('Keluar akun',

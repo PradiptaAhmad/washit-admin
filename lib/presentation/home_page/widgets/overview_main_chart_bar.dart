@@ -14,11 +14,11 @@ class OverviewMainChartBar extends GetView<OverviewMainController> {
     final OverviewMainController controller = Get.put(OverviewMainController());
 
     return Padding(
-      padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
+      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.001), // Responsive
       child: Column(
         children: [
           Padding(
-            padding: const EdgeInsets.only(top: 15),
+            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01), // Responsive
             child: InkWell(
               onTap: () {},
               child: Obx(() {
@@ -38,7 +38,7 @@ class OverviewMainChartBar extends GetView<OverviewMainController> {
                       shrinkWrap: true,
                       itemBuilder: (context, index) {
                         final order = controller.ordersList[index];
-                        return _builfItemList(order);
+                        return _buildItemList(context, order);
                       });
                 }
               }),
@@ -50,90 +50,96 @@ class OverviewMainChartBar extends GetView<OverviewMainController> {
   }
 }
 
-Widget _builfItemList(order) {
+Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
   return Padding(
-    padding: const EdgeInsets.only(bottom: defaultMargin),
+    padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02), // Responsive
     child: MainContainerWidget(
-      padding: EdgeInsets.all(15),
+      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04), // Responsive
       childs: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "id Pesanan",
-                    style: tsLabelLargeMedium(grey),
-                  ),
-                  Text(
-                    '${order['no_pemesanan']}',
-                    style: tsLabelLargeMedium(black),
-                  )
-                ],
+              Expanded(
+                flex: 2,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "ID Pesanan",
+                      style: tsLabelLargeMedium(grey),
+                    ),
+                    Text(
+                      '${order['no_pemesanan']}',
+                      style: tsLabelLargeMedium(black),
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(
-                      horizontal: 5,
-                      vertical: 2,
-                    ),
-                    child: Text(
-                      "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}}",
-                      style: tsLabelLargeMedium(darkGrey),
-                    ),
+              Expanded(
+                flex: 3,
+                child: Align(
+                  alignment: Alignment.centerRight,
+                  child: Text(
+                    "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}",
+                    style: tsLabelLargeMedium(darkGrey),
+                    overflow: TextOverflow.ellipsis,
                   ),
-                ],
-              )
+                ),
+              ),
             ],
           ),
           Padding(
-            padding: const EdgeInsets.symmetric(vertical: 1),
+            padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01), // Responsive
             child: Divider(color: lightGrey, thickness: 0.5),
           ),
           Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Text(
-                    "${order['nama_pemesan']}",
-                    style: tsBodySmallSemibold(black),
-                  ),
-                  Text(
-                    order['jenis_pemesanan'] == 'antar_jemput'
-                        ? "Antar Jemput"
-                        : "Antar Mandiri",
-                    style: tsLabelLargeSemibold(darkGrey),
-                  ),
-                  Text(
-                    order['berat_laundry'] == null
-                        ? "Berat belum tercatat"
-                        : "${order['berat_laundry']} Kg",
-                    style: tsLabelLargeSemibold(darkGrey),
-                  ),
-                  Text(
-                    "${order['nama_laundry']}",
-                    style: tsBodySmallSemibold(successColor),
-                  ),
-                ],
-              ),
-              Container(
-                width: 120,
-                child: Text(
-                  "${order['alamat']}",
-                  style: tsLabelLargeSemibold(grey),
-                  softWrap: true,
-                  overflow: TextOverflow.ellipsis,
-                  textAlign: TextAlign.right,
-                  maxLines: 4,
+              Expanded(
+                flex: 3,
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      "${order['nama_pemesan']}",
+                      style: tsBodySmallSemibold(black),
+                    ),
+                    Text(
+                      order['jenis_pemesanan'] == 'antar_jemput'
+                          ? "Antar Jemput"
+                          : "Antar Mandiri",
+                      style: tsLabelLargeSemibold(darkGrey),
+                    ),
+                    Text(
+                      order['berat_laundry'] == null
+                          ? "Berat belum tercatat"
+                          : "${order['berat_laundry']} Kg",
+                      style: tsLabelLargeSemibold(darkGrey),
+                    ),
+                    Text(
+                      "${order['nama_laundry']}",
+                      style: tsBodySmallSemibold(successColor),
+                    ),
+                  ],
                 ),
-              )
+              ),
+              Expanded(
+                flex: 2,
+                child: Container(
+                  child: Text(
+                    "${order['alamat']}",
+                    style: tsLabelLargeSemibold(grey),
+                    softWrap: true,
+                    overflow: TextOverflow.ellipsis,
+                    textAlign: TextAlign.right,
+                    maxLines: 4,
+                  ),
+                ),
+              ),
             ],
-          )
+          ),
         ],
       ),
     ),
