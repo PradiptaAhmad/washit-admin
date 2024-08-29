@@ -56,10 +56,10 @@ class FiturView extends GetView<FiturController> {
                                   enableDrag: true,
                                   isDismissible: true,
                                   scrollControlDisabledMaxHeightRatio: 0.45,
-                                  sheetAnimationStyle: AnimationStyle(
-                                    duration: Durations.medium1,
-                                    curve: Curves.easeInOut,
-                                  ),
+                                  // sheetAnimationStyle: AnimationStyle(
+                                  //   duration: Durations.medium1,
+                                  //   curve: Curves.easeInOut,
+                                  // ),
                                   backgroundColor: primaryColor,
                                   isScrollControlled: true,
                                   // Ensure the modal can grow with the keyboard

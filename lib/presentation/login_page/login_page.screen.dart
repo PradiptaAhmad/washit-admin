@@ -138,7 +138,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
               children: [
                 Container(
                   color: lightGrey,
-                  width: screenWidth * 0.39,
+                  width: screenWidth * 0.37,
                   height: 2,
                 ),
                 SizedBox(

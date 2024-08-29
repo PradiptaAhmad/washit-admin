@@ -20,9 +20,9 @@ dependencies:
   slider_button: ^2.1.0
   device_info_plus: ^9.1.2
 
-  firebase_core: any
-  firebase_messaging: any
-  flutter_local_notifications: any
+  firebase_core: ^2.31.0
+  firebase_messaging: ^14.9.2
+  flutter_local_notifications: ^17.2.2
   flutter:
     sdk: flutter
 

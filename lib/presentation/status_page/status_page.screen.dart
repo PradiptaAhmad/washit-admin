@@ -8,6 +8,8 @@ import '../../infrastructure/theme/themes.dart';
 import '../../widget/common/main_container_widget.dart';
 import 'controllers/status_page.controller.dart';
 
+const double defaultMargin = 15.0;
+
 class StatusPageScreen extends GetView<StatusPageController> {
   const StatusPageScreen({Key? key}) : super(key: key);
 
@@ -16,14 +18,13 @@ class StatusPageScreen extends GetView<StatusPageController> {
     final StatusPageController controller = Get.put(StatusPageController());
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 50),
+        preferredSize: Size.fromHeight(kToolbarHeight + 60),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
             AppBar(
               backgroundColor: secondaryColor,
-              title: Text('Status Pesanan',
-                  style: tsTitleSmallMedium(primaryColor)),
+              title: Text('Status Pesanan', style: tsTitleSmallMedium(primaryColor)),
             ),
             SizedBox(height: 10),
             StatusCategoriesButtonWidget(controller: controller),
@@ -34,15 +35,20 @@ class StatusPageScreen extends GetView<StatusPageController> {
         onRefresh: () async {
           await controller.fetchOrders();
         },
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
+        child: LayoutBuilder(
+          builder: (context, constraints) {
+            final isPortrait = constraints.maxWidth < constraints.maxHeight;
+            final padding = isPortrait
+                ? EdgeInsets.symmetric(horizontal: defaultMargin)
+                : EdgeInsets.symmetric(horizontal: 32);
+            final itemHeight = isPortrait ? 200.0 : 160.0;
+
+            return SingleChildScrollView(
+              physics: AlwaysScrollableScrollPhysics(),
+              child: Padding(
+                padding: padding,
                 child: Obx(
-                  () {
+                      () {
                     if (controller.isLoading.value) {
                       return ListView.builder(
                         physics: NeverScrollableScrollPhysics(),
@@ -51,9 +57,9 @@ class StatusPageScreen extends GetView<StatusPageController> {
                             ? controller.ordersList.length
                             : controller.filteredOrdersList.length,
                         itemBuilder: (context, index) => Padding(
-                          padding: const EdgeInsets.only(bottom: 10),
+                          padding: EdgeInsets.only(bottom: defaultMargin),
                           child: Container(
-                            height: 200,
+                            height: itemHeight,
                             width: double.infinity,
                             decoration: BoxDecoration(
                               color: Colors.black.withOpacity(0.04),
@@ -71,7 +77,7 @@ class StatusPageScreen extends GetView<StatusPageController> {
                         itemBuilder: (context, index) {
                           final order = controller.ordersList[index];
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 10),
+                            padding: EdgeInsets.only(bottom: defaultMargin),
                             child: InkWell(
                               onTap: () {
                                 Get.toNamed(
@@ -82,136 +88,131 @@ class StatusPageScreen extends GetView<StatusPageController> {
                               borderRadius: BorderRadius.circular(20),
                               child: MainContainerWidget(
                                 childs: Padding(
-                                  padding: const EdgeInsets.all(defaultMargin),
+                                  padding: EdgeInsets.all(defaultMargin),
                                   child: Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "id Pesanan",
-                                                style: tsLabelLargeMedium(grey),
-                                              ),
-                                              Text(
-                                                "${order['no_pemesanan']}",
-                                                style:
-                                                    tsLabelLargeMedium(black),
-                                              )
-                                            ],
+                                          Expanded(
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "id Pesanan",
+                                                  style: tsLabelLargeMedium(grey),
+                                                ),
+                                                Text(
+                                                  "${order['no_pemesanan']}",
+                                                  style: tsLabelLargeMedium(black),
+                                                ),
+                                              ],
+                                            ),
                                           ),
-                                          Row(
-                                            children: [
-                                              Padding(
-                                                padding:
-                                                    const EdgeInsets.symmetric(
-                                                  horizontal: 5,
-                                                  vertical: 2,
-                                                ),
-                                                child: Text(
-                                                  "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}",
-                                                  style: tsLabelLargeMedium(
-                                                      darkGrey),
-                                                ),
+                                          // Space between id and estimasi
+                                          Expanded(
+                                            flex: 1,
+                                            child: Align(
+                                              alignment: Alignment.centerRight,
+                                              child: Text(
+                                                "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}",
+                                                style: tsLabelLargeMedium(darkGrey),
+                                                overflow: TextOverflow.ellipsis,
                                               ),
-                                            ],
-                                          )
+                                            ),
+                                          ),
                                         ],
                                       ),
                                       Padding(
-                                        padding: const EdgeInsets.symmetric(
-                                            vertical: 1),
-                                        child: Divider(
-                                            color: lightGrey, thickness: 0.5),
+                                        padding: const EdgeInsets.symmetric(vertical: 1),
+                                        child: Divider(color: lightGrey, thickness: 0.5),
                                       ),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
-                                          Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
-                                            children: [
-                                              Text(
-                                                "${order['nama_pemesan']}",
-                                                style:
-                                                    tsBodySmallSemibold(black),
-                                              ),
-                                              Text(
-                                                order['jenis_pemesanan'] ==
-                                                        'antar_jemput'
-                                                    ? 'Antar Jemput'
-                                                    : 'Antar Sendiri',
-                                                style: tsLabelLargeSemibold(
-                                                    darkGrey),
-                                              ),
-                                              Text(
-                                                order['berat_laundry'] == null
-                                                    ? "Berat belum tercatat"
-                                                    : "${order['berat_laundry']} Kg",
-                                                style: tsLabelLargeSemibold(
-                                                    darkGrey),
-                                              ),
-                                              Text(
-                                                "${order['nama_laundry']}",
-                                                style: tsBodySmallSemibold(
-                                                    successColor),
-                                              ),
-                                            ],
-                                          ),
-                                          Container(
-                                            width: 120,
-                                            child: Text(
-                                              "${order['alamat']}",
-                                              style: tsLabelLargeSemibold(grey),
-                                              softWrap: true,
-                                              overflow: TextOverflow.ellipsis,
-                                              textAlign: TextAlign.right,
-                                              maxLines: 4,
+                                          Expanded(
+                                            flex: isPortrait ? 2 : 1,
+                                            child: Column(
+                                              crossAxisAlignment: CrossAxisAlignment.start,
+                                              children: [
+                                                Text(
+                                                  "${order['nama_pemesan']}",
+                                                  style: tsBodySmallSemibold(black),
+                                                ),
+                                                Text(
+                                                  order['jenis_pemesanan'] == 'antar_jemput'
+                                                      ? 'Antar Jemput'
+                                                      : 'Antar Sendiri',
+                                                  style: tsLabelLargeSemibold(darkGrey),
+                                                ),
+                                                Text(
+                                                  order['berat_laundry'] == null
+                                                      ? "Berat belum tercatat"
+                                                      : "${order['berat_laundry']} Kg",
+                                                  style: tsLabelLargeSemibold(darkGrey),
+                                                ),
+                                                Text(
+                                                  "${order['nama_laundry']}",
+                                                  style: tsBodySmallSemibold(successColor),
+                                                ),
+                                              ],
                                             ),
-                                          )
+                                          ),
+                                          if (isPortrait)
+                                            Expanded(
+                                              child: Text(
+                                                "${order['alamat']}",
+                                                style: tsLabelLargeSemibold(grey),
+                                                softWrap: true,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.right,
+                                                maxLines: 4,
+                                              ),
+                                            )
+                                          else
+                                            Container(
+                                              width: 120,
+                                              child: Text(
+                                                "${order['alamat']}",
+                                                style: tsLabelLargeSemibold(grey),
+                                                softWrap: true,
+                                                overflow: TextOverflow.ellipsis,
+                                                textAlign: TextAlign.right,
+                                                maxLines: 4,
+                                              ),
+                                            ),
                                         ],
                                       ),
                                       SizedBox(height: 18),
                                       Row(
-                                        mainAxisAlignment:
-                                            MainAxisAlignment.spaceBetween,
+                                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                         children: [
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.start,
+                                            crossAxisAlignment: CrossAxisAlignment.start,
                                             children: [
                                               Text(
                                                 "Total harga",
-                                                style:
-                                                    tsLabelMediumMedium(black),
+                                                style: tsLabelMediumMedium(black),
                                               ),
                                               Text(
                                                 order['total_harga'] == null
                                                     ? "Belum tercatat"
                                                     : "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}",
-                                                style:
-                                                    tsBodySmallSemibold(black),
+                                                style: tsBodySmallSemibold(black),
                                               ),
                                             ],
                                           ),
                                           Column(
-                                            crossAxisAlignment:
-                                                CrossAxisAlignment.end,
+                                            crossAxisAlignment: CrossAxisAlignment.end,
                                             children: [
                                               Text(
                                                 "Status laundry",
-                                                style:
-                                                    tsLabelMediumMedium(black),
+                                                style: tsLabelMediumMedium(black),
                                               ),
                                               Text(
                                                 '${order['status']}',
-                                                style: tsBodySmallSemibold(
-                                                    secondaryColor),
+                                                style: tsBodySmallSemibold(secondaryColor),
                                               ),
                                             ],
                                           ),
@@ -228,9 +229,9 @@ class StatusPageScreen extends GetView<StatusPageController> {
                     }
                   },
                 ),
-              )
-            ],
-          ),
+              ),
+            );
+          },
         ),
       ),
     );
