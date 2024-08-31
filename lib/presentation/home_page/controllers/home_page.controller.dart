@@ -22,7 +22,6 @@ class HomePageController extends GetxController
   var dailyTransactionData = {}.obs;
   var weeklyOrderChartDatas = <orderChartModel>[].obs;
   var weeklyTransactionChartDatas = <TransactionWeeklyChartModel>[].obs;
-  var summaryInformationData = {}.obs;
   var sumTotalOrders = 0.obs;
   var sumTotalEarnings = 0.obs;
   final box = GetStorage();
@@ -178,7 +177,6 @@ class HomePageController extends GetxController
     }
   }
 
-
   Future<void> fetchOverviewData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
@@ -204,19 +202,14 @@ class HomePageController extends GetxController
       print(e);
       Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
-      } else {
-        throw Exception('Failed to load chart data${response.statusCode}');
-      }
-    } catch (e) {
-      print(e);
     }
   }
 
   Future<void> onRefresh() async {
     isLoading.value = true;
     await fetchUserData();
-    // await fetchDailyOrderChartData();
-    // await fetchDailyTransactionChartData();
+    await fetchDailyOrderChartData();
+    await fetchDailyTransactionChartData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
     await fetchOverviewData();
