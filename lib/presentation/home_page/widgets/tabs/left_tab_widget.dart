@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
+import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
 import '../../../../infrastructure/theme/themes.dart';
 import '../../../../widget/common/content_title_widget.dart';
@@ -77,13 +78,17 @@ class LeftTabWidget extends GetView<HomePageController> {
               itemCount: visualData.length,
               itemBuilder: (context, index) {
                 final data = visualData[index];
-                return visualCardWidget(
-                  mainIcons: data['mainIcons'],
-                  mainNum: data['mainNum'],
-                  secIcon: data['secIcon'],
-                  mainDesc: data['mainDesc'],
-                  descNum: data['descNum'],
-                  mainColor: data['mainColor'],
+                return Obx(
+                  () => !controller.isLoading.value
+                      ? visualCardWidget(
+                          mainIcons: data['mainIcons'],
+                          mainNum: data['mainNum'],
+                          secIcon: data['secIcon'],
+                          mainDesc: data['mainDesc'],
+                          descNum: data['descNum'],
+                          mainColor: data['mainColor'],
+                        )
+                      : ShimmerWidget(radius: 10),
                 );
               },
             ),

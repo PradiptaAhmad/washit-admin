@@ -207,8 +207,8 @@ class HomePageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    onRefresh();
     tabController = TabController(length: 3, vsync: this);
+    onRefresh();
   }
 
   void onClose() {
