@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
 import 'package:washit_admin/presentation/home_page/models/order_chart_model.dart';
+import 'package:washit_admin/presentation/home_page/models/overview_model.dart';
 
 import '../models/transaction_weekly_chart_model.dart';
 
@@ -25,6 +26,15 @@ class HomePageController extends GetxController
   var sumTotalOrders = 0.obs;
   var sumTotalEarnings = 0.obs;
   final box = GetStorage();
+
+  var overviewData = OverviewModel(
+    status: '',
+    message: '',
+    totalOrders: 0,
+    totalUsers: 0,
+    totalTransactions: 0,
+    averageRatings: 0.0,
+  ).obs;
 
   Future<void> fetchUserData() async {
     try {
@@ -168,7 +178,8 @@ class HomePageController extends GetxController
     }
   }
 
-  Future<void> getSummaryInformation() async {
+
+  Future<void> fetchOverviewData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -184,7 +195,15 @@ class HomePageController extends GetxController
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        summaryInformationData.value = jsonResponse;
+        overviewData.value = OverviewModel.fromJson(jsonResponse);
+      } else {
+        Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
+            snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+      }
+    } catch (e) {
+      print(e);
+      Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
       } else {
         throw Exception('Failed to load chart data${response.statusCode}');
       }
@@ -200,7 +219,7 @@ class HomePageController extends GetxController
     // await fetchDailyTransactionChartData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
-    await getSummaryInformation();
+    await fetchOverviewData();
     isLoading.value = false;
   }
 

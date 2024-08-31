@@ -13,45 +13,48 @@ class LeftTabWidget extends GetView<HomePageController> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Map<String, dynamic>> visualData = [
-      {
-        'mainIcons': Icons.people_rounded,
-        'mainNum': '${controller.summaryInformationData['total_users']}',
-        'secIcon': Icons.trending_up_rounded,
-        'mainDesc': "TOTAL PENGGUNA",
-        'descNum': "+2,5%",
-        'mainColor': successColor,
-      },
-      {
-        'mainIcons': Icons.receipt_rounded,
-        'mainNum': '${controller.summaryInformationData['total_orders']}',
-        'secIcon': Icons.trending_down_rounded,
-        'mainDesc': "TOTAL PESANAN",
-        'descNum': "-2,5%",
-        'mainColor': warningColor,
-      },
-      {
-        'mainIcons': Icons.attach_money_rounded,
-        'mainNum': '${controller.summaryInformationData['total_transactions']}',
-        'secIcon': Icons.trending_up_rounded,
-        'mainDesc': "TOTAL PENDAPATAN",
-        'descNum': "+2,5%",
-        'mainColor': successColor,
-      },
-      {
-        'mainIcons': Icons.star_rate_rounded,
-        'mainNum': '${controller.summaryInformationData['average_ratings']}',
-        'secIcon': Icons.trending_down_rounded,
-        'mainDesc': "TOTAL RATING",
-        'descNum': "-2,5%",
-        'mainColor': warningColor,
-      },
-    ];
-
     return Scaffold(
       body: RefreshIndicator(
         onRefresh: () => controller.onRefresh(),
-        child: _buildVerticalLayout(visualData),
+        child: Obx(() {
+          final overview = controller.overviewData.value;
+          final List<Map<String, dynamic>> visualData = [
+            {
+              'mainIcons': Icons.people_rounded,
+              'mainNum': overview.totalUsers.toString(),
+              'secIcon': Icons.trending_up_rounded,
+              'mainDesc': "TOTAL PENGGUNA",
+              'descNum': "+2,5%",
+              'mainColor': successColor,
+            },
+            {
+              'mainIcons': Icons.receipt_rounded,
+              'mainNum': overview.totalOrders.toString(),
+              'secIcon': Icons.trending_down_rounded,
+              'mainDesc': "TOTAL PESANAN",
+              'descNum': "-2,5%",
+              'mainColor': warningColor,
+            },
+            {
+              'mainIcons': Icons.attach_money_rounded,
+              'mainNum': "Rp ${overview.totalTransactions / 1000}K",
+              'secIcon': Icons.trending_up_rounded,
+              'mainDesc': "TOTAL PENDAPATAN",
+              'descNum': "+2,5%",
+              'mainColor': successColor,
+            },
+            {
+              'mainIcons': Icons.star_rate_rounded,
+              'mainNum': overview.averageRatings.toStringAsFixed(1),
+              'secIcon': Icons.trending_down_rounded,
+              'mainDesc': "TOTAL RATING",
+              'descNum': "-2,5%",
+              'mainColor': warningColor,
+            },
+          ];
+
+          return _buildVerticalLayout(visualData);
+        }),
       ),
     );
   }
