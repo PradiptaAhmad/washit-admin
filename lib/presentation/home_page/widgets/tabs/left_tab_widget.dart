@@ -16,7 +16,7 @@ class LeftTabWidget extends GetView<HomePageController> {
     final List<Map<String, dynamic>> visualData = [
       {
         'mainIcons': Icons.people_rounded,
-        'mainNum': "106",
+        'mainNum': '${controller.summaryInformationData['total_users']}',
         'secIcon': Icons.trending_up_rounded,
         'mainDesc': "TOTAL PENGGUNA",
         'descNum': "+2,5%",
@@ -24,7 +24,7 @@ class LeftTabWidget extends GetView<HomePageController> {
       },
       {
         'mainIcons': Icons.receipt_rounded,
-        'mainNum': "20",
+        'mainNum': '${controller.summaryInformationData['total_orders']}',
         'secIcon': Icons.trending_down_rounded,
         'mainDesc': "TOTAL PESANAN",
         'descNum': "-2,5%",
@@ -32,7 +32,7 @@ class LeftTabWidget extends GetView<HomePageController> {
       },
       {
         'mainIcons': Icons.attach_money_rounded,
-        'mainNum': "20%",
+        'mainNum': '${controller.summaryInformationData['total_transactions']}',
         'secIcon': Icons.trending_up_rounded,
         'mainDesc': "TOTAL PENDAPATAN",
         'descNum': "+2,5%",
@@ -40,7 +40,7 @@ class LeftTabWidget extends GetView<HomePageController> {
       },
       {
         'mainIcons': Icons.star_rate_rounded,
-        'mainNum': "4.8",
+        'mainNum': '${controller.summaryInformationData['average_ratings']}',
         'secIcon': Icons.trending_down_rounded,
         'mainDesc': "TOTAL RATING",
         'descNum': "-2,5%",

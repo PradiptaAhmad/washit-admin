@@ -33,19 +33,19 @@ class CenterTabWidget extends GetView<HomePageController> {
             UpperInformationWidget(controller),
             const SizedBox(height: 10),
             Obx(
-                  () => !controller.isLoading.value
+              () => !controller.isLoading.value
                   ? LineChartCard(
-                title: "PESANAN MINGGU INI",
-                chartData: controller.weeklyOrderChartDatas
-                    .map((e) => FlSpot(dayToXValue[e.createdAt] ?? 0.0,
-                    double.parse(e.totalOrders ?? '0')))
-                    .toList(),
-              )
+                      title: "PESANAN MINGGU INI",
+                      chartData: controller.weeklyOrderChartDatas
+                          .map((e) => FlSpot(dayToXValue[e.createdAt] ?? 0.0,
+                              double.parse(e.totalOrders ?? '0')))
+                          .toList(),
+                    )
                   : ShimmerWidget(
-                height: 201.5,
-                margin: defaultMargin,
-                radius: 10,
-              ),
+                      height: 201.5,
+                      margin: defaultMargin,
+                      radius: 10,
+                    ),
             ),
             const SizedBox(height: 15),
             // Uncomment and implement if needed
@@ -83,7 +83,8 @@ Widget UpperInformationWidget(HomePageController controller) {
                   children: [
                     Text("TOTAL HARI INI", style: tsLabelLargeSemibold(grey)),
                     const SizedBox(height: 5),
-                    Text("${controller.dailyOrderData['total_orders']}",
+                    Text(
+                        "${controller.dailyOrderData['total_orders'] == null ? '0' : controller.dailyOrderData['total_orders']}",
                         style: tsTitleLargeSemibold(black)),
                   ],
                 ),
@@ -94,15 +95,16 @@ Widget UpperInformationWidget(HomePageController controller) {
               child: MainContainerWidget(
                 padding: const EdgeInsets.all(15),
                 childs: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("TOTAL MINGGU INI", style: tsLabelLargeSemibold(grey)),
-                    const SizedBox(height: 5),
-                    Text(
-                      "${controller.sumTotalOrders}",
-                      style: tsTitleLargeSemibold(black),
-                    ),
-                ]),
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text("TOTAL MINGGU INI",
+                          style: tsLabelLargeSemibold(grey)),
+                      const SizedBox(height: 5),
+                      Text(
+                        "${controller.sumTotalOrders}",
+                        style: tsTitleLargeSemibold(black),
+                      ),
+                    ]),
               ),
             ),
           ],

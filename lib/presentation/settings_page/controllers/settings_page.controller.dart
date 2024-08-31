@@ -4,9 +4,9 @@ import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+
 import '../../../config.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../infrastructure/theme/themes.dart';
@@ -49,7 +49,6 @@ class SettingController extends GetxController {
       isLoading.value = false; // Reset loading state setelah selesai request
     }
   }
-
 
   Future<void> logout() async {
     final url = ConfigEnvironments.getEnvironments()['url'];
@@ -150,7 +149,6 @@ class SettingController extends GetxController {
     }
   }
 
-
   void pickImage() async {
     final picker = ImagePicker();
     final pickedFile = await picker.pickImage(source: ImageSource.gallery);
@@ -190,7 +188,9 @@ class SettingController extends GetxController {
   }
 
   void updateAdminNameData() => fetchUpdateAccount();
+
   void updateEmailData() => fetchUpdateAccount();
+
   void updateAdminPhoneData() => fetchUpdateAccount();
 
   void updateAdminName(String newValue) {
@@ -205,12 +205,12 @@ class SettingController extends GetxController {
     adminData['phone'] = newValue;
   }
 
-
-
   @override
-  void onInit() {
-    fetchAdminData();
+  void onInit() async {
     super.onInit();
+    isLoading.value = true;
+    await fetchAdminData();
+    isLoading.value = false;
   }
 
   @override

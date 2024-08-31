@@ -21,6 +21,7 @@ class HomePageController extends GetxController
   var dailyTransactionData = {}.obs;
   var weeklyOrderChartDatas = <orderChartModel>[].obs;
   var weeklyTransactionChartDatas = <TransactionWeeklyChartModel>[].obs;
+  var summaryInformationData = {}.obs;
   var sumTotalOrders = 0.obs;
   var sumTotalEarnings = 0.obs;
   final box = GetStorage();
@@ -167,13 +168,39 @@ class HomePageController extends GetxController
     }
   }
 
+  Future<void> getSummaryInformation() async {
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+
+      var response = await http.get(
+        Uri.parse("$url/admin/home/overview"),
+        headers: headers,
+      );
+
+      if (response.statusCode == 200) {
+        final jsonResponse = jsonDecode(response.body);
+        summaryInformationData.value = jsonResponse;
+      } else {
+        throw Exception('Failed to load chart data${response.statusCode}');
+      }
+    } catch (e) {
+      print(e);
+    }
+  }
+
   Future<void> onRefresh() async {
     isLoading.value = true;
     await fetchUserData();
-    await fetchDailyOrderChartData();
-    await fetchDailyTransactionChartData();
+    // await fetchDailyOrderChartData();
+    // await fetchDailyTransactionChartData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
+    await getSummaryInformation();
     isLoading.value = false;
   }
 
