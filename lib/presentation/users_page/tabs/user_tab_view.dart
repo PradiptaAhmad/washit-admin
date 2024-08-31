@@ -12,31 +12,35 @@ class UserTabView extends GetView<UsersPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      physics: AlwaysScrollableScrollPhysics(),
-      child: Column(
-        children: [
-          SizedBox(height: 10),
-          Container(
-            margin: EdgeInsets.symmetric(horizontal: defaultMargin),
-            child: CupertinoSearchTextField(
-              style: tsBodySmallMedium(black),
-              padding: EdgeInsets.all(10),
-              prefixInsets: EdgeInsets.only(left: 10),
-              suffixInsets: EdgeInsets.only(right: 10),
-              onChanged: (value) {},
+    return RefreshIndicator(
+      onRefresh: () => controller.fetchUserData(),
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            SizedBox(height: 10),
+            Container(
+              margin: EdgeInsets.symmetric(horizontal: defaultMargin),
+              child: CupertinoSearchTextField(
+                style: tsBodySmallMedium(black),
+                padding: EdgeInsets.all(10),
+                prefixInsets: EdgeInsets.only(left: 10),
+                suffixInsets: EdgeInsets.only(right: 10),
+                onChanged: (value) {},
+              ),
             ),
-          ),
-          SizedBox(height: 10),
-          ListView.builder(
-            shrinkWrap: true,
-            itemCount: controller.userData.length,
-            itemBuilder: (context, index) {
-              final user = controller.userData[index];
-              return _buildItemList(user);
-            },
-          ),
-        ],
+            SizedBox(height: 10),
+            ListView.builder(
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: controller.userData.length,
+              itemBuilder: (context, index) {
+                final user = controller.userData[index];
+                return _buildItemList(user);
+              },
+            ),
+          ],
+        ),
       ),
     );
   }
