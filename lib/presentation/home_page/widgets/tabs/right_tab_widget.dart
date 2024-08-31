@@ -38,7 +38,7 @@ class RightTabWidget extends GetView<HomePageController> {
               title: "TRANSAKSI MINGGU INI",
               chartData: controller.weeklyTransactionChartDatas
                   .map((e) => FlSpot(dayToXValue[e.createdAt] ?? 0.0,
-                  double.parse(e.totalTransactions.toString())))
+                      double.parse(e.totalTransactions.toString())))
                   .toList(),
             ),
           ],
@@ -55,7 +55,8 @@ class RightTabWidget extends GetView<HomePageController> {
             _buildIncomeWidget(
               context,
               title: "PENDAPATAN HARI INI",
-              amount: "Rp. ${controller.dailyTransactionData['total_income']}",
+              amount:
+                  "Rp. ${controller.dailyTransactionData['total_income'] == null ? '0' : controller.dailyTransactionData['total_income']}",
               margin: constraints.maxWidth * 0.05,
             ),
             const SizedBox(height: 10),
@@ -71,7 +72,8 @@ class RightTabWidget extends GetView<HomePageController> {
     );
   }
 
-  Widget _buildIncomeWidget(BuildContext context, {required String title, required String amount, required double margin}) {
+  Widget _buildIncomeWidget(BuildContext context,
+      {required String title, required String amount, required double margin}) {
     return MainContainerWidget(
       margin: EdgeInsets.symmetric(horizontal: margin),
       padding: const EdgeInsets.all(15),
@@ -124,7 +126,8 @@ Widget UpperInformationWidget(HomePageController controller) {
                   children: [
                     Text("TOTAL HARI INI", style: tsLabelLargeSemibold(grey)),
                     const SizedBox(height: 5),
-                    Text("${controller.dailyTransactionData['total_transactions']}",
+                    Text(
+                        "${controller.dailyTransactionData['total_transactions'] == null ? '0' : controller.dailyTransactionData['total_transactions']}",
                         style: tsTitleLargeSemibold(black)),
                   ],
                 ),

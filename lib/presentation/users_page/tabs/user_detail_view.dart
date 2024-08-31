@@ -71,14 +71,16 @@ class UserDetailView extends StatelessWidget {
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       _buildDetailItem(
-                          "Email", "${email ?? "default@gmail.com"}"),
+                          context, "Email", "${email ?? "default@gmail.com"}"),
                       SizedBox(height: 10),
                       _buildDetailItem(
+                        context,
                         "No. Ponsel",
                         "${phone ?? "08123456789"}",
                       ),
                       SizedBox(height: 10),
                       _buildDetailItem(
+                        context,
                         "Alamat",
                         "Jl. Pala no 108, Binagriya Blok A, Medono, Pekalongan Barat, Pekalongan",
                       )
@@ -90,7 +92,7 @@ class UserDetailView extends StatelessWidget {
   }
 }
 
-Widget _buildDetailItem(leftText, rightText) {
+Widget _buildDetailItem(context, leftText, rightText) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -101,7 +103,7 @@ Widget _buildDetailItem(leftText, rightText) {
       ),
       SizedBox(height: 5),
       Container(
-        width: 170,
+        width: screenWidth(context) / 2,
         child: Text(
           rightText,
           style: tsBodySmallMedium(darkGrey),
