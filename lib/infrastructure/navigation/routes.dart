@@ -14,4 +14,5 @@ class Routes {
   static const SETTINGS_PAGE = '/settings-page';
   static const REVIEW_PAGE = '/review-page';
   static const FITUR_PAGE = '/fitur-page';
+  static const HISTORY_PAGE = '/history-page';
 }

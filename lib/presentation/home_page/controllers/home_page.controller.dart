@@ -208,8 +208,8 @@ class HomePageController extends GetxController
   Future<void> onRefresh() async {
     isLoading.value = true;
     await fetchUserData();
-    await fetchDailyOrderChartData();
-    await fetchDailyTransactionChartData();
+    // await fetchDailyOrderChartData();
+    // await fetchDailyTransactionChartData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
     await fetchOverviewData();

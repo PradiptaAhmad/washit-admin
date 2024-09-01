@@ -14,48 +14,54 @@ class TransactionStatusProgressWidget
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        TweenAnimationBuilder<double>(
-          tween: Tween<double>(
-            begin: 0,
-            end: controller.statusList['status_code'] / 5,
-          ),
-          duration: Duration(seconds: 2),
-          builder: (context, value, child) {
-            return ShaderMask(
-              shaderCallback: (rect) {
-                return LinearGradient(
-                  stops: [value, value],
-                  colors: [successColor, lightGrey],
-                  begin: Alignment.centerLeft,
-                  end: Alignment.centerRight,
-                ).createShader(rect);
-              },
-              child: Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  buildIcon(Iconsax.receipt),
-                  buildDottedLine(),
-                  buildIcon(Iconsax.wallet_1),
-                  buildDottedLine(),
-                  buildIcon(Iconsax.bubble),
-                  buildDottedLine(),
-                  buildIcon(Iconsax.location),
-                  buildDottedLine(),
-                  buildIcon(Iconsax.verify),
-                ],
+    return Obx(() {
+      if (controller.isLoading.value) {
+        return SizedBox();
+      } else {
+        return Column(
+          children: [
+            TweenAnimationBuilder<double>(
+              tween: Tween<double>(
+                begin: 0,
+                end: controller.statusList['status_code'] / 5,
               ),
-            );
-          },
-        ),
-        SizedBox(height: 10),
-        Text(
-          "${controller.statusList['status_description']}",
-          style: tsBodySmallMedium(black),
-        ),
-      ],
-    );
+              duration: Duration(seconds: 2),
+              builder: (context, value, child) {
+                return ShaderMask(
+                  shaderCallback: (rect) {
+                    return LinearGradient(
+                      stops: [value, value],
+                      colors: [successColor, lightGrey],
+                      begin: Alignment.centerLeft,
+                      end: Alignment.centerRight,
+                    ).createShader(rect);
+                  },
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      buildIcon(Iconsax.receipt),
+                      buildDottedLine(),
+                      buildIcon(Iconsax.wallet_1),
+                      buildDottedLine(),
+                      buildIcon(Iconsax.bubble),
+                      buildDottedLine(),
+                      buildIcon(Iconsax.location),
+                      buildDottedLine(),
+                      buildIcon(Iconsax.verify),
+                    ],
+                  ),
+                );
+              },
+            ),
+            SizedBox(height: 10),
+            Text(
+              "${controller.statusList['status_description']}",
+              style: tsBodySmallMedium(black),
+            ),
+          ],
+        );
+      }
+    });
   }
 
   Widget buildIcon(IconData icon) {

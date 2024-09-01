@@ -4,11 +4,13 @@ import 'package:washit_admin/infrastructure/navigation/bindings/controllers/fitu
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 import 'package:washit_admin/presentation/fiturService_page/fiturService_page.screen.dart';
+import 'package:washit_admin/presentation/history_page/history_page.screen.dart';
 import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
 
 import '../../config.dart';
 import '../../presentation/screens.dart';
 import 'bindings/controllers/controllers_bindings.dart';
+import 'bindings/controllers/history_page.controller.binding.dart';
 import 'routes.dart';
 
 class EnvironmentsBadge extends StatelessWidget {
@@ -78,5 +80,9 @@ class Nav {
       page: () => FiturView(),
       binding: FiturPageControllerBinding(),
     ),
+    GetPage(
+        name: Routes.HISTORY_PAGE,
+        page: () => HistoryPageScreen(),
+        binding: HistoryPageControllerBinding()),
   ];
 }

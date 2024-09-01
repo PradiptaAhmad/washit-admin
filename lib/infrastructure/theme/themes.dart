@@ -9,6 +9,7 @@ const Color black = Color(0xFF000000);
 const Color grey = Color(0xFFB5B5B5);
 const Color darkBlue = Color(0xFF535C6B);
 const Color successColor = Color(0xFF23A56A);
+const Color pendingOrange = Color(0xFFFFA500);
 const Color warningColor = Color(0xFFE72929);
 const Color lightGrey = Color(0xFFDEDEDE);
 const Color lightGreen = Color(0xFFE5F4ED);

@@ -2,9 +2,10 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/presentation/users_page/tabs/feedback_tab_view.dart';
 import 'package:washit_admin/presentation/users_page/tabs/user_tab_view.dart';
+import 'package:washit_admin/widget/common/main_container_widget.dart';
+import 'package:washit_admin/widget/common/oval_tab_indicator.dart';
 
 import '../../infrastructure/theme/themes.dart';
-import '../../widget/common/circle_tab_indicator.dart';
 import 'controllers/users_page.controller.dart';
 
 class UsersPageScreen extends GetView<UsersPageController> {
@@ -15,8 +16,8 @@ class UsersPageScreen extends GetView<UsersPageController> {
     final UsersPageController controller = Get.put(UsersPageController());
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize:
-            Size.fromHeight(kToolbarHeight + 60), // Add extra height for margin
+        preferredSize: Size.fromHeight(kToolbarHeight +
+            screenHeight(context) / 12), // Add extra height for margin
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,34 +29,40 @@ class UsersPageScreen extends GetView<UsersPageController> {
             SizedBox(height: 10),
             Padding(
               padding: const EdgeInsets.symmetric(horizontal: 15.0),
-              child: TabBar(
-                labelColor: black,
-                unselectedLabelColor: darkGrey,
-                indicatorColor: secondaryColor,
-                dividerColor: Colors.transparent,
-                labelStyle: tsBodySmallSemibold(black),
-                controller: controller.tabController,
-                splashBorderRadius: BorderRadius.circular(10),
-                indicator: CircleTabIndicator(color: black, radius: 4),
-                tabs: const [
-                  Tab(text: "Pengguna"),
-                  Tab(text: "Feedback"),
-                ],
+              child: MainContainerWidget(
+                childs: TabBar(
+                  labelColor: black,
+                  unselectedLabelColor: darkGrey,
+                  indicatorColor: darkGrey,
+                  dividerColor: Colors.transparent,
+                  labelStyle: tsBodySmallMedium(black),
+                  controller: controller.tabController,
+                  splashBorderRadius: BorderRadius.circular(10),
+                  indicator: RoundedRectTabIndicator(
+                      color: black, radius: 3, width: 30, height: 3),
+                  tabs: const [
+                    Tab(text: "Pengguna"),
+                    Tab(text: "Ulasan"),
+                  ],
+                ),
               ),
             ),
           ],
         ),
       ),
       body: SafeArea(
-        child: RefreshIndicator(
-          onRefresh: () async => null,
-          child: TabBarView(
-            controller: controller.tabController,
-            children: [
-              UserTabView(),
-              FeedbackTabView(),
-            ],
-          ),
+        child: TabBarView(
+          controller: controller.tabController,
+          children: [
+            MainContainerWidget(
+              margin: EdgeInsets.only(right: 15, left: 15, bottom: 10),
+              childs: UserTabView(),
+            ),
+            MainContainerWidget(
+              margin: EdgeInsets.only(right: 15, left: 15, bottom: 10),
+              childs: FeedbackTabView(),
+            ),
+          ],
         ),
       ),
     );

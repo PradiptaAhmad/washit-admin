@@ -6,8 +6,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
 
-import '../models/ReviewModel.dart';
-
 class UsersPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
   final count = 0.obs;
@@ -19,22 +17,21 @@ class UsersPageController extends GetxController
   var userData = [].obs;
   var isLoading = false.obs;
 
-  var reviews = <Review>[].obs;
+  var reviews = [].obs;
   var averageRating = 0.0.obs;
   var totalReviews = 0.obs;
 
   var selectedRating = 0.obs;
 
-  List<Review> get filteredReviews {
-    if (selectedRating.value == 0) {
-      return reviews;
-    } else {
-      return reviews
-          .where((review) => review.rating == selectedRating.value)
-          .toList();
-    }
-  }
-
+  // List<Review> get filteredReviews {
+  //   if (selectedRating.value == 0) {
+  //     return reviews;
+  //   } else {
+  //     return reviews
+  //         .where((review) => review.rating == selectedRating.value)
+  //         .toList();
+  //   }
+  // }
 
   Future<void> fetchUserData() async {
     final token = box.read("token");
@@ -71,15 +68,16 @@ class UsersPageController extends GetxController
     );
 
     if (response.statusCode == 200) {
-      var reviewList = json.decode(response.body)['rating'] as List;
-      reviews.assignAll(
-        reviewList.map((review) => Review(
-          id: review['id'],
-          rating: review['rating'],
-          comment: review['review'],
-          username: review['user']['username'],
-        )).toList(),
-      );
+      reviews.assignAll(json.decode(response.body)['rating']);
+      // var reviewList = json.decode(response.body)['rating'] as List;
+      // reviews.assignAll(
+      //   reviewList.map((review) => Review(
+      //     id: review['id'],
+      //     rating: review['rating'],
+      //     comment: review['review'],
+      //     username: review['user']['username'],
+      //   )).toList(),
+      // );
       print(response.body);
     } else {
       print(response.body);
@@ -87,7 +85,6 @@ class UsersPageController extends GetxController
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
     }
   }
-
 
   Future<void> fetchRatingSummary() async {
     final token = box.read("token");
@@ -128,19 +125,22 @@ class UsersPageController extends GetxController
     if (response.statusCode == 200) {
       reviews.removeWhere((review) => review.id == id);
       fetchRatingReviews();
-      Get.snackbar("Sukses", "Rating berhasil dihapus",
+      Get.snackbar(
+        "Sukses",
+        "Rating berhasil dihapus",
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
       );
     } else {
       print(response.body);
-      Get.snackbar("Gagal Menghapus Data", "Silahkan coba lagi",
+      Get.snackbar(
+        "Gagal Menghapus Data",
+        "Silahkan coba lagi",
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.red,
       );
     }
   }
-
 
   @override
   void onInit() {
