@@ -13,48 +13,42 @@ class OverviewMainChartBar extends GetView<OverviewMainController> {
   Widget build(BuildContext context) {
     final OverviewMainController controller = Get.put(OverviewMainController());
 
-    return Padding(
-      padding: EdgeInsets.symmetric(horizontal: MediaQuery.of(context).size.width * 0.001), // Responsive
-      child: Column(
-        children: [
-          Padding(
-            padding: EdgeInsets.only(top: MediaQuery.of(context).size.height * 0.01), // Responsive
-            child: InkWell(
-              onTap: () {},
-              child: Obx(() {
-                if (controller.isLoading.value) {
-                  return Center(child: CircularProgressIndicator());
-                } else if (controller.ordersList.isEmpty) {
-                  return Center(
-                    child: Text(
-                      "Tidak ada transaksi",
-                      style: tsBodyMediumMedium(darkGrey),
-                    ),
-                  );
-                } else {
-                  return ListView.builder(
-                      itemCount: 2,
-                      physics: NeverScrollableScrollPhysics(),
-                      shrinkWrap: true,
-                      itemBuilder: (context, index) {
-                        final order = controller.ordersList[index];
-                        return _buildItemList(context, order);
-                      });
-                }
-              }),
-            ),
-          ),
-        ],
-      ),
+    return Column(
+      children: [
+        InkWell(
+          onTap: () {},
+          child: Obx(() {
+            if (controller.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            } else if (controller.ordersList.isEmpty) {
+              return Center(
+                child: Text(
+                  "Tidak ada transaksi",
+                  style: tsBodyMediumMedium(darkGrey),
+                ),
+              );
+            } else {
+              return ListView.builder(
+                  itemCount: 2,
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, index) {
+                    final order = controller.ordersList[index];
+                    return _buildItemList(context, order);
+                  });
+            }
+          }),
+        ),
+      ],
     );
   }
 }
 
 Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
   return Padding(
-    padding: EdgeInsets.only(bottom: MediaQuery.of(context).size.height * 0.02), // Responsive
+    padding: EdgeInsets.only(bottom: 10),
     child: MainContainerWidget(
-      padding: EdgeInsets.all(MediaQuery.of(context).size.width * 0.04), // Responsive
+      padding: EdgeInsets.all(15),
       childs: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
@@ -91,7 +85,9 @@ Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
             ],
           ),
           Padding(
-            padding: EdgeInsets.symmetric(vertical: MediaQuery.of(context).size.height * 0.01), // Responsive
+            padding: EdgeInsets.symmetric(
+                vertical:
+                    MediaQuery.of(context).size.height * 0.01), // Responsive
             child: Divider(color: lightGrey, thickness: 0.5),
           ),
           Row(

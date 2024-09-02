@@ -100,12 +100,12 @@ class LeftTabWidget extends GetView<HomePageController> {
                   padding:
                       const EdgeInsets.symmetric(horizontal: defaultMargin),
                   child: MainContainerWidget(
-                    padding: EdgeInsets.all(15),
+                    padding: EdgeInsets.all(10),
                     childs: Column(
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start,
+                          crossAxisAlignment: CrossAxisAlignment.center,
                           children: [
                             Container(
                               padding: EdgeInsets.all(5),
@@ -116,7 +116,7 @@ class LeftTabWidget extends GetView<HomePageController> {
                               child: Icon(
                                 Icons.local_laundry_service_rounded,
                                 color: Colors.blue,
-                                size: 40,
+                                size: 30,
                               ),
                             ),
                             SizedBox(width: 10),
@@ -124,9 +124,9 @@ class LeftTabWidget extends GetView<HomePageController> {
                               crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 Text("Fitur Layanan",
-                                    style: tsBodyMediumSemibold(black)),
+                                    style: tsBodySmallMedium(black)),
                                 Text(
-                                  "Lihat fitur layanan yang tersedia",
+                                  "Tambah atau edit fitur layanan",
                                   style: tsLabelLargeMedium(darkGrey),
                                 ),
                               ],
@@ -142,7 +142,7 @@ class LeftTabWidget extends GetView<HomePageController> {
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
                 child: ContentTitleWidget(
-                  title: "SEDANG BERLANGSUNG",
+                  title: "PESANAN BARU",
                   lefttextSize: tsBodySmallSemibold(grey),
                 ),
               ),
