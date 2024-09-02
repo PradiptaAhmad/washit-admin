@@ -142,8 +142,10 @@ class TransactionPageController extends GetxController {
   void onInit() async {
     super.onInit();
     argument = Get.arguments;
+    isLoading.value = true;
     await fetchDetailsOrder();
     await fetchStatusData();
+    isLoading.value = false;
   }
 
   @override
