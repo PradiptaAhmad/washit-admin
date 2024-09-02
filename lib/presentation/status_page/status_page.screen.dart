@@ -198,7 +198,7 @@ class StatusPageScreen extends GetView<StatusPageController> {
                                               Text(
                                                 order['total_harga'] == null
                                                     ? "Belum tercatat"
-                                                    : "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}",
+                                                    : "${NumberFormat.currency(locale: 'id', symbol: 'Rp ', decimalDigits: 0).format(order['total_harga'])}",
                                                 style: tsBodySmallSemibold(black),
                                               ),
                                             ],
