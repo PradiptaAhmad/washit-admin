@@ -2,44 +2,60 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:washit_admin/infrastructure/navigation/routes.dart';
-import 'package:washit_admin/presentation/home_page/controllers/overview_main_controller.dart';
+import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
+import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
 import '../../../infrastructure/theme/themes.dart';
 
-class OverviewMainChartBar extends GetView<OverviewMainController> {
+class OverviewMainChartBar extends GetView<HomePageController> {
   const OverviewMainChartBar({super.key});
 
   @override
   Widget build(BuildContext context) {
-    final OverviewMainController controller = Get.put(OverviewMainController());
+    // final OverviewMainController controller = Get.put(OverviewMainController());
 
     return Column(
       children: [
         Obx(() {
-          if (controller.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
-          } else if (controller.ordersList.isEmpty) {
+          if (controller.isLoading.isTrue) {
+            return ListView.builder(
+                itemCount: 4,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  return _shimmerItemList();
+                });
+          }
+          if (controller.ordersList.isEmpty) {
             return Center(
               child: Text(
                 "Tidak ada transaksi",
                 style: tsBodyMediumMedium(darkGrey),
               ),
             );
-          } else {
-            return ListView.builder(
-                itemCount: 2,
-                physics: NeverScrollableScrollPhysics(),
-                shrinkWrap: true,
-                itemBuilder: (context, index) {
-                  final order = controller.ordersList[index];
-                  return _buildItemList(context, order);
-                });
           }
+          return ListView.builder(
+              itemCount: 4,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final order = controller.ordersList[index];
+                return _buildItemList(context, order);
+              });
         }),
       ],
     );
   }
+}
+
+Widget _shimmerItemList() {
+  return Column(
+    children: [
+      ShimmerWidget(height: 154, radius: 10),
+      SizedBox(height: 10),
+    ],
+  );
 }
 
 Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {

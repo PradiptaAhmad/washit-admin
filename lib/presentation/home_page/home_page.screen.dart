@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/center_tab_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/left_tab_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/right_tab_widget.dart';
 
+import '../../infrastructure/navigation/routes.dart';
 import '../../widget/common/main_container_widget.dart';
 import '../../widget/common/oval_tab_indicator.dart';
 import '../../widget/shimmer/shimmer_widget.dart';
