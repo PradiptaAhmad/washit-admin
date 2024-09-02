@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/controllers/home_page.controller.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/center_tab_widget.dart';
@@ -144,9 +145,7 @@ Widget _buildMainTitleWidget(
         Expanded(
           flex: 1,
           child: InkWell(
-            onTap: () {
-              print(controller.weeklyOrderChartDatas);
-            },
+            onTap: () => Get.toNamed(Routes.ADD_NOTIFICATION_PAGE),
             borderRadius: BorderRadius.circular(50),
             child: Container(
               height: isTablet

@@ -61,7 +61,7 @@ class HomePageController extends GetxController
     }
   }
 
-  Future<void> fetchDailyOrderChartData() async {
+  Future<void> fetchDailyTransactionData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -90,7 +90,7 @@ class HomePageController extends GetxController
     }
   }
 
-  Future<void> fetchDailyTransactionChartData() async {
+  Future<void> fetchDailyOrderData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -208,8 +208,8 @@ class HomePageController extends GetxController
   Future<void> onRefresh() async {
     isLoading.value = true;
     await fetchUserData();
-    // await fetchDailyOrderChartData();
-    // await fetchDailyTransactionChartData();
+    await fetchDailyOrderData();
+    await fetchDailyTransactionData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
     await fetchOverviewData();
