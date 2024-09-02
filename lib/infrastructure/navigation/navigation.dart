@@ -1,10 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/add_notification_page.controller.binding.dart';
+import 'package:washit_admin/infrastructure/navigation/bindings/controllers/detail_history.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/fitur_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 import 'package:washit_admin/presentation/fiturService_page/fiturService_page.screen.dart';
+import 'package:washit_admin/presentation/history_page/detail_history_page.dart';
 import 'package:washit_admin/presentation/history_page/history_page.screen.dart';
 import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
 
@@ -90,6 +92,11 @@ class Nav {
       name: Routes.ADD_NOTIFICATION_PAGE,
       page: () => AddNotificationPage(),
       binding: AddNotificationPageControllerBinding(),
+    ),
+    GetPage(
+        name: Routes.DETAIL_HISTORY_PAGE,
+        page: () => DetailHistoryPage(orderId: Get.arguments['orderId']),
+        binding: DetailHistoryControllerBinding()
     ),
   ];
 }
