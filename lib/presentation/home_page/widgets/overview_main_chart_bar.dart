@@ -63,7 +63,7 @@ Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
     padding: EdgeInsets.only(bottom: 10),
     child: MainContainerWidget(
       onPressed: () =>
-          Get.toNamed(Routes.TRANSACTION_PAGE, arguments: order['id']),
+          Get.toNamed(Routes.TRANSACTION_PAGE, arguments: order),
       padding: EdgeInsets.all(15),
       childs: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

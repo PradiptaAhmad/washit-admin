@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -12,6 +13,8 @@ class StatusPageController extends GetxController
 
   final count = 0.obs;
   var isLoading = false.obs;
+  var isLoadingMore = false.obs;
+  var isMaxPage = false.obs;
   var jenisList = [].obs;
   var laundries = [].obs;
   var filteredOrdersList = [].obs;
@@ -19,6 +22,8 @@ class StatusPageController extends GetxController
   var selectedFilter = 0.obs;
   var statusSelectedFilterName = ''.obs;
   var ordersList = [].obs;
+  var paginate = 1.obs;
+  var scrollController = ScrollController();
   GetStorage box = GetStorage();
 
   Future<void> fetchOrders() async {
@@ -32,13 +37,16 @@ class StatusPageController extends GetxController
       };
 
       final response = await http.get(
-        Uri.parse('$url/admin/orders/all'),
+        Uri.parse('$url/admin/orders/all?page=${paginate.value}'),
         headers: headers,
       );
 
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['orders'];
-        ordersList.value = jsonResponse;
+        if (List.from(jsonResponse).isEmpty) {
+          isMaxPage.value = true;
+        }
+        ordersList.addAll(jsonResponse);
       } else {
         Get.snackbar('Error', '${response.statusCode}');
         print(response.statusCode);
@@ -108,6 +116,17 @@ class StatusPageController extends GetxController
   void onInit() async {
     super.onInit();
     onRefresh();
+    scrollController.addListener(() {
+      if (scrollController.position.pixels ==
+          scrollController.position.maxScrollExtent) {
+        if (isMaxPage.value == false) {
+          paginate.value++;
+          isLoadingMore.value = true;
+          fetchOrders();
+          isLoadingMore.value = false;
+        }
+      }
+    });
   }
 
   @override
