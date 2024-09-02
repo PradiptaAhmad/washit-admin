@@ -1,7 +1,10 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/dal/services/currency_formatter.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
+import 'package:washit_admin/presentation/fiturService_page/components/fitur_textfield.dart';
 import 'package:washit_admin/presentation/fiturService_page/controllers/fiturService_controller.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 import 'package:washit_admin/widget/common/mainpage_appbar_widget.dart';
@@ -33,9 +36,32 @@ class FiturView extends GetView<FiturController> {
                   childs: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Text(
-                        "${service['nama_laundry']}",
-                        style: tsBodyMediumSemibold(black),
+                      Row(
+                        children: [
+                          Text(
+                            "${service['nama_laundry']}",
+                            style: tsBodyMediumSemibold(black),
+                          ),
+                          Spacer(),
+                          service['is_active']
+                              ? Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: secondaryColor.withOpacity(0.2)),
+                                  child: Text("Aktif",
+                                      style:
+                                          tsLabelMediumMedium(secondaryColor)))
+                              : Container(
+                                  padding: const EdgeInsets.symmetric(
+                                      horizontal: 10, vertical: 5),
+                                  decoration: BoxDecoration(
+                                      borderRadius: BorderRadius.circular(5),
+                                      color: warningColor.withOpacity(0.2)),
+                                  child: Text("Tidak Aktif",
+                                      style: tsLabelMediumMedium(warningColor)))
+                        ],
                       ),
                       Text(
                         "${service['deskripsi']}",
@@ -45,7 +71,7 @@ class FiturView extends GetView<FiturController> {
                         child: Row(
                           children: [
                             Text(
-                              "Rp. ${service['harga']}",
+                              "${controller.formatPrice(service['harga'].toString())}",
                               style: tsBodySmallSemibold(secondaryColor),
                             ),
                             Spacer(),
@@ -92,31 +118,36 @@ class FiturView extends GetView<FiturController> {
                                                 ),
                                               ),
                                             ),
-                                            // const SizedBox(height: 10),
-                                            // InkWell(
-                                            //   onTap: () {},
-                                            //   splashColor: Colors.transparent,
-                                            //   highlightColor:
-                                            //       Colors.transparent,
-                                            //   child: Row(
-                                            //     children: [
-                                            //       Expanded(
-                                            //         child: Text(
-                                            //           "Edit",
-                                            //           style:
-                                            //               tsBodySmallSemibold(
-                                            //                   black),
-                                            //         ),
-                                            //       ),
-                                            //     ],
-                                            //   ),
-                                            // ),
                                             const SizedBox(height: 10),
                                             InkWell(
                                               onTap: () {
                                                 controller
-                                                    .deleteFitur(service['id']);
+                                                    .updateServis(service);
                                                 Get.back();
+                                                _showAddDialog(context, "edit",
+                                                    service['id']);
+                                              },
+                                              splashColor: Colors.transparent,
+                                              highlightColor:
+                                                  Colors.transparent, 
+                                              child: Row(
+                                                children: [
+                                                  Expanded(
+                                                    child: Text(
+                                                      "Edit Servis",
+                                                      style:
+                                                          tsBodySmallSemibold(
+                                                              darkGrey),
+                                                    ),
+                                                  ),
+                                                ],
+                                              ),
+                                            ),
+                                            const SizedBox(height: 10),
+                                            InkWell(
+                                              onTap: () {
+                                                _showDeleteConfirmation(
+                                                    context, service);
                                               },
                                               splashColor: Colors.transparent,
                                               highlightColor:
@@ -125,7 +156,7 @@ class FiturView extends GetView<FiturController> {
                                                 children: [
                                                   Expanded(
                                                     child: Text(
-                                                      "Hapus Fitur",
+                                                      "Hapus Servis",
                                                       style:
                                                           tsBodySmallSemibold(
                                                               warningColor),
@@ -134,6 +165,7 @@ class FiturView extends GetView<FiturController> {
                                                 ],
                                               ),
                                             ),
+                                            
                                           ],
                                         ),
                                       ),
@@ -162,7 +194,7 @@ class FiturView extends GetView<FiturController> {
       }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
-          _showAddDialog(context);
+          _showAddDialog(context, 'add', null);
         },
         child: Icon(Icons.add),
         backgroundColor: secondaryColor,
@@ -170,39 +202,55 @@ class FiturView extends GetView<FiturController> {
     );
   }
 
-  // void _showDeleteConfirmation(BuildContext context, ) {
-  //   Get.defaultDialog(
-  //     title: 'Delete Fitur',
-  //     content: Text('Are you sure you want to delete ${fitur.name}?'),
-  //     textConfirm: 'Delete',
-  //     confirmTextColor: Colors.white,
-  //     onConfirm: () {
-  //       controller.deleteFitur(fitur.id);
-  //       Get.back();
-  //       Get.snackbar('Deleted', '${fitur.name} has been deleted',
-  //           snackPosition: SnackPosition.BOTTOM);
-  //     },
-  //     textCancel: 'Cancel',
-  //   );
-  // }
+  Future<void> _showDeleteConfirmation(BuildContext context, dynamic fitur) {
+    return showDialog<void>(
+      context: context,
+      barrierDismissible: true,
+      builder: (BuildContext dialogContext) {
+        return AlertDialog(
+          title: const Text('Konfirmasi'),
+          content: Text(
+              'Apakah Anda yakin ingin menghapus fitur ${fitur['nama_laundry']}?'),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('Batal'),
+              onPressed: () {
+                Navigator.of(dialogContext).pop();
+                Get.back();
+              },
+            ),
+            TextButton(
+              child: const Text('Ya'),
+              onPressed: () {
+                controller.deleteFitur(fitur['id']);
+                Navigator.of(dialogContext).pop();
+                Get.back();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
 
-  void _showAddDialog(BuildContext context) {
+  void _showAddDialog(BuildContext context, String mode, int? laundryId) {
     final _formKey = GlobalKey<FormState>();
     // final TextEditingController nameController = TextEditingController();
 
     Get.defaultDialog(
-      title: 'Add Fitur',
+      title: mode == "add" ? 'Tambah Layanan' : 'Edit Layanan',
+      titlePadding: EdgeInsets.only(top: 20, left: 15, right: 15),
+      titleStyle: tsTitleSmallMedium(black),
+      contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
       content: Form(
         key: _formKey,
         child: Padding(
-          padding: const EdgeInsets.all(8.0),
+          padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
             children: [
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Nama Servis',
-                  border: OutlineInputBorder(),
-                ),
+              FiturTextField(
+                hintText: 'Nama Servis',
+                controller: controller.namaLaundryController,
                 onChanged: (value) {
                   controller.namaLaundry.value = value;
                 },
@@ -212,13 +260,17 @@ class FiturView extends GetView<FiturController> {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Harga',
-                  border: OutlineInputBorder(),
-                ),
+              FiturTextField(
+                hintText: 'Harga',
+                controller: controller.hargaController,
+                keyboardType: TextInputType.number,
+                inputFormatters: [
+                  FilteringTextInputFormatter.digitsOnly,
+                  CurrencyFormatter()
+                ],
                 onChanged: (value) {
-                  controller.harga.value = value;
+                  controller.harga.value = controller.hargaController.text
+                      .replaceAll(RegExp(r'[^0-9]'), '');
                 },
                 validator: (value) {
                   controller.harga.value = value!;
@@ -226,11 +278,9 @@ class FiturView extends GetView<FiturController> {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Estimasi Waktu',
-                  border: OutlineInputBorder(),
-                ),
+              FiturTextField(
+                hintText: 'Estimasi Waktu',
+                controller: controller.estimasiWaktuController,
                 onChanged: (value) {
                   controller.estimasiWaktu.value = value;
                 },
@@ -240,11 +290,9 @@ class FiturView extends GetView<FiturController> {
                 },
               ),
               SizedBox(height: 10),
-              TextFormField(
-                decoration: InputDecoration(
-                  labelText: 'Deskripsi',
-                  border: OutlineInputBorder(),
-                ),
+              FiturTextField(
+                hintText: 'Deskripsi',
+                controller: controller.deskripsiController,
                 onChanged: (value) {
                   controller.deskripsi.value = value;
                 },
@@ -253,16 +301,83 @@ class FiturView extends GetView<FiturController> {
                   return null;
                 },
               ),
+              SizedBox(
+                height: defaultMargin,
+              ),
+              Container(
+                padding: EdgeInsets.all(8),
+                decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(10),
+                    border: Border.all(width: 2, color: lightGrey)),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: Text(
+                        'Status',
+                        style: tsBodyMediumMedium(black),
+                      ),
+                    ),
+                    Obx(
+                      () => CupertinoSwitch(
+                        value: controller.status.value,
+                        activeColor: secondaryColor,
+                        onChanged: (value) {
+                          controller.status.value = value;
+                        },
+                      ),
+                    ),
+                  ],
+                ),
+              )
             ],
           ),
         ),
       ),
-      textConfirm: 'Add',
-      onConfirm: () {
-        controller.addFitur();
+      confirm: InkWell(
+        onTap: () {
+          if (mode == "add") {
+            controller.addFitur();
+          } else {
+            controller.updateFitur(laundryId!);
+          }
+          Get.back();
+        },
+        child: Container(
+          width: screenWidth(context) * 0.25,
+          padding: EdgeInsets.symmetric(vertical: 10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: secondaryColor,
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text(mode == "add" ? 'Tambah' : 'Edit',
+              style: tsBodySmallSemibold(primaryColor)),
+        ),
+      ),
+      cancel: InkWell(
+        onTap: () => Get.back(),
+        child: Container(
+          width: screenWidth(context) * 0.25,
+          padding: EdgeInsets.symmetric(vertical: 10),
+          alignment: Alignment.center,
+          decoration: BoxDecoration(
+            color: primaryColor,
+            boxShadow: [
+              BoxShadow(
+                color: Colors.grey.withOpacity(0.5),
+                spreadRadius: 1,
+                blurRadius: 1,
+                offset: Offset(0, 1), // changes position of shadow
+              ),
+            ],
+            borderRadius: BorderRadius.circular(10),
+          ),
+          child: Text('Batal', style: tsBodySmallSemibold(black)),
+        ),
+      ),
+      onCancel: () {
         Get.back();
       },
-      textCancel: 'Cancel',
     );
   }
 
