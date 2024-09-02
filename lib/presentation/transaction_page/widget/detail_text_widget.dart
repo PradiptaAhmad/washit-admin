@@ -34,7 +34,6 @@ class DetailDataWidget extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 2, // Lebar fleksibel untuk leftTitle
                 child: Text(
                   leftTitle,
                   style: leftTitleStyle ?? tsBodySmallRegular(darkGrey),
@@ -42,7 +41,6 @@ class DetailDataWidget extends StatelessWidget {
                 ),
               ),
               Expanded(
-                flex: 3, // Lebar fleksibel untuk rightTitle
                 child: Text(
                   rightTitle,
                   style: rightTitleStyle ?? tsBodySmallRegular(black),

@@ -6,8 +6,8 @@ import 'package:washit_admin/presentation/home_page/widgets/tabs/center_tab_widg
 import 'package:washit_admin/presentation/home_page/widgets/tabs/left_tab_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/right_tab_widget.dart';
 
-import '../../widget/common/circle_tab_indicator.dart';
 import '../../widget/common/main_container_widget.dart';
+import '../../widget/common/oval_tab_indicator.dart';
 import '../../widget/shimmer/shimmer_widget.dart';
 
 class HomePageScreen extends GetView<HomePageController> {
@@ -20,7 +20,7 @@ class HomePageScreen extends GetView<HomePageController> {
     return Scaffold(
       backgroundColor: lightGrey.withOpacity(0.1),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight(context) / 6),
+        preferredSize: Size.fromHeight(screenHeight(context) / 6.5),
         child: _buildAppbar(context, controller, isTablet),
       ),
       body: TabBarView(
@@ -42,10 +42,7 @@ Widget _buildAppbar(
     borderRadius: 25,
     childs: Column(
       children: [
-        SizedBox(
-            height: isTablet
-                ? screenHeight(context) * 0.05
-                : screenHeight(context) * 0.07),
+        SizedBox(height: screenHeight(context) / 20),
         _buildMainTitleWidget(context, controller, isTablet),
         Divider(color: lightGrey.withOpacity(0.2), thickness: 2, height: 10),
         Padding(
@@ -54,17 +51,16 @@ Widget _buildAppbar(
           child: TabBar(
             labelColor: black,
             unselectedLabelColor: darkGrey,
-            indicatorColor: secondaryColor,
+            indicatorColor: darkGrey,
             dividerColor: Colors.transparent,
-            labelStyle: tsBodySmallSemibold(black),
+            labelStyle: tsBodySmallMedium(black),
             controller: controller.tabController,
-            splashBorderRadius: BorderRadius.circular(50),
-            indicator: CircleTabIndicator(color: black, radius: 4),
-            padding:
-                EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.02),
+            splashBorderRadius: BorderRadius.circular(10),
+            indicator: RoundedRectTabIndicator(
+                color: black, radius: 3, width: 30, height: 3),
             tabs: const [
-              Tab(text: "Overview"),
-              Tab(text: "Order"),
+              Tab(text: "Ringkasan"),
+              Tab(text: "Pesanan"),
               Tab(text: "Transaksi"),
             ],
           ),

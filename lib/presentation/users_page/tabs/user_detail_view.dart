@@ -97,13 +97,13 @@ Widget _buildDetailItem(context, leftText, rightText) {
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
     children: [
-      Text(
-        leftText,
-        style: tsBodySmallMedium(grey),
+      Expanded(
+        child: Text(
+          leftText,
+          style: tsBodySmallMedium(grey),
+        ),
       ),
-      SizedBox(height: 5),
-      Container(
-        width: screenWidth(context) / 2,
+      Expanded(
         child: Text(
           rightText,
           style: tsBodySmallMedium(darkGrey),

@@ -208,8 +208,8 @@ class HomePageController extends GetxController
   Future<void> onRefresh() async {
     isLoading.value = true;
     await fetchUserData();
-    await fetchDailyOrderChartData();
-    await fetchDailyTransactionChartData();
+    // await fetchDailyOrderChartData();
+    // await fetchDailyTransactionChartData();
     await getWeeklyOrderChartData();
     await getWeeklyTransactionChartData();
     await fetchOverviewData();
@@ -219,8 +219,8 @@ class HomePageController extends GetxController
   @override
   void onInit() {
     super.onInit();
-    onRefresh();
     tabController = TabController(length: 3, vsync: this);
+    onRefresh();
   }
 
   void onClose() {

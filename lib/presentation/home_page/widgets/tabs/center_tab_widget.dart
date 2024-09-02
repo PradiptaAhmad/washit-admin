@@ -47,7 +47,7 @@ class CenterTabWidget extends GetView<HomePageController> {
                       radius: 10,
                     ),
             ),
-            const SizedBox(height: 15),
+            const SizedBox(height: 10),
             // Uncomment and implement if needed
             // ContentTitleWidget(
             //   margin: const EdgeInsets.symmetric(horizontal: 15),
@@ -69,48 +69,42 @@ class CenterTabWidget extends GetView<HomePageController> {
 }
 
 Widget UpperInformationWidget(HomePageController controller) {
-  return LayoutBuilder(
-    builder: (context, constraints) {
-      return Container(
-        margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
-        child: Row(
-          children: [
-            Expanded(
-              child: MainContainerWidget(
-                padding: const EdgeInsets.all(15),
-                childs: Column(
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    Text("TOTAL HARI INI", style: tsLabelLargeSemibold(grey)),
-                    const SizedBox(height: 5),
-                    Text(
-                        "${controller.dailyOrderData['total_orders'] == null ? '0' : controller.dailyOrderData['total_orders']}",
-                        style: tsTitleLargeSemibold(black)),
-                  ],
-                ),
-              ),
+  return Container(
+    margin: EdgeInsets.symmetric(horizontal: 15),
+    child: Row(
+      children: [
+        Expanded(
+          child: MainContainerWidget(
+            padding: const EdgeInsets.all(15),
+            childs: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                Text("TOTAL HARI INI", style: tsLabelLargeSemibold(grey)),
+                const SizedBox(height: 5),
+                Text(
+                    "${controller.dailyOrderData['total_orders'] == null ? '0' : controller.dailyOrderData['total_orders']}",
+                    style: tsTitleLargeSemibold(black)),
+              ],
             ),
-            const SizedBox(width: 10),
-            Expanded(
-              child: MainContainerWidget(
-                padding: const EdgeInsets.all(15),
-                childs: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text("TOTAL MINGGU INI",
-                          style: tsLabelLargeSemibold(grey)),
-                      const SizedBox(height: 5),
-                      Text(
-                        "${controller.sumTotalOrders}",
-                        style: tsTitleLargeSemibold(black),
-                      ),
-                    ]),
-              ),
-            ),
-          ],
+          ),
         ),
-      );
-    },
+        const SizedBox(width: 5),
+        Expanded(
+          child: MainContainerWidget(
+            padding: const EdgeInsets.all(15),
+            childs:
+                Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
+              Text("TOTAL MINGGU INI", style: tsLabelLargeSemibold(grey)),
+              const SizedBox(height: 5),
+              Text(
+                "${controller.sumTotalOrders}",
+                style: tsTitleLargeSemibold(black),
+              ),
+            ]),
+          ),
+        ),
+      ],
+    ),
   );
 }
 

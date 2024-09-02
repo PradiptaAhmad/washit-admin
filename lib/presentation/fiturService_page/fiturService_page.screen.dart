@@ -116,6 +116,7 @@ class FiturView extends GetView<FiturController> {
                                               onTap: () {
                                                 controller
                                                     .deleteFitur(service['id']);
+                                                Get.back();
                                               },
                                               splashColor: Colors.transparent,
                                               highlightColor:

@@ -90,82 +90,26 @@ class LoginPageScreen extends GetView<LoginPageController> {
                 height: 15,
               ),
               Obx(() => ButtonWidget(
-                    backgroundColor: secondaryColor,
-                    child: controller.isLoading.value
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Transform.scale(
-                              scale: 0.5,
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              "Login",
-                              style: tsBodySmallSemibold(primaryColor),
-                            ),
+                  backgroundColor: secondaryColor,
+                  child: controller.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            "Loading...",
+                            style: tsBodySmallSemibold(primaryColor),
                           ),
-                    onPressed: () {
-                      controller.login();
-                    },
-                  )),
-              // DividerWidget(screenWidth: screenWidth),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            "Login",
+                            style: tsBodySmallSemibold(primaryColor),
+                          ),
+                        ),
+                  onPressed: () => !controller.isLoading.isTrue
+                      ? controller.login()
+                      : null)),
               SizedBox(height: 15),
-              ButtonWidget(
-                onPressed: () {
-                  // controller.signInWithGoogle();
-                },
-                // style: ElevatedButton.styleFrom(
-                //   backgroundColor: primaryColor,
-                //   shape: RoundedRectangleBorder(
-                //     borderRadius: BorderRadius.circular(10),
-                //     side: BorderSide(color: lightGrey, width: 2),
-                //   ),
-                // ),
-                child: Padding(
-                  padding: const EdgeInsets.all(defaultMargin),
-                  child: Row(
-                    children: [
-                      // SvgPicture.asset(
-                      //   "assets/icons/icGoogle.svg",
-                      //   width: 20,
-                      // ),
-                      Spacer(),
-                      Text(
-                        "Login Dengan Google",
-                        style: tsBodySmallSemibold(darkBlue),
-                      ),
-                      Spacer(),
-                    ],
-                  ),
-                ),
-              ),
-              // Padding(
-              //   padding: const EdgeInsets.all(8.0),
-              //   child: Row(
-              //     mainAxisAlignment: MainAxisAlignment.center,
-              //     children: [
-              //       Text(
-              //         "Belum punya akun?",
-              //         style: tsBodySmallMedium(darkGrey),
-              //       ),
-              //       SizedBox(width: 5),
-              //       InkWell(
-              //         onTap: () {
-              //           Get.toNamed(Routes.REGISTER_PAGE);
-              //         },
-              //         borderRadius: BorderRadius.circular(5),
-              //         child: Text(
-              //           "Daftar Sekarang",
-              //           style: tsBodySmallBold(darkBlue),
-              //         ),
-              //       ),
-              //     ],
-              //   ),
-              // ),
             ],
           ),
         ),

@@ -4,14 +4,17 @@ import 'package:washit_admin/presentation/status_page/controllers/status_page.co
 
 import '../../../infrastructure/theme/themes.dart';
 
-Future statusCategoriesFilterPopUp(BuildContext context, StatusPageController controller) {
+Future statusCategoriesFilterPopUp(
+    BuildContext context, StatusPageController controller) {
   return showModalBottomSheet(
     context: context,
     isDismissible: true,
-    isScrollControlled: true, // Ensures the bottom sheet height can adjust dynamically
+    isScrollControlled:
+        true, // Ensures the bottom sheet height can adjust dynamically
     builder: (context) {
       final screenHeight = MediaQuery.of(context).size.height;
-      final sheetHeight = screenHeight * 0.35; // Adjust height based on screen size
+      final sheetHeight =
+          screenHeight * 0.35; // Adjust height based on screen size
 
       return Container(
         width: double.infinity,
@@ -56,12 +59,13 @@ Future statusCategoriesFilterPopUp(BuildContext context, StatusPageController co
   );
 }
 
-Widget buildFilterOption(StatusPageController controller, String text, int index) {
+Widget buildFilterOption(
+    StatusPageController controller, String text, int index) {
   return InkWell(
     onTap: () {
       controller.selectedFilter.value = index;
       controller.statusSelectedFilterName.value = text;
-      print(controller.statusSelectedFilterName.value);
+      controller.applyFilter();
       Get.back();
     },
     splashColor: Colors.transparent,
@@ -74,7 +78,8 @@ Widget buildFilterOption(StatusPageController controller, String text, int index
             child: Text(
               text,
               style: tsBodySmallMedium(black),
-              overflow: TextOverflow.ellipsis, // Ensures long text doesn't overflow
+              overflow:
+                  TextOverflow.ellipsis, // Ensures long text doesn't overflow
             ),
           ),
           circleRadioButton(
@@ -105,7 +110,8 @@ class circleRadioButton extends StatelessWidget {
             height: 20,
             width: 20,
             decoration: BoxDecoration(
-              border: Border.all(color: selected ? secondaryColor : grey, width: 2),
+              border:
+                  Border.all(color: selected ? secondaryColor : grey, width: 2),
               borderRadius: BorderRadius.circular(50),
             ),
           ),
