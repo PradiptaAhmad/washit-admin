@@ -15,14 +15,13 @@ class SettingController extends GetxController {
   //TODO: Implement HomeController
 
   final count = 0.obs;
-  var isLoading = true.obs;
+  var isLoading = false.obs;
   var imageFile = Rx<File?>(null);
   final adminData = {}.obs;
 
   GetStorage box = GetStorage();
 
   Future<void> fetchAdminData() async {
-    isLoading.value = true; // Set loading state sebelum request
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
@@ -45,20 +44,18 @@ class SettingController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false; // Reset loading state setelah selesai request
     }
   }
 
   Future<void> logout() async {
-    final url = ConfigEnvironments.getEnvironments()['url'];
-    final token = box.read('token');
-
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
     try {
+      final url = ConfigEnvironments.getEnvironments()['url'];
+      final token = box.read('token');
+
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
       final response = await http.delete(
         Uri.parse("${url}/admin/accounts/logout"),
         headers: headers,
@@ -81,39 +78,42 @@ class SettingController extends GetxController {
   }
 
   Future<void> updatePhotoProfile() async {
-    isLoading.value = true;
-    final url = ConfigEnvironments.getEnvironments()['url'];
-    final token = box.read('token');
+    try {
+      final url = ConfigEnvironments.getEnvironments()['url'];
+      final token = box.read('token');
 
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token',
-    };
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token',
+      };
 
-    final request = http.MultipartRequest(
-        'POST', Uri.parse('$url/admin/accounts/update/profile-picture'));
-    request.headers.addAll(headers);
-    request.files.add(await http.MultipartFile.fromPath(
-      'image',
-      imageFile.value!.path,
-      filename: 'image.jpg',
-    ));
-    final response = await request.send();
-    if (response.statusCode == 200) {
-      Get.snackbar("Berhasil", "Foto profil telah berhasil diganti",
-          snackPosition: SnackPosition.TOP, backgroundColor: successColor);
-      isLoading.value = false;
-      fetchAdminData();
-    } else {
-      Get.snackbar(
-          "Gagal ${response.statusCode}", "Foto profil gagal untuk diganti",
+      final request = http.MultipartRequest(
+          'POST', Uri.parse('$url/admin/accounts/update/profile-picture'));
+      request.headers.addAll(headers);
+      request.files.add(await http.MultipartFile.fromPath(
+        'image',
+        imageFile.value!.path,
+        filename: 'image.jpg',
+      ));
+      final response = await request.send();
+      if (response.statusCode == 200) {
+        Get.snackbar("Berhasil", "Foto profil telah berhasil diganti",
+            snackPosition: SnackPosition.TOP, backgroundColor: successColor);
+        onRefresh();
+      } else {
+        Get.snackbar(
+            "Gagal ${response.statusCode}", "Foto profil gagal untuk diganti",
+            snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
+      }
+    } catch (e) {
+      Get.snackbar("Gagal", e.toString(),
           snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
+      print(e);
     }
   }
 
   Future<void> fetchUpdateAccount() async {
     try {
-      isLoading.value = true;
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
 
@@ -144,8 +144,6 @@ class SettingController extends GetxController {
       }
     } catch (e) {
       Get.snackbar('Error', e.toString());
-    } finally {
-      isLoading.value = false;
     }
   }
 
@@ -205,12 +203,16 @@ class SettingController extends GetxController {
     adminData['phone'] = newValue;
   }
 
-  @override
-  void onInit() async {
-    super.onInit();
+  void onRefresh() async {
     isLoading.value = true;
     await fetchAdminData();
     isLoading.value = false;
+  }
+
+  @override
+  void onInit() {
+    super.onInit();
+    onRefresh();
   }
 
   @override

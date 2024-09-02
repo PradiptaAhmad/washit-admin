@@ -31,9 +31,9 @@ class RightTabWidget extends GetView<HomePageController> {
           children: [
             const SizedBox(height: 10),
             UpperInformationWidget(controller),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             _buildIncomeWidgets(context),
-            const SizedBox(height: 10),
+            const SizedBox(height: 8),
             LineChartCard(
               title: "TRANSAKSI MINGGU INI",
               chartData: controller.weeklyTransactionChartDatas
@@ -48,34 +48,22 @@ class RightTabWidget extends GetView<HomePageController> {
   }
 
   Widget _buildIncomeWidgets(BuildContext context) {
-    return LayoutBuilder(
-      builder: (context, constraints) {
-        return Column(
-          children: [
-            _buildIncomeWidget(
-              context,
-              title: "PENDAPATAN HARI INI",
-              amount:
-                  "Rp. ${controller.dailyTransactionData['total_income'] == null ? '0' : controller.dailyTransactionData['total_income']}",
-              margin: constraints.maxWidth * 0.05,
-            ),
-            const SizedBox(height: 10),
-            _buildIncomeWidget(
-              context,
-              title: "PENDAPATAN MINGGU INI",
-              amount: "Rp. ${controller.sumTotalEarnings.value}",
-              margin: constraints.maxWidth * 0.05,
-            ),
-          ],
-        );
-      },
+    return Column(
+      children: [
+        _buildIncomeWidget(
+          context,
+          title: "PENDAPATAN HARI INI",
+          amount:
+              "Rp. ${controller.dailyTransactionData['total_income'] == null ? '0' : controller.dailyTransactionData['total_income']}",
+        ),
+      ],
     );
   }
 
   Widget _buildIncomeWidget(BuildContext context,
-      {required String title, required String amount, required double margin}) {
+      {required String title, required String amount}) {
     return MainContainerWidget(
-      margin: EdgeInsets.symmetric(horizontal: margin),
+      margin: const EdgeInsets.symmetric(horizontal: 15),
       padding: const EdgeInsets.all(15),
       childs: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
@@ -115,7 +103,7 @@ Widget UpperInformationWidget(HomePageController controller) {
   return LayoutBuilder(
     builder: (context, constraints) {
       return Container(
-        margin: EdgeInsets.symmetric(horizontal: constraints.maxWidth * 0.05),
+        margin: EdgeInsets.symmetric(horizontal: 15),
         child: Row(
           children: [
             Expanded(
@@ -133,7 +121,7 @@ Widget UpperInformationWidget(HomePageController controller) {
                 ),
               ),
             ),
-            const SizedBox(width: 10),
+            const SizedBox(width: 5),
             Expanded(
               child: MainContainerWidget(
                 padding: const EdgeInsets.all(15),

@@ -22,7 +22,6 @@ class StatusPageController extends GetxController
   GetStorage box = GetStorage();
 
   Future<void> fetchOrders() async {
-    isLoading.value = true;
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token')?.toString();
@@ -40,15 +39,12 @@ class StatusPageController extends GetxController
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['orders'];
         ordersList.value = jsonResponse;
-        print(ordersList.length);
       } else {
         Get.snackbar('Error', '${response.statusCode}');
         print(response.statusCode);
       }
     } catch (e) {
       print(e);
-    } finally {
-      isLoading.value = false;
     }
   }
 
@@ -87,12 +83,14 @@ class StatusPageController extends GetxController
     final filters = [
       null,
       (order) => order['status'] == "Pesanan Telah Dibuat",
-      (order) => order['status'] == "Menunggu Penjemputan",
-      (order) => order['status'] == "Sedang Diproses",
-      (order) => order['status'] == "Belum Dibayar",
-      (order) => order['status'] == "Selesai",
-      (order) => order['jenis_pemesanan'] == "antar_jemput",
-      (order) => order['jenis_pemesanan'] == "antar_mandiri"
+      (order) => order['status'] == "Pesanan telah dikonfirmasi",
+      (order) => order['status'] == "Sedang diproses",
+      (order) => order['status'] == "Menunggu Pembayaraan",
+      (order) =>
+          order['status'] == "Pesanan telah diantar" ||
+          order['status'] == "Pesanan telah selesai",
+      // (order) => order['jenis_pemesanan'] == "antar_jemput",
+      // (order) => order['jenis_pemesanan'] == "antar_mandiri"
     ];
 
     filteredOrdersList.value = ordersList
@@ -100,11 +98,16 @@ class StatusPageController extends GetxController
         .toList();
   }
 
+  void onRefresh() async {
+    isLoading.value = true;
+    await fetchOrders();
+    isLoading.value = false;
+  }
+
   @override
   void onInit() async {
     super.onInit();
-    isLoading = true.obs;
-    await fetchOrders();
+    onRefresh();
   }
 
   @override

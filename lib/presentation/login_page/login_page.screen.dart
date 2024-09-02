@@ -90,29 +90,25 @@ class LoginPageScreen extends GetView<LoginPageController> {
                 height: 15,
               ),
               Obx(() => ButtonWidget(
-                    backgroundColor: secondaryColor,
-                    child: controller.isLoading.value
-                        ? Padding(
-                            padding: EdgeInsets.symmetric(vertical: 8),
-                            child: Transform.scale(
-                              scale: 0.5,
-                              child: CircularProgressIndicator(
-                                color: primaryColor,
-                              ),
-                            ),
-                          )
-                        : Padding(
-                            padding: const EdgeInsets.symmetric(vertical: 15),
-                            child: Text(
-                              "Login",
-                              style: tsBodySmallSemibold(primaryColor),
-                            ),
+                  backgroundColor: secondaryColor,
+                  child: controller.isLoading.value
+                      ? Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            "Loading...",
+                            style: tsBodySmallSemibold(primaryColor),
                           ),
-                    onPressed: () {
-                      controller.login();
-                    },
-                  )),
-              // DividerWidget(screenWidth: screenWidth),
+                        )
+                      : Padding(
+                          padding: const EdgeInsets.symmetric(vertical: 15),
+                          child: Text(
+                            "Login",
+                            style: tsBodySmallSemibold(primaryColor),
+                          ),
+                        ),
+                  onPressed: () => !controller.isLoading.isTrue
+                      ? controller.login()
+                      : null)),
               SizedBox(height: 15),
             ],
           ),

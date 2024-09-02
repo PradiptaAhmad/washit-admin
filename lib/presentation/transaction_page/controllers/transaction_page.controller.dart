@@ -27,7 +27,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.get(
-        Uri.parse('$url/admin/orders/detail?order_id=${argument['id']}'),
+        Uri.parse('$url/admin/orders/detail?order_id=${argument}'),
         headers: headers,
       );
 
@@ -57,7 +57,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.get(
-        Uri.parse('$url/admin/order/status/last?order_id=${argument['id']}'),
+        Uri.parse('$url/admin/orders/status/last?order_id=${argument}'),
         headers: headers,
       );
 
@@ -87,7 +87,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.put(
-        Uri.parse('$url/admin/orders/status/update?order_id=${argument['id']}'),
+        Uri.parse('$url/admin/orders/status/update?order_id=${argument}'),
         headers: headers,
       );
 
@@ -117,7 +117,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.put(
-        Uri.parse('$url/admin/orders/update-weight?order_id=${argument['id']}'),
+        Uri.parse('$url/admin/orders/update-weight?order_id=${argument}'),
         headers: headers,
         body: jsonEncode({'id': argument['id'], 'berat_laundry': weight}),
       );
@@ -143,7 +143,7 @@ class TransactionPageController extends GetxController {
     super.onInit();
     argument = Get.arguments;
     await fetchDetailsOrder();
-    // await fetchStatusData();
+    await fetchStatusData();
   }
 
   @override
