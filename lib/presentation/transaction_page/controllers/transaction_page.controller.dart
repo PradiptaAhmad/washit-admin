@@ -27,7 +27,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.get(
-        Uri.parse('$url/admin/orders/detail?order_id=${argument}'),
+        Uri.parse('$url/admin/orders/detail?order_id=${argument['id']}'),
         headers: headers,
       );
 
@@ -57,7 +57,7 @@ class TransactionPageController extends GetxController {
       };
 
       final response = await http.get(
-        Uri.parse('$url/admin/orders/status/last?order_id=${argument}'),
+        Uri.parse('$url/admin/orders/status/last?order_id=${argument['id']}'),
         headers: headers,
       );
 
