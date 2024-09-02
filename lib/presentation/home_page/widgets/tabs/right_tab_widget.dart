@@ -64,18 +64,18 @@ class RightTabWidget extends GetView<HomePageController> {
       {required String title, required String amount}) {
     return MainContainerWidget(
       margin: const EdgeInsets.symmetric(horizontal: 15),
-      padding: const EdgeInsets.all(15),
+      padding: const EdgeInsets.symmetric(horizontal: 5, vertical: 10),
       childs: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          MainContainerWidget(
-            height: 50,
-            width: 50,
-            childs: Icon(
-              Icons.monetization_on_rounded,
-              size: 30,
-            ),
-          ),
+          // MainContainerWidget(
+          //   height: 50,
+          //   width: 50,
+          //   childs: Icon(
+          //     Icons.monetization_on_rounded,
+          //     size: 30,
+          //   ),
+          // ),
           const SizedBox(width: 10),
           Expanded(
             child: Column(

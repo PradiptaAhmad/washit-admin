@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/presentation/home_page/controllers/overview_main_controller.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 
@@ -15,30 +16,27 @@ class OverviewMainChartBar extends GetView<OverviewMainController> {
 
     return Column(
       children: [
-        InkWell(
-          onTap: () {},
-          child: Obx(() {
-            if (controller.isLoading.value) {
-              return Center(child: CircularProgressIndicator());
-            } else if (controller.ordersList.isEmpty) {
-              return Center(
-                child: Text(
-                  "Tidak ada transaksi",
-                  style: tsBodyMediumMedium(darkGrey),
-                ),
-              );
-            } else {
-              return ListView.builder(
-                  itemCount: 2,
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemBuilder: (context, index) {
-                    final order = controller.ordersList[index];
-                    return _buildItemList(context, order);
-                  });
-            }
-          }),
-        ),
+        Obx(() {
+          if (controller.isLoading.value) {
+            return Center(child: CircularProgressIndicator());
+          } else if (controller.ordersList.isEmpty) {
+            return Center(
+              child: Text(
+                "Tidak ada transaksi",
+                style: tsBodyMediumMedium(darkGrey),
+              ),
+            );
+          } else {
+            return ListView.builder(
+                itemCount: 2,
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemBuilder: (context, index) {
+                  final order = controller.ordersList[index];
+                  return _buildItemList(context, order);
+                });
+          }
+        }),
       ],
     );
   }
@@ -48,6 +46,8 @@ Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
   return Padding(
     padding: EdgeInsets.only(bottom: 10),
     child: MainContainerWidget(
+      onPressed: () =>
+          Get.toNamed(Routes.TRANSACTION_PAGE, arguments: order['id']),
       padding: EdgeInsets.all(15),
       childs: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

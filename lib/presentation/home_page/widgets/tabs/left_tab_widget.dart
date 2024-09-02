@@ -81,7 +81,7 @@ class LeftTabWidget extends GetView<HomePageController> {
                   },
                 ),
               ),
-              SizedBox(height: 20),
+              SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
                 child: ContentTitleWidget(
@@ -138,7 +138,7 @@ class LeftTabWidget extends GetView<HomePageController> {
                   ),
                 ),
               ),
-              SizedBox(height: 25),
+              SizedBox(height: 15),
               Padding(
                 padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
                 child: ContentTitleWidget(
@@ -180,14 +180,14 @@ Widget visualCardWidget(data) {
                     overflow: TextOverflow.ellipsis, // Prevent overflow
                   ),
                 ),
-                Container(
-                  decoration: BoxDecoration(
-                    color: data['mainColor'].withOpacity(0.04),
-                    borderRadius: BorderRadius.circular(50),
-                  ),
-                  height: 22,
-                  width: 22,
-                ),
+                // Container(
+                //   decoration: BoxDecoration(
+                //     color: data['mainColor'].withOpacity(0.04),
+                //     borderRadius: BorderRadius.circular(50),
+                //   ),
+                //   height: 22,
+                //   width: 22,
+                // ),
               ],
             ),
             Text(data['mainNum'], style: tsHeadlineSmallSemibold(black)),
