@@ -234,7 +234,6 @@ class StatusPageScreen extends GetView<StatusPageController> {
               ),
             );
           }),
-        ),
       ),
     );
   }
