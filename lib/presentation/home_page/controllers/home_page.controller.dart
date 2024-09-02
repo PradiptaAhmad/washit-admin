@@ -22,6 +22,7 @@ class HomePageController extends GetxController
   var dailyTransactionData = {}.obs;
   var weeklyOrderChartDatas = <orderChartModel>[].obs;
   var weeklyTransactionChartDatas = <TransactionWeeklyChartModel>[].obs;
+  var ordersList = [].obs;
   var sumTotalOrders = 0.obs;
   var sumTotalEarnings = 0.obs;
   final box = GetStorage();
@@ -57,6 +58,31 @@ class HomePageController extends GetxController
       }
     } catch (e) {
       Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
+          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    }
+  }
+
+  Future<void> fetchOrders() async {
+    final url = ConfigEnvironments.getEnvironments()["url"];
+    final token = box.read('token');
+    var headers = {
+      'Accept': 'application/json',
+      'Authorization': 'Bearer $token'
+    };
+
+    var response = await http.get(
+      Uri.parse("$url/admin/orders/all"),
+      headers: headers,
+    );
+
+    if (response.statusCode == 200) {
+      var data = json.decode(response.body)['orders'] as List<dynamic>;
+      var filteredOrders = data
+          .where((order) => order['status'] == "Pesanan Telah Dibuat")
+          .toList();
+      ordersList.assignAll(filteredOrders);
+    } else {
+      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
           snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
     }
   }
@@ -207,6 +233,7 @@ class HomePageController extends GetxController
 
   Future<void> onRefresh() async {
     isLoading.value = true;
+    await fetchOrders();
     await fetchUserData();
     await fetchDailyOrderData();
     await fetchDailyTransactionData();
