@@ -6,6 +6,7 @@ import 'package:washit_admin/infrastructure/navigation/bindings/controllers/tran
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 import 'package:washit_admin/presentation/fiturService_page/fiturService_page.screen.dart';
 import 'package:washit_admin/presentation/history_page/history_page.screen.dart';
+import 'package:washit_admin/presentation/history_transaction_page/history_transaction_page.screen.dart';
 import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
 
 import '../../config.dart';
@@ -90,6 +91,11 @@ class Nav {
       name: Routes.ADD_NOTIFICATION_PAGE,
       page: () => AddNotificationPage(),
       binding: AddNotificationPageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.HISTORY_TRANSACTION_PAGE,
+      page: () => HistoryTransactionPage(),
+      binding: HistoryPageControllerBinding(),
     ),
   ];
 }

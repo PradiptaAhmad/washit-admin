@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:washit_admin/presentation/history_page/history_page.screen.dart';
+import 'package:washit_admin/presentation/history_transaction_page/history_transaction_page.screen.dart';
 import 'package:washit_admin/presentation/screens.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -64,12 +65,12 @@ class NavigationMenu extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.person_outline,
+                Icons.money,
                 size: 22,
               ),
-              activeIcon: Icon(Icons.person_rounded,
+              activeIcon: Icon(Icons.money,
                   size: 22, color: Colors.black.withOpacity(0.7)),
-              label: 'Pengguna', // Label will always be visible
+              label: 'Transaksi', // Label will always be visible
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -103,7 +104,7 @@ class NavigationController extends GetxController {
       case 2:
         return HomePageScreen();
       case 3:
-        return UsersPageScreen();
+        return HistoryTransactionPage();
       case 4:
         return SettingPage();
       default:

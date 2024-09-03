@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/settings_page/controllers/settings_page.controller.dart';
 import 'package:washit_admin/presentation/settings_page/setting_change_page.dart';
@@ -199,6 +200,25 @@ Widget _buildProfileItemList(
                           size: 15,
                         ),
                       ],
+                    ),
+                  )
+                ],
+              )
+            : shimmerInfoList(),
+      ),
+      SizedBox(height: 20),
+      Obx(
+        () => !controller.isLoading.isTrue
+            ? Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text('Pengguna', style: tsBodySmallRegular(darkGrey)),
+                  InkWell(
+                    onTap: () => Get.toNamed(Routes.USERS_PAGE),
+                    child: Icon(
+                      Icons.arrow_forward_ios_rounded,
+                      color: darkGrey,
+                      size: 15,
                     ),
                   )
                 ],

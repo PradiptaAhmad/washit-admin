@@ -103,8 +103,10 @@ class HomePageController extends GetxController
       );
 
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body)['data'];
-        dailyTransactionData.value = jsonResponse;
+        if (jsonDecode(response.body)['data'] != null) {
+          final jsonResponse = jsonDecode(response.body)['data'];
+          dailyTransactionData.value = jsonResponse;
+        }
       } else {
         Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
@@ -132,8 +134,10 @@ class HomePageController extends GetxController
       );
 
       if (response.statusCode == 200) {
-        final jsonResponse = jsonDecode(response.body)['data'];
-        dailyOrderData.value = jsonResponse;
+        if (jsonDecode(response.body)['data'] != null) {
+          final jsonResponse = jsonDecode(response.body)['data'];
+          dailyOrderData.value = jsonResponse;
+        }
       } else {
         Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
             snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
