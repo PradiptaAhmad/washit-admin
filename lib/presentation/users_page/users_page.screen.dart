@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:washit_admin/presentation/users_page/tabs/feedback_tab_view.dart';
 import 'package:washit_admin/presentation/users_page/tabs/user_tab_view.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
+import 'package:washit_admin/widget/common/mainpage_appbar_widget.dart';
 import 'package:washit_admin/widget/common/oval_tab_indicator.dart';
 
 import '../../infrastructure/theme/themes.dart';
@@ -21,10 +22,8 @@ class UsersPageScreen extends GetView<UsersPageController> {
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            AppBar(
-              backgroundColor: secondaryColor,
-              title: Text('Laman Pengguna',
-                  style: tsTitleSmallMedium(primaryColor)),
+            MainpageAppbarWidget(
+              title: "Pengguna",
             ),
             SizedBox(height: 10),
             Padding(
