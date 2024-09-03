@@ -95,15 +95,14 @@ Widget _buildMainTitleWidget(
                         controller.userData['image_path'] == null
                             ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
                             : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}',
-                        fit: BoxFit.cover,
+                        fit: BoxFit.cover, 
                       ),
                     ),
                   )
                 : ShimmerWidget(
                     radius: 10,
-                    height: isTablet
-                        ? screenWidth(context) * 0.1
-                        : screenWidth(context) * 0.12),
+                    height: 0,
+                  ),
           ),
         ),
         Expanded(
