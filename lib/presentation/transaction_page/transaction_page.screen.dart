@@ -27,10 +27,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
           return Center(child: CupertinoActivityIndicator());
         }
         return RefreshIndicator(
-          onRefresh: () async {
-            await controller.fetchDetailsOrder();
-            await controller.fetchStatusData();
-          },
+          onRefresh: () async => controller.onRefresh(),
           child: SingleChildScrollView(
             physics: AlwaysScrollableScrollPhysics(),
             padding: EdgeInsets.all(defaultMargin),
@@ -192,18 +189,21 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                           ]))),
                 ),
                 SizedBox(height: defaultMargin),
-                SliderButton(
-                  width: double.infinity,
-                  action: () async {
-                    controller.updateStatus();
-                    return true;
-                  },
-                  icon: Text(">"),
-                  label: Align(
-                    alignment: Alignment.center,
-                    child: Text(
-                      "Update Status",
-                      style: tsBodyMediumMedium(darkGrey),
+                Visibility(
+                  visible: controller.argument[1] == 'status' ? true : false,
+                  child: SliderButton(
+                    width: double.infinity,
+                    action: () async {
+                      controller.updateStatus();
+                      return true;
+                    },
+                    icon: Text(">"),
+                    label: Align(
+                      alignment: Alignment.center,
+                      child: Text(
+                        "Update Status",
+                        style: tsBodyMediumMedium(darkGrey),
+                      ),
                     ),
                   ),
                 ),

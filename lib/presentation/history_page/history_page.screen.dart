@@ -40,8 +40,7 @@ class HistoryPageScreen extends GetView<HistoryPageController> {
                     physics: AlwaysScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
                       final order = controller.ordersList[index];
-                      return MainDetailView(
-                          order: order, controller: controller);
+                      return MainDetailView(order: order);
                     });
               }))),
     );
@@ -77,125 +76,124 @@ Widget _buildLoading(controller) {
 }
 
 class MainDetailView extends StatelessWidget {
-  const MainDetailView(
-      {super.key, required this.order, required this.controller});
+  const MainDetailView({super.key, required this.order});
 
   final Map<String, dynamic> order;
-  final controller;
+
   @override
   Widget build(BuildContext context) {
     return Padding(
       padding: const EdgeInsets.only(bottom: 15),
-      child: InkWell(
-        onTap: () => Get.toNamed(
-          Routes.DETAIL_HISTORY_PAGE,
-          arguments: {'orderId': order['id']},
-        ),
-        child: MainContainerWidget(
-          childs: Padding(
-            padding: const EdgeInsets.all(15),
-            child: Column(
-              children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "id Pesanan",
-                          style: tsLabelLargeMedium(grey),
-                        ),
-                        Text(
-                          "${order['no_pemesanan']}",
-                          style: tsLabelLargeMedium(black),
-                        )
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        Padding(
-                          padding: const EdgeInsets.symmetric(
-                            horizontal: 5,
-                            vertical: 2,
-                          ),
-                          child: Text(
-                            "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString() == 'null' ? "2007-07-31 00:00:00" : order['tanggal_estimasi'].toString()))}",
-                            style: tsLabelLargeMedium(darkGrey),
-                          ),
-                        ),
-                      ],
-                    )
-                  ],
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 1),
-                  child: Divider(color: lightGrey, thickness: 0.5),
-                ),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "${order['nama_pemesan']}",
-                          style: tsBodySmallSemibold(black),
-                        ),
-                        Text(
-                          order['jenis_pemesanan'] == 'antar_jemput'
-                              ? "Antar Jemput"
-                              : "Antar Mandiri",
-                          style: tsLabelLargeSemibold(darkGrey),
-                        ),
-                        Text(
-                          order['berat_laundry'] == null
-                              ? "Berat belum tercatat"
-                              : "${order['berat_laundry']} Kg",
-                          style: tsLabelLargeSemibold(darkGrey),
-                        ),
-                        Text(
-                          "${order['nama_laundry']}",
-                          style: tsBodySmallSemibold(successColor),
-                        ),
-                      ],
-                    ),
-                    Container(
-                      width: 120,
-                      child: Text(
-                        "${order['alamat']}",
-                        style: tsLabelLargeSemibold(grey),
-                        softWrap: true,
-                        overflow: TextOverflow.ellipsis,
-                        textAlign: TextAlign.right,
-                        maxLines: 4,
+      child: MainContainerWidget(
+        onPressed: () {
+          Get.toNamed(
+            Routes.TRANSACTION_PAGE,
+            arguments: [order['id'], 'history'],
+          );
+        },
+        childs: Padding(
+          padding: const EdgeInsets.all(15),
+          child: Column(
+            children: [
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "id Pesanan",
+                        style: tsLabelLargeMedium(grey),
                       ),
-                    )
-                  ],
-                ),
-                SizedBox(height: 18),
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          "Total harga",
-                          style: tsLabelMediumMedium(black),
+                      Text(
+                        "${order['no_pemesanan']}",
+                        style: tsLabelLargeMedium(black),
+                      )
+                    ],
+                  ),
+                  Row(
+                    children: [
+                      Padding(
+                        padding: const EdgeInsets.symmetric(
+                          horizontal: 5,
+                          vertical: 2,
                         ),
-                        Text(
-                          order['total_harga'] == null
-                              ? "Harga belum tercatat"
-                              : '${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}',
-                          style: tsBodySmallSemibold(black),
+                        child: Text(
+                          "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString() == 'null' ? "2007-07-31 00:00:00" : order['tanggal_estimasi'].toString()))}",
+                          style: tsLabelLargeMedium(darkGrey),
                         ),
-                      ],
+                      ),
+                    ],
+                  )
+                ],
+              ),
+              Padding(
+                padding: const EdgeInsets.symmetric(vertical: 1),
+                child: Divider(color: lightGrey, thickness: 0.5),
+              ),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "${order['nama_pemesan']}",
+                        style: tsBodySmallSemibold(black),
+                      ),
+                      Text(
+                        order['jenis_pemesanan'] == 'antar_jemput'
+                            ? "Antar Jemput"
+                            : "Antar Mandiri",
+                        style: tsLabelLargeSemibold(darkGrey),
+                      ),
+                      Text(
+                        order['berat_laundry'] == null
+                            ? "Berat belum tercatat"
+                            : "${order['berat_laundry']} Kg",
+                        style: tsLabelLargeSemibold(darkGrey),
+                      ),
+                      Text(
+                        "${order['nama_laundry']}",
+                        style: tsBodySmallSemibold(successColor),
+                      ),
+                    ],
+                  ),
+                  Container(
+                    width: 120,
+                    child: Text(
+                      "${order['alamat']}",
+                      style: tsLabelLargeSemibold(grey),
+                      softWrap: true,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
+                      maxLines: 4,
                     ),
-                  ],
-                ),
-              ],
-            ),
+                  )
+                ],
+              ),
+              SizedBox(height: 18),
+              Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        "Total harga",
+                        style: tsLabelMediumMedium(black),
+                      ),
+                      Text(
+                        order['total_harga'] == null
+                            ? "Harga belum tercatat"
+                            : '${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}',
+                        style: tsBodySmallSemibold(black),
+                      ),
+                    ],
+                  ),
+                ],
+              ),
+            ],
           ),
         ),
       ),

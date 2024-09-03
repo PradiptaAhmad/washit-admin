@@ -9,13 +9,11 @@ class HistoryPageController extends GetxController {
   final isSelected = 0.obs;
   var isLoading = false.obs;
   final orderList = [].obs;
-  final laundries = [].obs;
   var ordersList = [].obs;
   var filteredOrdersList = [].obs;
   var orderid = ''.obs;
   var statusList = {}.obs;
   GetStorage box = GetStorage();
-
 
   Future<void> getOrderHistory() async {
     try {
@@ -35,7 +33,6 @@ class HistoryPageController extends GetxController {
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['data'];
         ordersList.value = jsonResponse;
-        print(ordersList.length);
       } else {
         Get.snackbar('Error', '${response.statusCode}');
         print(response.statusCode);
