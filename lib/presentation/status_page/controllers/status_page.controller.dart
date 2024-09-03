@@ -108,6 +108,9 @@ class StatusPageController extends GetxController
 
   void onRefresh() async {
     isLoading.value = true;
+    ordersList.clear();
+    paginate.value = 1;
+    isMaxPage.value = false;
     await fetchOrders();
     isLoading.value = false;
   }
