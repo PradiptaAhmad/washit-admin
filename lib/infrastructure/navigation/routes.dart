@@ -16,4 +16,5 @@ class Routes {
   static const FITUR_PAGE = '/fitur-page';
   static const HISTORY_PAGE = '/history-page';
   static const ADD_NOTIFICATION_PAGE = '/add-notification-page';
+  static const DETAIL_HISTORY_PAGE = '/detail_history_page';
 }

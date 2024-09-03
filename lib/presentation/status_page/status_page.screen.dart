@@ -38,48 +38,47 @@ class StatusPageScreen extends GetView<StatusPageController> {
         onRefresh: () async {
           await controller.fetchOrders();
         },
-        child: LayoutBuilder(
-          builder: (context, constraints) {
-            final isPortrait = constraints.maxWidth < constraints.maxHeight;
-            final padding = isPortrait
-                ? EdgeInsets.symmetric(horizontal: defaultMargin)
-                : EdgeInsets.symmetric(horizontal: 32);
-            final itemHeight = isPortrait ? 200.0 : 160.0;
+        child: LayoutBuilder(builder: (context, constraints) {
+          final isPortrait = constraints.maxWidth < constraints.maxHeight;
+          final padding = isPortrait
+              ? EdgeInsets.symmetric(horizontal: defaultMargin)
+              : EdgeInsets.symmetric(horizontal: 32);
+          final itemHeight = isPortrait ? 200.0 : 160.0;
 
-            return SingleChildScrollView(
-              physics: AlwaysScrollableScrollPhysics(),
+          return SingleChildScrollView(
+            physics: AlwaysScrollableScrollPhysics(),
             controller: controller.scrollController,
-              child: Padding(
-                padding: padding,
-                child: Obx(
-                      () {
-                    if (controller.isLoading.value) {
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
-                        shrinkWrap: true,
-                        itemCount: controller.selectedFilter.value == 0
-                            ? controller.ordersList.length
-                            : controller.filteredOrdersList.length,
-                        itemBuilder: (context, index) => Padding(
-                          padding: EdgeInsets.only(bottom: defaultMargin),
-                          child: Container(
-                            height: itemHeight,
-                            width: double.infinity,
-                            decoration: BoxDecoration(
-                              color: Colors.black.withOpacity(0.04),
-                              borderRadius: BorderRadius.circular(20),
-                            ),
+            child: Padding(
+              padding: padding,
+              child: Obx(
+                () {
+                  if (controller.isLoading.value) {
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
+                      shrinkWrap: true,
+                      itemCount: controller.selectedFilter.value == 0
+                          ? controller.ordersList.length
+                          : controller.filteredOrdersList.length,
+                      itemBuilder: (context, index) => Padding(
+                        padding: EdgeInsets.only(bottom: defaultMargin),
+                        child: Container(
+                          height: itemHeight,
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                            color: Colors.black.withOpacity(0.04),
+                            borderRadius: BorderRadius.circular(20),
                           ),
                         ),
-                      );
-                    } else {
-                      return ListView.builder(
-                        physics: NeverScrollableScrollPhysics(),
+                      ),
+                    );
+                  } else {
+                    return ListView.builder(
+                      physics: NeverScrollableScrollPhysics(),
                       itemCount: controller.ordersList.length,
-                        shrinkWrap: true,
-                        reverse: true,
-                        itemBuilder: (context, index) {
-                          final order = controller.ordersList[index];
+                      shrinkWrap: true,
+                      reverse: true,
+                      itemBuilder: (context, index) {
+                        final order = controller.ordersList[index];
                         return Obx(() {
                           if (controller.isLoadingMore.value == true &&
                               index == controller.ordersList.length) {
@@ -89,10 +88,8 @@ class StatusPageScreen extends GetView<StatusPageController> {
                               padding: EdgeInsets.only(bottom: defaultMargin),
                               child: InkWell(
                                 onTap: () {
-                                  Get.toNamed(
-                                    Routes.TRANSACTION_PAGE,
-                                    arguments: controller.ordersList[index],
-                                  );
+                                  Get.toNamed(Routes.TRANSACTION_PAGE,
+                                      arguments: [order['id'], 'status']);
                                 },
                                 borderRadius: BorderRadius.circular(20),
                                 child: MainContainerWidget(
@@ -264,15 +261,14 @@ class StatusPageScreen extends GetView<StatusPageController> {
                             );
                           }
                         });
-                          
-                        },
-                      );
-                    }
-                  },
-                ),
+                      },
+                    );
+                  }
+                },
               ),
-            );
-          }),
+            ),
+          );
+        }),
       ),
     );
   }
@@ -338,7 +334,7 @@ Widget _buildItemList(order) {
       onTap: () {
         Get.toNamed(
           Routes.TRANSACTION_PAGE,
-          arguments: order['id'],
+          arguments: [order['id'], 'status'],
         );
       },
       borderRadius: BorderRadius.circular(20),

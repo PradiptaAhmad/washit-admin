@@ -15,7 +15,7 @@ class TransactionStatusProgressWidget
   @override
   Widget build(BuildContext context) {
     return Obx(() {
-      if (controller.isLoading.value) {
+      if (controller.statusList.isEmpty) {
         return SizedBox();
       } else {
         return Column(
