@@ -20,10 +20,11 @@ class UserDetailView extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: MainpageAppbarWidget(
-          title: 'Detail Pengguna',
-        ),
-        body: Padding(
+      appBar: MainpageAppbarWidget(
+        title: 'Detail Pengguna',
+      ),
+      body: SingleChildScrollView( // Added SingleChildScrollView here
+        child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -68,31 +69,34 @@ class UserDetailView extends StatelessWidget {
               MainContainerWidget(
                 padding: EdgeInsets.all(15),
                 childs: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      _buildDetailItem(
-                          context, "Email", "${email ?? "default@gmail.com"}"),
-                      SizedBox(height: 10),
-                      _buildDetailItem(
-                        context,
-                        "No. Ponsel",
-                        "${phone ?? "08123456789"}",
-                      ),
-                      SizedBox(height: 10),
-                      _buildDetailItem(
-                        context,
-                        "Alamat",
-                        "Jl. Pala no 108, Binagriya Blok A, Medono, Pekalongan Barat, Pekalongan",
-                      )
-                    ]),
-              )
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    _buildDetailItem(context, "Email", "${email ?? "default@gmail.com"}"),
+                    SizedBox(height: 10),
+                    _buildDetailItem(
+                      context,
+                      "No. Ponsel",
+                      "${phone ?? "08123456789"}",
+                    ),
+                    SizedBox(height: 10),
+                    _buildDetailItem(
+                      context,
+                      "Alamat",
+                      address ?? "Jl. Pala no 108, Binagriya Blok A, Medono, Pekalongan Barat, Pekalongan",
+                    ),
+                  ],
+                ),
+              ),
+              SizedBox(height: 20), // Add some bottom padding to prevent overflow
             ],
           ),
-        ));
+        ),
+      ),
+    );
   }
 }
 
-Widget _buildDetailItem(context, leftText, rightText) {
+Widget _buildDetailItem(BuildContext context, String leftText, String rightText) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,

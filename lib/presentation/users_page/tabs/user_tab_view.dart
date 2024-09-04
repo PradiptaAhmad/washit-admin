@@ -27,7 +27,11 @@ class UserTabView extends GetView<UsersPageController> {
                 padding: EdgeInsets.all(10),
                 prefixInsets: EdgeInsets.only(left: 10),
                 suffixInsets: EdgeInsets.only(right: 10),
-                onChanged: (value) {},
+                onChanged: (value) {
+                  controller.filteredUserData.value = controller.userData
+                      .where((user) => user['username'].toLowerCase().contains(value.toLowerCase()))
+                      .toList();
+                },
               ),
             ),
             SizedBox(height: 10),
@@ -45,9 +49,9 @@ class UserTabView extends GetView<UsersPageController> {
               return ListView.builder(
                 physics: NeverScrollableScrollPhysics(),
                 shrinkWrap: true,
-                itemCount: controller.userData.length,
+                itemCount: controller.filteredUserData.length,
                 itemBuilder: (context, index) {
-                  final user = controller.userData[index];
+                  final user = controller.filteredUserData[index];
                   return _buildItemList(user);
                 },
               );
