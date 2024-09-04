@@ -46,7 +46,7 @@ class DetailDataWidget extends StatelessWidget {
                   style: rightTitleStyle ?? tsBodySmallRegular(black),
                   textAlign: rightTitleAlignment ?? TextAlign.right,
                   overflow: textTitleOverflow ?? TextOverflow.ellipsis,
-                  maxLines: 3,
+                  maxLines: 5,
                 ),
               ),
             ],

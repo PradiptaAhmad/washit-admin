@@ -35,32 +35,59 @@ class StatusPageScreen extends GetView<StatusPageController> {
       ),
       body: RefreshIndicator(
         onRefresh: () async => controller.onRefresh(),
-        child: SingleChildScrollView(
-          physics: AlwaysScrollableScrollPhysics(),
-          controller: controller.scrollController,
-          child: Obx(
-            () {
-              if (controller.isLoading.value) {
-                return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  shrinkWrap: true,
-                  itemCount: 4,
-                  itemBuilder: (context, index) => _shimmerItemList(),
-                );
-              } else {
-                return ListView.builder(
-                  physics: NeverScrollableScrollPhysics(),
-                  itemCount: controller.ordersList.length,
-                  shrinkWrap: true,
-                  reverse: true,
-                  itemBuilder: (context, index) {
-                    final order = controller.ordersList[index];
-                    return _buildItemList(order);
-                  },
-                );
-              }
-            },
-          ),
+        child: Obx(
+          () {
+            if (controller.isLoading.value) {
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: 4,
+                itemBuilder: (context, index) => _shimmerItemList(),
+              );
+            }
+            if (controller.ordersList.isEmpty ||
+                controller.filteredOrdersList.isEmpty &&
+                    controller.selectedFilter.value != 0) {
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  DataIsEmpty("Status pesanan kamu masih kosong"),
+                  SizedBox(
+                    height: 10,
+                  ),
+                  MainContainerWidget(
+                    onPressed: () => controller.onRefresh(),
+                    padding: EdgeInsets.all(8),
+                    childs: Row(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Text(
+                          "Coba Lagi",
+                          style: tsLabelLargeMedium(grey),
+                        ),
+                        SizedBox(
+                          width: 5,
+                        ),
+                        Icon(
+                          Icons.refresh,
+                          color: grey,
+                          size: 15,
+                        )
+                      ],
+                    ),
+                  )
+                ],
+              );
+            }
+            return ListView.builder(
+              itemCount: controller.ordersList.length,
+              shrinkWrap: true,
+              itemBuilder: (context, index) {
+                final order = controller.ordersList[index];
+                return _buildItemList(order);
+              },
+            );
+          },
         ),
       ),
     );

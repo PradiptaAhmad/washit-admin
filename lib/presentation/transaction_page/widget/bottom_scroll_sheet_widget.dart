@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:washit_admin/widget/auth/input_form_widget.dart';
 
+import '../../../infrastructure/theme/themes.dart';
 import '../controllers/transaction_page.controller.dart';
 
 class UpdateWeightBottomSheet extends StatefulWidget {
@@ -45,40 +47,61 @@ class _UpdateWeightBottomSheetState extends State<UpdateWeightBottomSheet> {
           child: Column(
             mainAxisSize: MainAxisSize.min,
             children: [
-              Text(
-                'Update Berat Laundry',
+              Row(
+                children: [
+                  InkWell(
+                      onTap: () {},
+                      borderRadius: BorderRadius.circular(defaultMargin),
+                      child: Container(
+                          height: 30,
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(10),
+                            border:
+                                Border.all(color: lightGrey.withOpacity(0.5)),
+                          ),
+                          child: Padding(
+                              padding:
+                                  const EdgeInsets.symmetric(horizontal: 5),
+                              child: Icon(
+                                Icons.close_rounded,
+                                color: grey,
+                                size: 18,
+                              )))),
+                  SizedBox(width: 5),
+                  Text("Update Berat Laundry",
+                      style: tsBodySmallSemibold(black)),
+                ],
+              ),
+              InputFormWidget(
+                formKey: _formKey,
+                title: 'Berat Laundry (Kg)',
+                controller: _weightController,
+                keyboardType: TextInputType.numberWithOptions(decimal: true),
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return 'Masukan Berat Laundry';
+                  }
+                  if (double.tryParse(value) == null) {
+                    return 'Masukkan Berat Laundry yang Valid';
+                  }
+                  return null;
+                },
+                // key: _formKey,
               ),
               SizedBox(height: 20),
-              Form(
-                key: _formKey,
-                child: TextFormField(
-                  controller: _weightController,
-                  keyboardType: TextInputType.numberWithOptions(decimal: true),
-                  decoration: InputDecoration(
-                    labelText: 'Berat Laundry (Kg)',
-                    border: OutlineInputBorder(),
-                    filled: true,
-                    fillColor: Colors.grey[100],
+              InkWell(
+                onTap: _updateWeight,
+                borderRadius: BorderRadius.circular(15),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(15),
                   ),
-                  validator: (value) {
-                    if (value == null || value.isEmpty) {
-                      return 'Masukan Berat Laundry';
-                    }
-                    if (double.tryParse(value) == null) {
-                      return 'Masukkan Berat Laundry yang Valid';
-                    }
-                    return null;
-                  },
-                ),
-              ),
-              SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _updateWeight,
-                child: Text('Update'),
-                style: ElevatedButton.styleFrom(
-                  minimumSize: Size(double.infinity, 50),
-                  textStyle:
-                      TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  height: 50,
+                  child: Center(
+                    child: Text("Update Berat Laundry",
+                        style: tsBodySmallSemibold(primaryColor)),
+                  ),
                 ),
               ),
             ],

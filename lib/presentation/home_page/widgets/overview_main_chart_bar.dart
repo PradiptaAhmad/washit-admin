@@ -28,10 +28,13 @@ class OverviewMainChartBar extends GetView<HomePageController> {
                 });
           }
           if (controller.ordersList.isEmpty) {
-            return Center(
-              child: Text(
-                "Tidak ada transaksi",
-                style: tsBodyMediumMedium(darkGrey),
+            return Padding(
+              padding: const EdgeInsets.symmetric(vertical: 50.0),
+              child: Center(
+                child: Text(
+                  "Tidak ada transaksi",
+                  style: tsBodyMediumMedium(darkGrey),
+                ),
               ),
             );
           }

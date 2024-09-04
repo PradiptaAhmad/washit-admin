@@ -21,7 +21,7 @@ class HomePageScreen extends GetView<HomePageController> {
     return Scaffold(
       backgroundColor: lightGrey.withOpacity(0.1),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(screenHeight(context) / 6.5),
+        preferredSize: Size.fromHeight(kToolbarHeight + 80),
         child: _buildAppbar(context, controller, isTablet),
       ),
       body: TabBarView(
@@ -99,10 +99,7 @@ Widget _buildMainTitleWidget(
                       ),
                     ),
                   )
-                : ShimmerWidget(
-                    radius: 10,
-                    height: 40,
-                  ),
+                : ShimmerWidget(radius: 10, height: 44),
           ),
         ),
         Expanded(

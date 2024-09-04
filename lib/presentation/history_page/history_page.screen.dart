@@ -30,7 +30,34 @@ class HistoryPageScreen extends GetView<HistoryPageController> {
                   return _buildLoading(controller);
                 }
                 if (controller.ordersList.isEmpty) {
-                  return DataIsEmpty("Riwayat pesanan kamu masih kosong");
+                  return Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      DataIsEmpty("Riwayat pesanan kamu masih kosong"),
+                      SizedBox(height: 10),
+                      MainContainerWidget(
+                        onPressed: () => controller.onRefresh(),
+                        padding: EdgeInsets.all(8),
+                        childs: Row(
+                          mainAxisSize: MainAxisSize.min,
+                          children: [
+                            Text(
+                              "Coba Lagi",
+                              style: tsLabelLargeMedium(grey),
+                            ),
+                            SizedBox(
+                              width: 5,
+                            ),
+                            Icon(
+                              Icons.refresh,
+                              color: grey,
+                              size: 15,
+                            )
+                          ],
+                        ),
+                      )
+                    ],
+                  );
                 }
                 return ListView.builder(
                     shrinkWrap: true,
