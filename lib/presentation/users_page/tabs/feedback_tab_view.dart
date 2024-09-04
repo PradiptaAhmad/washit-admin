@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:intl/intl.dart';
 import 'package:washit_admin/presentation/users_page/controllers/users_page.controller.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
+import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
 import '../../../infrastructure/theme/themes.dart';
 
@@ -12,83 +13,110 @@ class FeedbackTabView extends GetView<UsersPageController> {
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (controller.isLoading.value) {
-        return Center(
-          child: CircularProgressIndicator(),
-        );
-      } else {
-        return Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 5.0),
-          child: Column(
-            children: [
-              Padding(
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 10.0, vertical: 10),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Column(
-                      crossAxisAlignment: CrossAxisAlignment.start,
-                      children: [
-                        Text(
-                          controller.averageRating.value.toStringAsFixed(1),
-                          style: tsTitleLargeMedium(black),
-                        ),
-                        RatingBarIndicator(
-                          itemSize: 15,
-                          unratedColor: lightGrey,
-                          itemBuilder: (context, index) {
-                            return Icon(
-                              Icons.star,
-                              color: Colors.amber,
-                            );
-                          },
-                          rating: controller.averageRating.value.toDouble(),
-                        ),
-                        Text(
-                          "${controller.totalReviews.value} Ulasan",
-                          style: tsLabelLargeMedium(grey),
-                        ),
-                      ],
-                    ),
-                    Icon(
-                      Icons.filter_list_rounded,
-                      size: 20,
-                      color: darkGrey,
-                    ),
-                  ],
-                ),
-              ),
-              Obx(() {
-                if (controller.reviews.isEmpty) {
-                  return Center(child: Text("Tidak ada Review"));
-                }
-                return RefreshIndicator(
-                  onRefresh: () async {
-                    await controller.fetchRatingReviews();
-                    await controller.fetchRatingSummary();
-                  },
-                  child: ListView.builder(
-                    shrinkWrap: true,
-                    itemCount: controller.reviews.length,
-                    itemBuilder: (context, index) {
-                      var review = controller.reviews[index];
-                      return _buildItemList(review);
-                    },
+    return RefreshIndicator(
+      onRefresh: () async => controller.onRefresh(),
+      child: SingleChildScrollView(
+        physics: AlwaysScrollableScrollPhysics(),
+        child: Column(
+          children: [
+            Padding(
+              padding:
+                  const EdgeInsets.symmetric(horizontal: 15.0, vertical: 10),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Obx(
+                    () => !controller.isLoading.isTrue
+                        ? Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                "${controller.averageRating.value}",
+                                style: tsTitleLargeMedium(black),
+                              ),
+                              RatingBarIndicator(
+                                itemSize: 15,
+                                unratedColor: lightGrey,
+                                itemBuilder: (context, index) {
+                                  return Icon(
+                                    Icons.star,
+                                    color: Colors.amber,
+                                  );
+                                },
+                                rating:
+                                    controller.averageRating.value.toDouble(),
+                              ),
+                              Text(
+                                "${controller.totalReviews.value} Ulasan",
+                                style: tsLabelLargeMedium(grey),
+                              ),
+                            ],
+                          )
+                        : _shimmerRatingSummary(),
                   ),
+                  Icon(
+                    Icons.filter_list_rounded,
+                    size: 20,
+                    color: darkGrey,
+                  ),
+                ],
+              ),
+            ),
+            Obx(() {
+              if (controller.isLoading.isTrue) {
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 5,
+                  itemBuilder: (context, index) {
+                    return _shimmerItemList();
+                  },
                 );
-              }),
-            ],
-          ),
-        );
-      }
-    });
+              }
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: controller.reviews.length,
+                itemBuilder: (context, index) {
+                  var review = controller.reviews[index];
+                  return _buildItemList(review);
+                },
+              );
+            }),
+          ],
+        ),
+      ),
+    );
+  }
+
+  Widget _shimmerRatingSummary() {
+    return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      children: [
+        SizedBox(height: 5),
+        ShimmerWidget(height: 20, width: 40, radius: 8),
+        SizedBox(height: 5),
+        ShimmerWidget(height: 15, width: 80, radius: 5),
+        SizedBox(height: 5),
+        ShimmerWidget(height: 10, width: 40, radius: 8),
+      ],
+    );
+  }
+
+  Widget _shimmerItemList() {
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 4.0),
+      child: ShimmerWidget(
+        radius: 10.00,
+        margin: 15.00,
+        height: 111,
+      ),
+    );
   }
 
   Widget _buildItemList(review) {
     return MainContainerWidget(
-      margin: EdgeInsets.symmetric(horizontal: 5, vertical: 4),
+      margin: EdgeInsets.symmetric(horizontal: 15, vertical: 4),
       padding: EdgeInsets.all(15),
       childs: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
