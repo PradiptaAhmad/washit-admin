@@ -242,11 +242,13 @@ class FiturView extends GetView<FiturController> {
       titlePadding: EdgeInsets.only(top: 20, left: 15, right: 15),
       titleStyle: tsTitleSmallMedium(black),
       contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      
       content: Form(
         key: _formKey,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
           child: Column(
+            crossAxisAlignment: CrossAxisAlignment.center,
             children: [
               FiturTextField(
                 hintText: 'Nama Servis',
@@ -328,56 +330,63 @@ class FiturView extends GetView<FiturController> {
                     ),
                   ],
                 ),
+              ),
+              SizedBox(
+                height: 8,
+              ),
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  InkWell(
+                    onTap: () {
+                      if (mode == "add") {
+                        controller.addFitur();
+                      } else {
+                        controller.updateFitur(laundryId!);
+                      }
+                      Get.back();
+                    },
+                    child: Container(
+                      width: screenWidth(context) * 0.25,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text(mode == "add" ? 'Tambah' : 'Edit',
+                          style: tsBodySmallSemibold(primaryColor)),
+                    ),
+                  ),
+                  SizedBox(width: 10),
+                  InkWell(
+                    onTap: () => Get.back(),
+                    child: Container(
+                      width: screenWidth(context) * 0.25,
+                      padding: EdgeInsets.symmetric(vertical: 10),
+                      alignment: Alignment.center,
+                      decoration: BoxDecoration(
+                        color: primaryColor,
+                        boxShadow: [
+                          BoxShadow(
+                            color: Colors.grey.withOpacity(0.5),
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: Offset(0, 1), // changes position of shadow
+                          ),
+                        ],
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      child: Text('Batal', style: tsBodySmallSemibold(black)),
+                    ),
+                  ),
+                ],
               )
             ],
           ),
         ),
       ),
-      confirm: InkWell(
-        onTap: () {
-          if (mode == "add") {
-            controller.addFitur();
-          } else {
-            controller.updateFitur(laundryId!);
-          }
-          Get.back();
-        },
-        child: Container(
-          width: screenWidth(context) * 0.25,
-          padding: EdgeInsets.symmetric(vertical: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: secondaryColor,
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text(mode == "add" ? 'Tambah' : 'Edit',
-              style: tsBodySmallSemibold(primaryColor)),
-        ),
-      ),
-      cancel: InkWell(
-        onTap: () => Get.back(),
-        child: Container(
-          width: screenWidth(context) * 0.25,
-          padding: EdgeInsets.symmetric(vertical: 10),
-          alignment: Alignment.center,
-          decoration: BoxDecoration(
-            color: primaryColor,
-            boxShadow: [
-              BoxShadow(
-                color: Colors.grey.withOpacity(0.5),
-                spreadRadius: 1,
-                blurRadius: 1,
-                offset: Offset(0, 1), // changes position of shadow
-              ),
-            ],
-            borderRadius: BorderRadius.circular(10),
-          ),
-          child: Text('Batal', style: tsBodySmallSemibold(black)),
-        ),
-      ),
-      onCancel: () {
-        Get.back();
-      },
     );
   }
 
