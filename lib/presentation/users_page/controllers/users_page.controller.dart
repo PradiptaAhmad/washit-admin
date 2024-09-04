@@ -15,6 +15,7 @@ class UsersPageController extends GetxController
   final box = GetStorage();
   final url = ConfigEnvironments.getEnvironments()["url"];
   var userData = [].obs;
+  var filteredUserData = [].obs;
   var isLoading = false.obs;
 
   var reviews = [].obs;
@@ -47,6 +48,7 @@ class UsersPageController extends GetxController
 
     if (response.statusCode == 200) {
       userData.assignAll(json.decode(response.body)['user']);
+      filteredUserData.assignAll(userData);
       print(response.body);
     } else {
       print(response.body);
