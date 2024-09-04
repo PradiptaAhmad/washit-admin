@@ -9,7 +9,6 @@ import 'package:washit_admin/presentation/transaction_page/widget/detail_text_wi
 import 'package:washit_admin/presentation/transaction_page/widget/transaction_status_progress_widget.dart';
 import 'package:washit_admin/widget/common/mainpage_appbar_widget.dart';
 
-import '../../widget/common/button_widget.dart';
 import '../../widget/common/main_container_widget.dart';
 import 'controllers/transaction_page.controller.dart';
 
@@ -62,9 +61,14 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                                   "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pemesanan'] ?? "1443-07-31 00:00:00"))}"),
                           SizedBox(height: 5),
                           DetailDataWidget(
+                              leftTitle: "Tanggal pemgambilan",
+                              rightTitle:
+                                  "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pengambilan'] ?? "1443-07-31 00:00:00"))}"),
+                          SizedBox(height: 5),
+                          DetailDataWidget(
                               leftTitle: "Tanggal estimasi",
                               rightTitle:
-                                  "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_pengambilan'] ?? "2007-07-31 00:00:00"))}"),
+                                  "${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(controller.detailData['tanggal_estimasi'] ?? "2007-07-31 00:00:00"))}"),
                           SizedBox(height: 5),
                         ]))),
                 SizedBox(height: 10),
@@ -145,10 +149,11 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                                     textTitleOverflow: TextOverflow.visible),
                                 SizedBox(height: 5),
                                 DetailDataWidget(
-                                    leftTitle: "Alamat",
-                                    rightTitle:
-                                        "${controller.detailData['alamat']}",
-                                    textTitleOverflow: TextOverflow.ellipsis),
+                                  leftTitle: "Alamat",
+                                  rightTitle:
+                                      "${controller.detailData['alamat']}",
+                                  textTitleOverflow: TextOverflow.ellipsis,
+                                ),
                                 SizedBox(height: 5),
                               ])))
                     ])),
@@ -170,8 +175,9 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                             SizedBox(height: 5),
                             DetailDataWidget(
                                 leftTitle: "Harga laundry",
-                                rightTitle: "Rp 6.000 x " +
-                                    "${controller.detailData['berat_laundry'] == null ? "0" : controller.detailData['berat_laundry']} Kg"),
+                                rightTitle:
+                                    "${controller.detailData['laundry_price']} x " +
+                                        "${controller.detailData['berat_laundry'] == null ? "0" : controller.detailData['berat_laundry']} Kg"),
                             SizedBox(height: 5),
                             Padding(
                                 padding:
@@ -208,27 +214,30 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                   ),
                 ),
                 SizedBox(height: defaultMargin),
-                ButtonWidget(
-                  onPressed: () => showModalBottomSheet(
-                    context: context,
-                    isScrollControlled: true,
-                    builder: (BuildContext context) {
-                      return UpdateWeightBottomSheet();
-                    },
-                  ),
-                  text: "Update Berat Laundry",
-                  backgroundColor: secondaryColor,
-                  textColor: Colors.white,
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Icon(Icons.update, color: Colors.white),
-                      SizedBox(width: 8),
-                      Text(
-                        "Update Berat Laundry",
-                        style: tsBodyMediumRegular(black),
+                Visibility(
+                  visible: controller.detailData['berat_laundry'] == null
+                      ? true
+                      : false,
+                  child: InkWell(
+                    onTap: () => showModalBottomSheet(
+                      context: context,
+                      isScrollControlled: true,
+                      builder: (BuildContext context) {
+                        return UpdateWeightBottomSheet();
+                      },
+                    ),
+                    borderRadius: BorderRadius.circular(15),
+                    child: Container(
+                      decoration: BoxDecoration(
+                        color: secondaryColor,
+                        borderRadius: BorderRadius.circular(15),
                       ),
-                    ],
+                      height: 50,
+                      child: Center(
+                        child: Text("Update Berat Laundry",
+                            style: tsBodySmallSemibold(primaryColor)),
+                      ),
+                    ),
                   ),
                 ),
               ],

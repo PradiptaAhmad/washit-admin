@@ -97,8 +97,8 @@ class StatusPageController extends GetxController
       (order) =>
           order['status'] == "Pesanan telah diantar" ||
           order['status'] == "Pesanan telah selesai",
-      // (order) => order['jenis_pemesanan'] == "antar_jemput",
-      // (order) => order['jenis_pemesanan'] == "antar_mandiri"
+      (order) => order['jenis_pemesanan'] == "antar_jemput",
+      (order) => order['jenis_pemesanan'] == "antar_mandiri"
     ];
 
     filteredOrdersList.value = ordersList

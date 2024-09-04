@@ -209,19 +209,21 @@ Widget _buildProfileItemList(
       SizedBox(height: 20),
       Obx(
         () => !controller.isLoading.isTrue
-            ? Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  Text('Pengguna', style: tsBodySmallRegular(darkGrey)),
-                  InkWell(
-                    onTap: () => Get.toNamed(Routes.USERS_PAGE),
-                    child: Icon(
+            ? InkWell(
+                onTap: () => Get.toNamed(Routes.USERS_PAGE),
+                splashColor: Colors.transparent,
+                highlightColor: Colors.transparent,
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text('Pengguna', style: tsBodySmallRegular(darkGrey)),
+                    Icon(
                       Icons.arrow_forward_ios_rounded,
                       color: darkGrey,
                       size: 15,
-                    ),
-                  )
-                ],
+                    )
+                  ],
+                ),
               )
             : shimmerInfoList(),
       ),

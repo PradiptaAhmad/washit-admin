@@ -106,6 +106,7 @@ class TransactionPageController extends GetxController {
 
       if (response.statusCode == 201) {
         update();
+        onRefresh();
       } else {
         Get.snackbar('Error', '${response.statusCode}');
         print(response.statusCode);
@@ -135,7 +136,7 @@ class TransactionPageController extends GetxController {
 
       if (response.statusCode == 201) {
         Get.snackbar('Success', 'Weight updated successfully');
-        await fetchDetailsOrder();
+        onRefresh();
       } else {
         Get.snackbar('Error',
             'Status Code: ${response.statusCode}, Message: ${response.body}');
@@ -152,7 +153,6 @@ class TransactionPageController extends GetxController {
     if (argument[1] == 'status') {
       await fetchStatusData();
     }
-    print(argument[1]);
     isLoading.value = false;
   }
 

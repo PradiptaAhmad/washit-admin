@@ -1,6 +1,7 @@
 import 'package:fl_chart/fl_chart.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:intl/intl.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/widgets/charts/line_chart_card.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
@@ -54,7 +55,7 @@ class RightTabWidget extends GetView<HomePageController> {
           context,
           title: "PENDAPATAN HARI INI",
           amount:
-              "Rp. ${controller.dailyTransactionData['total_income'] == null ? '0' : controller.dailyTransactionData['total_income']}",
+              "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(controller.dailyTransactionData['total_income'] == null ? '0' : controller.dailyTransactionData['total_income'])}",
         ),
       ],
     );

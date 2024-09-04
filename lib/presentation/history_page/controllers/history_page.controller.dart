@@ -70,7 +70,7 @@ class HistoryPageController extends GetxController {
   @override
   void onInit() async {
     super.onInit();
-    await getOrderHistory();
+    onRefresh();
   }
 
   @override
