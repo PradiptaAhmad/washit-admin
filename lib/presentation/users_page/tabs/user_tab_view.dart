@@ -6,6 +6,7 @@ import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/users_page/controllers/users_page.controller.dart';
 import 'package:washit_admin/presentation/users_page/tabs/user_detail_view.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
+import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
 class UserTabView extends GetView<UsersPageController> {
   const UserTabView({super.key});
@@ -13,7 +14,7 @@ class UserTabView extends GetView<UsersPageController> {
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
-      onRefresh: () => controller.fetchUserData(),
+      onRefresh: () async => controller.onRefresh(),
       child: SingleChildScrollView(
         physics: AlwaysScrollableScrollPhysics(),
         child: Column(
@@ -30,20 +31,43 @@ class UserTabView extends GetView<UsersPageController> {
               ),
             ),
             SizedBox(height: 10),
-            ListView.builder(
-              physics: NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemCount: controller.userData.length,
-              itemBuilder: (context, index) {
-                final user = controller.userData[index];
-                return _buildItemList(user);
-              },
-            ),
+            Obx(() {
+              if (controller.isLoading.value) {
+                return ListView.builder(
+                  physics: NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: 8,
+                  itemBuilder: (context, index) {
+                    return _shimmerItemList();
+                  },
+                );
+              }
+              return ListView.builder(
+                physics: NeverScrollableScrollPhysics(),
+                shrinkWrap: true,
+                itemCount: controller.userData.length,
+                itemBuilder: (context, index) {
+                  final user = controller.userData[index];
+                  return _buildItemList(user);
+                },
+              );
+            }),
           ],
         ),
       ),
     );
   }
+}
+
+Widget _shimmerItemList() {
+  return Padding(
+    padding: const EdgeInsets.symmetric(vertical: 3),
+    child: ShimmerWidget(
+      radius: 10.00,
+      margin: 15.00,
+      height: 72,
+    ),
+  );
 }
 
 Widget _buildItemList(user) {
@@ -61,33 +85,36 @@ Widget _buildItemList(user) {
     childs: Row(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        Row(
-          children: [
-            CircleAvatar(
-              backgroundColor: grey,
-              backgroundImage: NetworkImage(user['image_path'] == null
-                  ? 'https://ui-avatars.com/api/?name=${user['username']}&background=random&size=128'
-                  : 'https://pradiptaahmad.tech/image/${user['image_path']}'),
-            ),
-            SizedBox(width: 10),
-            Container(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  Row(
-                    children: [
-                      Text(user['username'], style: tsBodySmallMedium(black)),
-                      SizedBox(width: 8),
-                    ],
-                  ),
-                  SizedBox(height: 4),
-                  Text(
-                      "Bergabung tanggal ${DateFormat('d MMMM yyyy', 'id_ID').format(DateTime.parse(user['created_at'].toString()))}",
-                      style: tsLabelLargeMedium(darkGrey)),
-                ],
+        Expanded(
+          flex: 1,
+          child: CircleAvatar(
+            backgroundColor: grey,
+            backgroundImage: NetworkImage(user['image_path'] == null
+                ? 'https://ui-avatars.com/api/?name=${user['username']}&background=random&size=128'
+                : 'https://pradiptaahmad.tech/image/${user['image_path']}'),
+          ),
+        ),
+        SizedBox(width: 5),
+        Expanded(
+          flex: 5,
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              Text(
+                "${user['username']}",
+                style: tsBodySmallMedium(black),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
               ),
-            ),
-          ],
+              SizedBox(height: 5),
+              Text(
+                "Bergabung tanggal ${DateFormat('d MMMM yyyy', 'id_ID').format(DateTime.parse(user['created_at'].toString()))}",
+                style: tsLabelLargeMedium(darkGrey),
+                overflow: TextOverflow.ellipsis,
+                maxLines: 1,
+              ),
+            ],
+          ),
         ),
         InkWell(
           onTap: () {},

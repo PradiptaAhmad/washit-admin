@@ -142,15 +142,19 @@ class UsersPageController extends GetxController
     }
   }
 
+  void onRefresh() async {
+    isLoading.value = true;
+    await fetchUserData();
+    await fetchRatingReviews();
+    await fetchRatingSummary();
+    isLoading.value = false;
+  }
+
   @override
   void onInit() {
-    tabController = TabController(length: 2, vsync: this);
-    isLoading.value = true;
-    fetchUserData();
-    fetchRatingReviews();
-    fetchRatingSummary();
-    isLoading.value = false;
     super.onInit();
+    tabController = TabController(length: 2, vsync: this);
+    onRefresh();
   }
 
   @override

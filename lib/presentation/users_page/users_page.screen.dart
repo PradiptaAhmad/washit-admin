@@ -53,14 +53,8 @@ class UsersPageScreen extends GetView<UsersPageController> {
         child: TabBarView(
           controller: controller.tabController,
           children: [
-            MainContainerWidget(
-              margin: EdgeInsets.only(right: 15, left: 15, bottom: 10),
-              childs: UserTabView(),
-            ),
-            MainContainerWidget(
-              margin: EdgeInsets.only(right: 15, left: 15, bottom: 10),
-              childs: FeedbackTabView(),
-            ),
+            UserTabView(),
+            FeedbackTabView(),
           ],
         ),
       ),

@@ -36,9 +36,10 @@ class OverviewMainChartBar extends GetView<HomePageController> {
             );
           }
           return ListView.builder(
-              itemCount: 4,
+              itemCount: controller.ordersList.length,
               physics: NeverScrollableScrollPhysics(),
               shrinkWrap: true,
+              reverse: true,
               itemBuilder: (context, index) {
                 final order = controller.ordersList[index];
                 return _buildItemList(context, order);
@@ -62,8 +63,8 @@ Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
   return Padding(
     padding: EdgeInsets.only(bottom: 10),
     child: MainContainerWidget(
-      onPressed: () =>
-          Get.toNamed(Routes.TRANSACTION_PAGE, arguments: order),
+      onPressed: () => Get.toNamed(Routes.TRANSACTION_PAGE,
+          arguments: [order['id'], 'status']),
       padding: EdgeInsets.all(15),
       childs: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

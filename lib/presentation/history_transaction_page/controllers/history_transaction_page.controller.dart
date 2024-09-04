@@ -47,10 +47,16 @@ class HistoryTransactionPageController extends GetxController {
     }
   }
 
+  void onRefresh() async {
+    isLoading.value = true;
+    await getFetchTransactionData();
+    isLoading.value = false;
+  }
+
   @override
   void onInit() {
     super.onInit();
-    getFetchTransactionData();
+    onRefresh();
   }
 
   @override
