@@ -196,7 +196,10 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                 ),
                 SizedBox(height: defaultMargin),
                 Visibility(
-                  visible: controller.argument[1] == 'status' ? true : false,
+                  visible: controller.argument[1] == 'status' &&
+                          controller.detailData['status'] == "process"
+                      ? true
+                      : false,
                   child: SliderButton(
                     width: double.infinity,
                     action: () async {
@@ -215,7 +218,8 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                 ),
                 SizedBox(height: defaultMargin),
                 Visibility(
-                  visible: controller.detailData['berat_laundry'] == null
+                  visible: controller.argument[1] == 'status' &&
+                          controller.detailData['berat_laundry'] == null
                       ? true
                       : false,
                   child: InkWell(

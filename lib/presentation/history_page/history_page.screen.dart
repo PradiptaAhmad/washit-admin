@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
@@ -15,28 +16,28 @@ class HistoryPageScreen extends GetView<HistoryPageController> {
 
   @override
   Widget build(BuildContext context) {
-    final HistoryPageController controller = Get.put(HistoryPageController());
     return Scaffold(
       appBar: PreferredSize(
         preferredSize: Size.fromHeight(kToolbarHeight + 50),
         child: _buildAppbar(controller),
       ),
       body: RefreshIndicator(
-          onRefresh: () => controller.onRefresh(),
+          onRefresh: () async => controller.applyFilter(),
           child: Padding(
               padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
               child: Obx(() {
                 if (controller.isLoading.value) {
                   return _buildLoading(controller);
                 }
-                if (controller.ordersList.isEmpty) {
+                if (controller.ordersList.isEmpty &&
+                    controller.filteredOrdersList.isEmpty) {
                   return Column(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       DataIsEmpty("Riwayat pesanan kamu masih kosong"),
                       SizedBox(height: 10),
                       MainContainerWidget(
-                        onPressed: () => controller.onRefresh(),
+                        onPressed: () async => controller.applyFilter(),
                         padding: EdgeInsets.all(8),
                         childs: Row(
                           mainAxisSize: MainAxisSize.min,
@@ -61,13 +62,22 @@ class HistoryPageScreen extends GetView<HistoryPageController> {
                 }
                 return ListView.builder(
                     shrinkWrap: true,
+                    controller: controller.scrollController,
                     itemCount: controller.isSelected.value == 0
                         ? controller.ordersList.length
                         : controller.filteredOrdersList.length,
                     physics: AlwaysScrollableScrollPhysics(),
                     itemBuilder: (context, index) {
-                      final order = controller.ordersList[index];
-                      return MainDetailView(order: order);
+                      final order = controller.isSelected.value == 0
+                          ? controller.ordersList[index]
+                          : controller.filteredOrdersList[index];
+                      return Obx(() {
+                        if (controller.isLoadingMore.value) {
+                          return CupertinoActivityIndicator();
+                        } else {
+                          return MainDetailView(order: order);
+                        }
+                      });
                     });
               }))),
     );
