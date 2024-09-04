@@ -22,23 +22,42 @@ class AddNotificationPage extends GetView<AddNotificationPageController> {
               InputFormWidget(
                 title: "Judul Notifikasi",
                 hintText: "Masukkan Judul Notifikasi",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Judul Notifikasi tidak boleh kosong";
+                  } else {
+                    controller.judul.value = value;
+                  }
+                  return null;
+                },
               ),
               InputFormWidget(
                 title: "Deskripsi",
                 hintText: "Masukkan Deskripsi Notifikasi",
+                validator: (value) {
+                  if (value == null || value.isEmpty) {
+                    return "Deskripsi Notifikasi tidak boleh kosong";
+                  } else {
+                    controller.deskripsi.value = value;
+                  }
+                  return null;
+                },
               ),
               SizedBox(height: 20),
-              Container(
-                decoration: BoxDecoration(
-                  color: secondaryColor,
-                  borderRadius: BorderRadius.circular(10),
-                ),
-                padding: EdgeInsets.all(15),
-                width: double.infinity,
-                child: Center(
-                  child: Text(
-                    "Kirim Notifikasi",
-                    style: tsBodySmallMedium(primaryColor),
+              InkWell(
+                onTap: () => controller.postNotification(),
+                child: Container(
+                  decoration: BoxDecoration(
+                    color: secondaryColor,
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  padding: EdgeInsets.all(15),
+                  width: double.infinity,
+                  child: Center(
+                    child: Text(
+                      "Kirim Notifikasi",
+                      style: tsBodySmallMedium(primaryColor),
+                    ),
                   ),
                 ),
               )

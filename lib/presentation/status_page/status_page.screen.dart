@@ -185,13 +185,14 @@ Widget _buildItemList(order) {
                   ),
                   // Space between id and estimasi
                   Expanded(
-                    flex: 1,
                     child: Align(
                       alignment: Alignment.centerRight,
                       child: Text(
                         "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}",
                         style: tsLabelLargeMedium(darkGrey),
                         overflow: TextOverflow.ellipsis,
+                        maxLines: 2,
+                        textAlign: TextAlign.right,
                       ),
                     ),
                   ),
@@ -245,42 +246,48 @@ Widget _buildItemList(order) {
               ),
               SizedBox(height: 18),
               Row(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "Total harga",
-                        style: tsLabelMediumMedium(black),
-                      ),
-                      Text(
-                        order['total_harga'] == null
-                            ? "Belum tercatat"
-                            : "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}",
-                        style: tsBodySmallSemibold(black),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Total harga",
+                          style: tsLabelMediumMedium(black),
+                        ),
+                        Text(
+                          order['total_harga'] == null
+                              ? "Belum tercatat"
+                              : "${NumberFormat.currency(locale: 'id', symbol: 'Rp', decimalDigits: 0).format(order['total_harga'])}",
+                          style: tsBodySmallSemibold(black),
+                        ),
+                      ],
+                    ),
                   ),
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.end,
-                    children: [
-                      Text(
-                        "Status laundry",
-                        style: tsLabelMediumMedium(black),
-                      ),
-                      Container(
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(4),
-                          color: statusColor.withOpacity(0.1),
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.end,
+                      children: [
+                        Text(
+                          "Status laundry",
+                          style: tsLabelMediumMedium(black),
                         ),
-                        padding: const EdgeInsets.symmetric(horizontal: 8),
-                        child: Text(
-                          '${order['status']}',
-                          style: tsBodySmallSemibold(statusColor),
+                        Container(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(4),
+                            color: statusColor.withOpacity(0.1),
+                          ),
+                          padding: const EdgeInsets.symmetric(horizontal: 8),
+                          child: Text(
+                            '${order['status']}',
+                            style: tsBodySmallSemibold(statusColor),
+                            textAlign: TextAlign.right,
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
                 ],
               ),

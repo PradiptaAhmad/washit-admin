@@ -17,7 +17,7 @@ class HistoryTransactionPage extends GetView<HistoryTransactionPageController> {
         Get.put(HistoryTransactionPageController());
     return Scaffold(
       appBar: AppBar(
-        toolbarHeight: kToolbarHeight + screenHeight(context) * 0.16,
+        toolbarHeight: kToolbarHeight + 140,
         flexibleSpace:
             Column(crossAxisAlignment: CrossAxisAlignment.start, children: [
           AppBar(

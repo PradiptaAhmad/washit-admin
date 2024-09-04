@@ -34,7 +34,7 @@ class LeftTabWidget extends GetView<HomePageController> {
       },
       {
         'mainIcons': Icons.attach_money_rounded,
-        'mainNum': "Rp ${overview.totalTransactions / 1000}K",
+        'mainNum': "Rp${overview.totalTransactions / 1000}K",
         'secIcon': Icons.trending_up_rounded,
         'mainDesc': "TOTAL PENDAPATAN",
         'descNum': "+2,5%",
@@ -190,7 +190,7 @@ Widget visualCardWidget(data) {
                 // ),
               ],
             ),
-            Text(data['mainNum'], style: tsHeadlineSmallSemibold(black)),
+            Text(data['mainNum'], style: tsTitleLargeSemibold(black)),
             SizedBox(height: 10),
           ],
         ),

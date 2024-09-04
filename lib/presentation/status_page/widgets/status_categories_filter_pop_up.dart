@@ -9,12 +9,10 @@ Future statusCategoriesFilterPopUp(
   return showModalBottomSheet(
     context: context,
     isDismissible: true,
-    isScrollControlled:
-        true, // Ensures the bottom sheet height can adjust dynamically
+    isScrollControlled: true,
     builder: (context) {
       final screenHeight = MediaQuery.of(context).size.height;
-      final sheetHeight =
-          screenHeight * 0.35; // Adjust height based on screen size
+      final sheetHeight = screenHeight * 0.35;
 
       return Container(
         width: double.infinity,

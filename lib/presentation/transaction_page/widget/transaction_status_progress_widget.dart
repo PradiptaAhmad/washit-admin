@@ -19,6 +19,8 @@ class TransactionStatusProgressWidget
         return SizedBox();
       } else {
         return Column(
+          crossAxisAlignment: CrossAxisAlignment.center,
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             TweenAnimationBuilder<double>(
               tween: Tween<double>(
@@ -39,15 +41,15 @@ class TransactionStatusProgressWidget
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
-                      buildIcon(Iconsax.receipt),
+                      buildIcon(Iconsax.receipt, context),
                       buildDottedLine(),
-                      buildIcon(Iconsax.wallet_1),
+                      buildIcon(Iconsax.wallet_1, context),
                       buildDottedLine(),
-                      buildIcon(Iconsax.bubble),
+                      buildIcon(Iconsax.bubble, context),
                       buildDottedLine(),
-                      buildIcon(Iconsax.location),
+                      buildIcon(Iconsax.location, context),
                       buildDottedLine(),
-                      buildIcon(Iconsax.verify),
+                      buildIcon(Iconsax.verify, context),
                     ],
                   ),
                 );
@@ -64,10 +66,10 @@ class TransactionStatusProgressWidget
     });
   }
 
-  Widget buildIcon(IconData icon) {
+  Widget buildIcon(IconData icon, BuildContext context) {
     return Icon(
       icon,
-      size: 30,
+      size: screenHeight(context) * 0.03,
       color: lightGrey,
     );
   }

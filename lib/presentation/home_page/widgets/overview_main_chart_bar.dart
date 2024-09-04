@@ -76,7 +76,6 @@ Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
               Expanded(
-                flex: 2,
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
@@ -92,13 +91,14 @@ Widget _buildItemList(BuildContext context, Map<String, dynamic> order) {
                 ),
               ),
               Expanded(
-                flex: 3,
                 child: Align(
                   alignment: Alignment.centerRight,
                   child: Text(
                     "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString()))}",
                     style: tsLabelLargeMedium(darkGrey),
                     overflow: TextOverflow.ellipsis,
+                    maxLines: 2,
+                    textAlign: TextAlign.right,
                   ),
                 ),
               ),

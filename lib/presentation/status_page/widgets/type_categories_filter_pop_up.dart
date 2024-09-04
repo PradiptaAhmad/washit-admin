@@ -6,13 +6,16 @@ import '../controllers/status_page.controller.dart';
 
 Future typeCategoriesFilterPopUp(
     BuildContext context, StatusPageController controller) {
+  final screenHeight = MediaQuery.of(context).size.height;
+  final sheetHeight = screenHeight * 0.30;
+
   return showModalBottomSheet(
     context: context,
     isDismissible: true,
     builder: (context) {
       return ConstrainedBox(
         constraints: BoxConstraints(
-          maxHeight: MediaQuery.of(context).size.height * 0.16,
+          maxHeight: sheetHeight,
         ),
         child: Container(
           width: double.infinity,
@@ -89,7 +92,7 @@ class circleRadioButton extends StatelessWidget {
             width: 20,
             decoration: BoxDecoration(
               border:
-              Border.all(color: selected ? secondaryColor : grey, width: 2),
+                  Border.all(color: selected ? secondaryColor : grey, width: 2),
               borderRadius: BorderRadius.circular(50),
             ),
           ),
