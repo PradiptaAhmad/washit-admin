@@ -269,7 +269,7 @@ Widget shimmerInfoList() {
       ),
       ShimmerWidget(
         radius: 8,
-        width: 200,
+        width: 180,
         height: 18,
       ),
     ],

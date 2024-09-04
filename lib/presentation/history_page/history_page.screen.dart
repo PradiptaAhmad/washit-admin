@@ -125,32 +125,29 @@ class MainDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "id Pesanan",
-                        style: tsLabelLargeMedium(grey),
-                      ),
-                      Text(
-                        "${order['no_pemesanan']}",
-                        style: tsLabelLargeMedium(black),
-                      )
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "id Pesanan",
+                          style: tsLabelLargeMedium(grey),
+                        ),
+                        Text(
+                          "${order['no_pemesanan']}",
+                          style: tsLabelLargeMedium(black),
+                        )
+                      ],
+                    ),
                   ),
-                  Row(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                          horizontal: 5,
-                          vertical: 2,
-                        ),
-                        child: Text(
-                          "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString() == 'null' ? "2007-07-31 00:00:00" : order['tanggal_estimasi'].toString()))}",
-                          style: tsLabelLargeMedium(darkGrey),
-                        ),
-                      ),
-                    ],
+                  Expanded(
+                    child: Text(
+                      "Estimasi: ${DateFormat('EEEE, d MMMM yyyy', 'id_ID').format(DateTime.parse(order['tanggal_estimasi'].toString() == 'null' ? "2007-07-31 00:00:00" : order['tanggal_estimasi'].toString()))}",
+                      style: tsLabelLargeMedium(darkGrey),
+                      maxLines: 2,
+                      overflow: TextOverflow.ellipsis,
+                      textAlign: TextAlign.right,
+                    ),
                   )
                 ],
               ),
@@ -161,33 +158,34 @@ class MainDetailView extends StatelessWidget {
               Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "${order['nama_pemesan']}",
-                        style: tsBodySmallSemibold(black),
-                      ),
-                      Text(
-                        order['jenis_pemesanan'] == 'antar_jemput'
-                            ? "Antar Jemput"
-                            : "Antar Mandiri",
-                        style: tsLabelLargeSemibold(darkGrey),
-                      ),
-                      Text(
-                        order['berat_laundry'] == null
-                            ? "Berat belum tercatat"
-                            : "${order['berat_laundry']} Kg",
-                        style: tsLabelLargeSemibold(darkGrey),
-                      ),
-                      Text(
-                        "${order['nama_laundry']}",
-                        style: tsBodySmallSemibold(successColor),
-                      ),
-                    ],
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          "${order['nama_pemesan']}",
+                          style: tsBodySmallSemibold(black),
+                        ),
+                        Text(
+                          order['jenis_pemesanan'] == 'antar_jemput'
+                              ? "Antar Jemput"
+                              : "Antar Mandiri",
+                          style: tsLabelLargeSemibold(darkGrey),
+                        ),
+                        Text(
+                          order['berat_laundry'] == null
+                              ? "Berat belum tercatat"
+                              : "${order['berat_laundry']} Kg",
+                          style: tsLabelLargeSemibold(darkGrey),
+                        ),
+                        Text(
+                          "${order['nama_laundry']}",
+                          style: tsBodySmallSemibold(successColor),
+                        ),
+                      ],
+                    ),
                   ),
-                  Container(
-                    width: 120,
+                  Expanded(
                     child: Text(
                       "${order['alamat']}",
                       style: tsLabelLargeSemibold(grey),

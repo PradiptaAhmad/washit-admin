@@ -17,8 +17,7 @@ class UsersPageScreen extends GetView<UsersPageController> {
     final UsersPageController controller = Get.put(UsersPageController());
     return Scaffold(
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight +
-            screenHeight(context) / 12), // Add extra height for margin
+        preferredSize: Size.fromHeight(kToolbarHeight + 70),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
