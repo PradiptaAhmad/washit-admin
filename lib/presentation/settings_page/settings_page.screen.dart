@@ -102,7 +102,9 @@ Widget _buildProfileItemList(
                       title: 'Username',
                       hintText: controller.adminData['username'],
                       validator: (newValue) {
-                        controller.updateAdminName(newValue ?? '');
+                        WidgetsBinding.instance.addPostFrameCallback((_) {
+                          controller.updateAdminName(newValue);
+                        });
                         return null;
                       },
                       onTap: () => controller.updateAdminNameData(),
@@ -137,11 +139,13 @@ Widget _buildProfileItemList(
                   Text('Email', style: tsBodySmallRegular(darkGrey)),
                   InkWell(
                     onTap: () async {
-                      await Get.to(SettingChangePage(
+                      Get.to(SettingChangePage(
                         title: 'Email',
                         hintText: controller.adminData['email'],
                         validator: (newValue) {
-                          controller.updateEmail(newValue ?? '');
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            controller.updateEmail(newValue ?? '');
+                          });
                           return null;
                         },
                         onTap: () => controller.updateEmailData(),
@@ -180,7 +184,9 @@ Widget _buildProfileItemList(
                         title: 'Nomor Telepon',
                         hintText: controller.adminData['phone'],
                         validator: (newValue) {
-                          controller.updatePhoneNumber(newValue ?? '');
+                          WidgetsBinding.instance.addPostFrameCallback((_) {
+                            controller.updatePhoneNumber(newValue ?? '');
+                          });
                           return null;
                         },
                         onTap: () => controller.updateAdminPhoneData(),
