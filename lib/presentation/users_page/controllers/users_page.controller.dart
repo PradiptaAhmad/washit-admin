@@ -5,142 +5,115 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
+import 'package:washit_admin/infrastructure/theme/themes.dart';
+import 'package:washit_admin/widget/common/custom_pop_up.dart';
 
 class UsersPageController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  //Important
   final count = 0.obs;
+  var isLoading = false.obs;
   late TabController tabController;
-
-  // Init Data
   final box = GetStorage();
-  final url = ConfigEnvironments.getEnvironments()["url"];
+
+  //Var
   var userData = [].obs;
   var filteredUserData = [].obs;
-  var isLoading = false.obs;
-
   var reviews = [].obs;
   var averageRating = 0.0.obs;
   var totalReviews = 0.obs;
 
-  var selectedRating = 0.obs;
-
-  // List<Review> get filteredReviews {
-  //   if (selectedRating.value == 0) {
-  //     return reviews;
-  //   } else {
-  //     return reviews
-  //         .where((review) => review.rating == selectedRating.value)
-  //         .toList();
-  //   }
-  // }
-
   Future<void> fetchUserData() async {
-    final token = box.read("token");
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-
-    var response = await http.get(
-      Uri.parse("$url/admin/users/all"),
-      headers: headers,
-    );
-
-    if (response.statusCode == 200) {
-      userData.assignAll(json.decode(response.body)['user']);
-      filteredUserData.assignAll(userData);
-      print(response.body);
-    } else {
-      print(response.body);
-      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var response = await http.get(
+        Uri.parse("$url/admin/users/all"),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        userData.assignAll(json.decode(response.body)['user']);
+        filteredUserData.assignAll(userData);
+      } else {
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
+      }
+    } catch (e) {
+      customPopUp('Error, gagal untuk mengambil data User', warningColor);
     }
   }
 
   Future<void> fetchRatingReviews() async {
-    final token = box.read("token");
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-
-    var response = await http.get(
-      Uri.parse("$url/admin/ratings/all"),
-      headers: headers,
-    );
-
-    if (response.statusCode == 200) {
-      reviews.assignAll(json.decode(response.body)['rating']);
-      // var reviewList = json.decode(response.body)['rating'] as List;
-      // reviews.assignAll(
-      //   reviewList.map((review) => Review(
-      //     id: review['id'],
-      //     rating: review['rating'],
-      //     comment: review['review'],
-      //     username: review['user']['username'],
-      //   )).toList(),
-      // );
-      print(response.body);
-    } else {
-      print(response.body);
-      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var response = await http.get(
+        Uri.parse("$url/admin/ratings/all"),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        reviews.assignAll(json.decode(response.body)['rating']);
+      } else {
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
+      }
+    } catch (e) {
+      customPopUp('Error, gagal untuk mengambil data rating', warningColor);
     }
   }
 
   Future<void> fetchRatingSummary() async {
-    final token = box.read("token");
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-
-    var response = await http.get(
-      Uri.parse("$url/admin/ratings/summary"),
-      headers: headers,
-    );
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body);
-      averageRating.value = data['average_rating'].toDouble();
-      totalReviews.value = data['total_review'];
-      print(response.body);
-    } else {
-      print(response.body);
-      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var response = await http.get(
+        Uri.parse("$url/admin/ratings/summary"),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body);
+        averageRating.value = data['average_rating'].toDouble();
+        totalReviews.value = data['total_review'];
+      } else {
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
+      }
+    } catch (e) {
+      customPopUp(
+          'Error, gagal untuk mengambil data rata-rata rating', warningColor);
     }
   }
 
   Future<void> deleteRating(int id) async {
-    final token = box.read("token");
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-
-    var response = await http.delete(
-      Uri.parse("$url/admin/ratings/delete?id=$id"),
-      headers: headers,
-    );
-
-    if (response.statusCode == 200) {
-      reviews.removeWhere((review) => review.id == id);
-      fetchRatingReviews();
-      Get.snackbar(
-        "Sukses",
-        "Rating berhasil dihapus",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.green,
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read("token");
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var response = await http.delete(
+        Uri.parse("$url/admin/ratings/delete?id=$id"),
+        headers: headers,
       );
-    } else {
-      print(response.body);
-      Get.snackbar(
-        "Gagal Menghapus Data",
-        "Silahkan coba lagi",
-        snackPosition: SnackPosition.TOP,
-        backgroundColor: Colors.red,
-      );
+      if (response.statusCode == 200) {
+        reviews.removeWhere((review) => review.id == id);
+        fetchRatingReviews();
+        customPopUp('Sukses, berhasil untuk menambah Rating', successColor);
+      } else {
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
+      }
+    } catch (e) {
+      customPopUp('Error, gagal untuk menghapus Rating', warningColor);
     }
   }
 
@@ -166,13 +139,4 @@ class UsersPageController extends GetxController
   }
 
   void increment() => count.value++;
-}
-
-class User {
-  final String name;
-  final String imagePath;
-  final String phoneNumber;
-
-  User(
-      {required this.name, required this.imagePath, required this.phoneNumber});
 }

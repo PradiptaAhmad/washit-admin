@@ -20,6 +20,7 @@ dependencies:
   slider_button: ^2.1.0
   device_info_plus: ^9.1.2
   flutter_rating_bar: ^4.0.1
+  smart_snackbars: ^1.0.0
 
   firebase_core: ^3.4.0
   firebase_messaging: ^15.1.0

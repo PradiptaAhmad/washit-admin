@@ -103,11 +103,14 @@ Widget _buildProfileItemList(
                       hintText: controller.adminData['username'],
                       validator: (newValue) {
                         WidgetsBinding.instance.addPostFrameCallback((_) {
-                          controller.updateAdminName(newValue);
+                          controller.adminData['username'] = newValue;
                         });
                         return null;
                       },
-                      onTap: () => controller.updateAdminNameData(),
+                      onTap: () {
+                        controller.fetchUpdateAccount();
+                        Get.back();
+                      },
                     ),
                   )!
                       .then((value) {
@@ -144,11 +147,14 @@ Widget _buildProfileItemList(
                         hintText: controller.adminData['email'],
                         validator: (newValue) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            controller.updateEmail(newValue ?? '');
+                            controller.adminData['email'] = newValue;
                           });
                           return null;
                         },
-                        onTap: () => controller.updateEmailData(),
+                        onTap: () {
+                          controller.fetchUpdateAccount();
+                          Get.back();
+                        },
                       ))!
                           .then((value) {
                         controller.fetchAdminData();
@@ -185,11 +191,14 @@ Widget _buildProfileItemList(
                         hintText: controller.adminData['phone'],
                         validator: (newValue) {
                           WidgetsBinding.instance.addPostFrameCallback((_) {
-                            controller.updatePhoneNumber(newValue ?? '');
+                            controller.adminData['phone'] = newValue;
                           });
                           return null;
                         },
-                        onTap: () => controller.updateAdminPhoneData(),
+                        onTap: () {
+                          controller.fetchUpdateAccount();
+                          Get.back();
+                        },
                       ),
                     )!
                         .then((value) {
