@@ -6,7 +6,6 @@ import 'package:washit_admin/presentation/home_page/widgets/tabs/center_tab_widg
 import 'package:washit_admin/presentation/home_page/widgets/tabs/left_tab_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/right_tab_widget.dart';
 
-import '../../infrastructure/navigation/routes.dart';
 import '../../widget/common/main_container_widget.dart';
 import '../../widget/common/oval_tab_indicator.dart';
 import '../../widget/shimmer/shimmer_widget.dart';
@@ -138,26 +137,26 @@ Widget _buildMainTitleWidget(
             ),
           ),
         ),
-        Expanded(
-          flex: 1,
-          child: InkWell(
-            onTap: () => Get.toNamed(Routes.ADD_NOTIFICATION_PAGE),
-            borderRadius: BorderRadius.circular(50),
-            child: Container(
-              height: isTablet
-                  ? screenWidth(context) * 0.08
-                  : screenWidth(context) * 0.1,
-              width: isTablet
-                  ? screenWidth(context) * 0.08
-                  : screenWidth(context) * 0.1,
-              child: const Icon(
-                Icons.notification_add_rounded,
-                color: darkGrey,
-                size: 22,
-              ),
-            ),
-          ),
-        ),
+        // Expanded(
+        //   flex: 1,
+        //   child: InkWell(
+        //     onTap: () => Get.toNamed(Routes.ADD_NOTIFICATION_PAGE),
+        //     borderRadius: BorderRadius.circular(50),
+        //     child: Container(
+        //       height: isTablet
+        //           ? screenWidth(context) * 0.08
+        //           : screenWidth(context) * 0.1,
+        //       width: isTablet
+        //           ? screenWidth(context) * 0.08
+        //           : screenWidth(context) * 0.1,
+        //       child: const Icon(
+        //         Icons.notification_add_rounded,
+        //         color: darkGrey,
+        //         size: 22,
+        //       ),
+        //     ),
+        //   ),
+        // ),
       ],
     ),
   );
