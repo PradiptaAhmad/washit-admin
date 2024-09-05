@@ -5,18 +5,22 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
+import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/models/order_chart_model.dart';
 import 'package:washit_admin/presentation/home_page/models/overview_model.dart';
+import 'package:washit_admin/widget/common/custom_pop_up.dart';
 
 import '../models/transaction_weekly_chart_model.dart';
 
 class HomePageController extends GetxController
     with GetSingleTickerProviderStateMixin {
+  // Important
   final count = 0.obs;
   var isLoading = false.obs;
   late TabController tabController;
+  final box = GetStorage();
 
-  // Init Data
+  // Var
   var userData = {}.obs;
   var dailyOrderData = {}.obs;
   var dailyTransactionData = {}.obs;
@@ -25,7 +29,6 @@ class HomePageController extends GetxController
   var ordersList = [].obs;
   var sumTotalOrders = 0.obs;
   var sumTotalEarnings = 0.obs;
-  final box = GetStorage();
 
   var overviewData = OverviewModel(
     status: '',
@@ -44,46 +47,43 @@ class HomePageController extends GetxController
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
-
       var response = await http.get(
         Uri.parse("$url/admin/accounts/details"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         userData.value = json.decode(response.body)['admin'];
       } else {
-        Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-            snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+      customPopUp('Error, gagal untuk mengambil data Pengguna', warningColor);
     }
   }
 
   Future<void> fetchOrders() async {
-    final url = ConfigEnvironments.getEnvironments()["url"];
-    final token = box.read('token');
-    var headers = {
-      'Accept': 'application/json',
-      'Authorization': 'Bearer $token'
-    };
-
-    var response = await http.get(
-      Uri.parse("$url/admin/orders/all"),
-      headers: headers,
-    );
-
-    if (response.statusCode == 200) {
-      var data = json.decode(response.body)['orders'] as List<dynamic>;
-      var filteredOrders = data
-          .where((order) => order['status'] == "Pesanan Telah Dibuat")
-          .toList();
-      ordersList.assignAll(filteredOrders);
-    } else {
-      Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+    try {
+      final url = ConfigEnvironments.getEnvironments()["url"];
+      final token = box.read('token');
+      var headers = {
+        'Accept': 'application/json',
+        'Authorization': 'Bearer $token'
+      };
+      var response = await http.get(
+        Uri.parse("$url/admin/orders/all"),
+        headers: headers,
+      );
+      if (response.statusCode == 200) {
+        var data = json.decode(response.body)['orders'] as List<dynamic>;
+        var filteredOrders = data
+            .where((order) => order['status'] == "Pesanan Telah Dibuat")
+            .toList();
+        ordersList.assignAll(filteredOrders);
+      } else {
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
+      }
+    } catch (e) {
+      customPopUp('Error, gagal untuk mengambil data Pesanan', warningColor);
     }
   }
 
@@ -96,25 +96,20 @@ class HomePageController extends GetxController
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
-
       var response = await http.get(
         Uri.parse("$url/charts/transactions/daily"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['data'] != null) {
           final jsonResponse = jsonDecode(response.body)['data'];
           dailyTransactionData.value = jsonResponse;
         }
       } else {
-        Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-            snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      print(e);
-      Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+      customPopUp('Error, gagal untuk mengambil data Transaksi', warningColor);
     }
   }
 
@@ -122,30 +117,25 @@ class HomePageController extends GetxController
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
-
       var headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
-
       var response = await http.get(
         Uri.parse("$url/charts/orders/daily"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         if (jsonDecode(response.body)['data'] != null) {
           final jsonResponse = jsonDecode(response.body)['data'];
           dailyOrderData.value = jsonResponse;
         }
       } else {
-        Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-            snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      print(e);
-      Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+      customPopUp(
+          'Error, gagal untuk mengambil data Pesanan harian', warningColor);
     }
   }
 
@@ -157,12 +147,10 @@ class HomePageController extends GetxController
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
-
       var response = await http.get(
         Uri.parse("$url/charts/orders/weekly"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['total_orders'];
         List<dynamic> data = json.decode(response.body)['data'];
@@ -170,10 +158,11 @@ class HomePageController extends GetxController
         weeklyOrderChartDatas.value =
             data.map((json) => orderChartModel.fromJson(json)).toList();
       } else {
-        throw Exception('Failed to load chart data${response.statusCode}');
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      print(e);
+      customPopUp(
+          'Error, gagal untuk mengambil data Pesanan mingguan', warningColor);
     }
   }
 
@@ -185,12 +174,10 @@ class HomePageController extends GetxController
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
-
       var response = await http.get(
         Uri.parse("$url/charts/transactions/weekly"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['total_income'];
         List<dynamic> data = json.decode(response.body)['data'];
@@ -200,10 +187,11 @@ class HomePageController extends GetxController
             .map((json) => TransactionWeeklyChartModel.fromJson(json))
             .toList();
       } else {
-        throw Exception('Failed to load chart data${response.statusCode}');
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      print(e);
+      customPopUp(
+          'Error, gagal untuk mengambil data Transaksi mingguan', warningColor);
     }
   }
 
@@ -215,23 +203,18 @@ class HomePageController extends GetxController
         'Accept': 'application/json',
         'Authorization': 'Bearer $token'
       };
-
       var response = await http.get(
         Uri.parse("$url/admin/home/overview"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
         overviewData.value = OverviewModel.fromJson(jsonResponse);
       } else {
-        Get.snackbar("Gagal Mengambil Data", "Silahkan coba lagi",
-            snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      print(e);
-      Get.snackbar("Terjadi Kesalahan", "Silahkan coba lagi",
-          snackPosition: SnackPosition.TOP, backgroundColor: Colors.red);
+      customPopUp('Error, gagal untuk mengambil data Ringkasan', warningColor);
     }
   }
 

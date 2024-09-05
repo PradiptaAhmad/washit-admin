@@ -19,7 +19,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: MainpageAppbarWidget(
-        title: 'Detail transaksi',
+        title: 'Detail Pesanan',
       ),
       body: Obx(() {
         if (controller.isLoading.isTrue) {
@@ -100,7 +100,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                               rightTitle:
                                   controller.detailData['jenis_pemesanan'] ==
                                           'antar_mandiri'
-                                      ? "Antar mandiri"
+                                      ? "Antar Mandiri"
                                       : "Antar Jemput"),
                           SizedBox(height: 5),
                           DetailDataWidget(
@@ -196,10 +196,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                 ),
                 SizedBox(height: defaultMargin),
                 Visibility(
-                  visible: controller.argument[1] == 'status' &&
-                          controller.detailData['status'] == "process"
-                      ? true
-                      : false,
+                  visible: controller.argument[1] == 'status' ? true : false,
                   child: SliderButton(
                     width: double.infinity,
                     action: () async {

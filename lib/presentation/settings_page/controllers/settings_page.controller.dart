@@ -6,44 +6,42 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
+import 'package:washit_admin/widget/common/custom_pop_up.dart';
 
 import '../../../config.dart';
 import '../../../infrastructure/navigation/routes.dart';
 import '../../../infrastructure/theme/themes.dart';
 
 class SettingController extends GetxController {
-  //TODO: Implement HomeController
-
+  //Important
   final count = 0.obs;
   var isLoading = false.obs;
   var imageFile = Rx<File?>(null);
-  final adminData = {}.obs;
-
   GetStorage box = GetStorage();
+
+  //Var
+  final adminData = {}.obs;
 
   Future<void> fetchAdminData() async {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
-
       var headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       };
-
       final response = await http.get(
         Uri.parse('$url/admin/accounts/details'),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['admin'];
         adminData.value = jsonResponse;
       } else {
-        Get.snackbar('Error', '${response.statusCode}');
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      customPopUp('Error, gagal untuk mengambil data admin', warningColor);
     }
   }
 
@@ -51,7 +49,6 @@ class SettingController extends GetxController {
     try {
       final url = ConfigEnvironments.getEnvironments()['url'];
       final token = box.read('token');
-
       var headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
@@ -60,20 +57,15 @@ class SettingController extends GetxController {
         Uri.parse("${url}/admin/accounts/logout"),
         headers: headers,
       );
-
       if (response.statusCode == 200) {
-        Get.snackbar("Berhasil", "Anda telah berhasil logout",
-            snackPosition: SnackPosition.TOP, backgroundColor: successColor);
+        customPopUp('Sukses, berhasil keluar dari akun', successColor);
         box.remove('token');
         Get.offAllNamed(Routes.LOGIN_PAGE);
       } else {
-        Get.snackbar("Gagal ${response.statusCode}", "Gagal logout",
-            snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      Get.snackbar("Gagal", e.toString(),
-          snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
-      print(e);
+      customPopUp('Error, gagal untuk keluar dari akun', warningColor);
     }
   }
 
@@ -81,12 +73,10 @@ class SettingController extends GetxController {
     try {
       final url = ConfigEnvironments.getEnvironments()['url'];
       final token = box.read('token');
-
       var headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       };
-
       final request = http.MultipartRequest(
           'POST', Uri.parse('$url/admin/accounts/update/profile-picture'));
       request.headers.addAll(headers);
@@ -97,18 +87,14 @@ class SettingController extends GetxController {
       ));
       final response = await request.send();
       if (response.statusCode == 200) {
-        Get.snackbar("Berhasil", "Foto profil telah berhasil diganti",
-            snackPosition: SnackPosition.TOP, backgroundColor: successColor);
+        customPopUp(
+            'Sukses, berhasil untuk memperbarui foto profile', successColor);
         onRefresh();
       } else {
-        Get.snackbar(
-            "Gagal ${response.statusCode}", "Foto profil gagal untuk diganti",
-            snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      Get.snackbar("Gagal", e.toString(),
-          snackPosition: SnackPosition.TOP, backgroundColor: warningColor);
-      print(e);
+      customPopUp('Error, gagal untuk memperbarui foto profil', warningColor);
     }
   }
 
@@ -116,34 +102,30 @@ class SettingController extends GetxController {
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
-
       var headers = {
         'Content-Type': 'application/json',
         'Accept': 'application/json',
         'Authorization': 'Bearer $token',
       };
-
       var body = jsonEncode({
         'username': adminData['username'],
         'email': adminData['email'],
         'phone': adminData['phone'],
       });
-
       final response = await http.put(
         Uri.parse('$url/admin/accounts/update'),
         headers: headers,
         body: body,
       );
-
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['admin'];
-        adminData.value = jsonResponse; // Update adminData with new data
-        Get.snackbar("Success", "Account information updated successfully");
+        adminData.value = jsonResponse;
+        customPopUp('Sukses, berhasil untuk memperbarui data', successColor);
       } else {
-        Get.snackbar('Error', '${response.statusCode}');
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      Get.snackbar('Error', e.toString());
+      customPopUp('Error, gagal untuk memperbarui data', warningColor);
     }
   }
 
@@ -183,24 +165,6 @@ class SettingController extends GetxController {
         );
       },
     );
-  }
-
-  void updateAdminNameData() => fetchUpdateAccount();
-
-  void updateEmailData() => fetchUpdateAccount();
-
-  void updateAdminPhoneData() => fetchUpdateAccount();
-
-  void updateAdminName(String newValue) {
-    adminData['username'] = newValue;
-  }
-
-  void updateEmail(String newValue) {
-    adminData['email'] = newValue;
-  }
-
-  void updatePhoneNumber(String newValue) {
-    adminData['phone'] = newValue;
   }
 
   void onRefresh() async {

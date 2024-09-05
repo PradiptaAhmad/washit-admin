@@ -1,27 +1,30 @@
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
+import 'package:washit_admin/infrastructure/theme/themes.dart';
+import 'package:washit_admin/widget/common/custom_pop_up.dart';
 
 import '../../../config.dart';
 
 class AddNotificationPageController extends GetxController {
+  // Important
   final count = 0.obs;
   var isLoading = false.obs;
+  GetStorage box = GetStorage();
+
+  // Var
   var judul = ''.obs;
   var deskripsi = ''.obs;
-  GetStorage box = GetStorage();
 
   Future<void> postNotification() async {
     isLoading.value = true;
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read('token');
-
       var headers = {
         'Accept': 'application/json',
         'Authorization': 'Bearer ${token.toString()}',
       };
-
       var data = {
         'title': judul.toString(),
         'body': deskripsi.toString(),
@@ -32,11 +35,13 @@ class AddNotificationPageController extends GetxController {
         body: data,
       );
       if (response.statusCode == 200) {
+        customPopUp(
+            'Sukses, berhasil untuk menyiarkan notifikasi', successColor);
       } else {
-        Get.snackbar('Error', '${response.statusCode}');
+        customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
     } catch (e) {
-      Get.snackbar('Error catch', e.toString());
+      customPopUp('Error, gagal untuk menyiarkan notifikasi', warningColor);
     } finally {
       isLoading.value = false;
     }

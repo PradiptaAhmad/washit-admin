@@ -25,7 +25,7 @@ class FiturView extends GetView<FiturController> {
           return Center(child: Text('No fitur available'));
         } else {
           return RefreshIndicator(
-            onRefresh: controller.refreshFitur,
+            onRefresh: () => controller.fetchFitur(),
             child: ListView.builder(
               itemCount: controller.serviceList.length,
               itemBuilder: (context, index) {
@@ -129,7 +129,7 @@ class FiturView extends GetView<FiturController> {
                                               },
                                               splashColor: Colors.transparent,
                                               highlightColor:
-                                                  Colors.transparent, 
+                                                  Colors.transparent,
                                               child: Row(
                                                 children: [
                                                   Expanded(
@@ -165,7 +165,6 @@ class FiturView extends GetView<FiturController> {
                                                 ],
                                               ),
                                             ),
-                                            
                                           ],
                                         ),
                                       ),
@@ -242,7 +241,6 @@ class FiturView extends GetView<FiturController> {
       titlePadding: EdgeInsets.only(top: 20, left: 15, right: 15),
       titleStyle: tsTitleSmallMedium(black),
       contentPadding: EdgeInsets.symmetric(horizontal: 15, vertical: 10),
-      
       content: Form(
         key: _formKey,
         child: Padding(
