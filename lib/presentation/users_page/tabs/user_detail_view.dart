@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:url_launcher/url_launcher.dart'; // Import url_launcher
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 import 'package:washit_admin/widget/common/mainpage_appbar_widget.dart';
@@ -23,7 +24,7 @@ class UserDetailView extends StatelessWidget {
       appBar: MainpageAppbarWidget(
         title: 'Detail Pengguna',
       ),
-      body: SingleChildScrollView( // Added SingleChildScrollView here
+      body: SingleChildScrollView(
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: defaultMargin),
           child: Column(
@@ -77,6 +78,7 @@ class UserDetailView extends StatelessWidget {
                       context,
                       "No. Ponsel",
                       "${phone ?? "08123456789"}",
+                      isPhone: true,
                     ),
                     SizedBox(height: 10),
                     _buildDetailItem(
@@ -87,7 +89,7 @@ class UserDetailView extends StatelessWidget {
                   ],
                 ),
               ),
-              SizedBox(height: 20), // Add some bottom padding to prevent overflow
+              SizedBox(height: 20),
             ],
           ),
         ),
@@ -96,7 +98,7 @@ class UserDetailView extends StatelessWidget {
   }
 }
 
-Widget _buildDetailItem(BuildContext context, String leftText, String rightText) {
+Widget _buildDetailItem(BuildContext context, String leftText, String rightText, {bool isPhone = false}) {
   return Row(
     crossAxisAlignment: CrossAxisAlignment.start,
     mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -108,12 +110,26 @@ Widget _buildDetailItem(BuildContext context, String leftText, String rightText)
         ),
       ),
       Expanded(
-        child: Text(
-          rightText,
-          style: tsBodySmallMedium(darkGrey),
-          textAlign: TextAlign.right,
+        child: GestureDetector(
+          onTap: isPhone ? () => _launchPhone(rightText) : null,
+          child: Text(
+            rightText,
+            style: tsBodySmallMedium(isPhone ? Colors.blue : darkGrey).copyWith(
+              decoration: isPhone ? TextDecoration.underline : TextDecoration.none,
+            ),
+            textAlign: TextAlign.right,
+          ),
         ),
       ),
     ],
   );
+}
+
+void _launchPhone(String phoneNumber) async {
+  final url = 'tel:$phoneNumber';
+  if (await canLaunch(url)) {
+    await launch(url);
+  } else {
+    throw 'Could not launch $url';
+  }
 }
