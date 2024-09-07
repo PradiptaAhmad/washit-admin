@@ -17,4 +17,5 @@ class Routes {
   static const HISTORY_PAGE = '/history-page';
   static const ADD_NOTIFICATION_PAGE = '/add-notification-page';
   static const HISTORY_TRANSACTION_PAGE = '/history-transaction-page';
+  static const USER_DETAIL_PAGE = '/user-detail-page';
 }

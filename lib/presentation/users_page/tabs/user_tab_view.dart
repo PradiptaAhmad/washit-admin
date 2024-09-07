@@ -2,9 +2,9 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:washit_admin/infrastructure/navigation/routes.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/users_page/controllers/users_page.controller.dart';
-import 'package:washit_admin/presentation/users_page/tabs/user_detail_view.dart';
 import 'package:washit_admin/widget/common/main_container_widget.dart';
 import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
@@ -29,7 +29,9 @@ class UserTabView extends GetView<UsersPageController> {
                 suffixInsets: EdgeInsets.only(right: 10),
                 onChanged: (value) {
                   controller.filteredUserData.value = controller.userData
-                      .where((user) => user['username'].toLowerCase().contains(value.toLowerCase()))
+                      .where((user) => user['username']
+                          .toLowerCase()
+                          .contains(value.toLowerCase()))
                       .toList();
                 },
               ),
@@ -76,14 +78,8 @@ Widget _shimmerItemList() {
 
 Widget _buildItemList(user) {
   return MainContainerWidget(
-    onPressed: () => Get.to(() => UserDetailView(
-          email: user['email'],
-          username: user['username'],
-          phone: user['phone'],
-          address: user['address'],
-          image: user['image_path'],
-          created: user['created_at'],
-        )),
+    onPressed: () =>
+        Get.toNamed(Routes.USER_DETAIL_PAGE, arguments: user['id']),
     margin: EdgeInsets.symmetric(horizontal: 15, vertical: 3),
     padding: EdgeInsets.all(15),
     childs: Row(
