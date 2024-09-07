@@ -194,26 +194,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                             SizedBox(height: 5),
                           ]))),
                 ),
-                SizedBox(height: defaultMargin),
-                Visibility(
-                  visible: controller.argument[1] == 'status' ? true : false,
-                  child: SliderButton(
-                    width: double.infinity,
-                    action: () async {
-                      controller.updateStatus();
-                      return true;
-                    },
-                    icon: Text(">"),
-                    label: Align(
-                      alignment: Alignment.center,
-                      child: Text(
-                        "Update Status",
-                        style: tsBodyMediumMedium(darkGrey),
-                      ),
-                    ),
-                  ),
-                ),
-                SizedBox(height: defaultMargin),
+                SizedBox(height: 20),
                 Visibility(
                   visible: controller.argument[1] == 'status' &&
                           controller.detailData['berat_laundry'] == null
@@ -238,6 +219,25 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                         child: Text("Update Berat Laundry",
                             style: tsBodySmallSemibold(primaryColor)),
                       ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: defaultMargin),
+                Visibility(
+                  visible: controller.argument[1] == 'status' ? true : false,
+                  child: SliderButton(
+                    width: double.infinity,
+                    action: () async {
+                      controller.updateStatus();
+                      controller.fetchDetailsOrder();
+                      controller.fetchStatusData();
+                      return true;
+                    },
+                    buttonSize: 50,
+                    alignLabel: Alignment.center,
+                    label: Text(
+                      "Slide untuk update status",
+                      style: tsBodySmallMedium(grey),
                     ),
                   ),
                 ),

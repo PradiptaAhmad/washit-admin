@@ -279,7 +279,6 @@ Widget _buildItemList(order) {
                             borderRadius: BorderRadius.circular(4),
                             color: statusColor.withOpacity(0.1),
                           ),
-                          padding: const EdgeInsets.symmetric(horizontal: 8),
                           child: Text(
                             '${order['status']}',
                             style: tsBodySmallSemibold(statusColor),

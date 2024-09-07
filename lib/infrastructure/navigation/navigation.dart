@@ -3,11 +3,13 @@ import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/add_notification_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/fitur_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';
+import 'package:washit_admin/infrastructure/navigation/bindings/controllers/user_detail_page.controller.binding.dart';
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 import 'package:washit_admin/presentation/fiturService_page/fiturService_page.screen.dart';
 import 'package:washit_admin/presentation/history_page/history_page.screen.dart';
 import 'package:washit_admin/presentation/history_transaction_page/history_transaction_page.screen.dart';
 import 'package:washit_admin/presentation/transaction_page/transaction_page.screen.dart';
+import 'package:washit_admin/presentation/user_detail_page/user_detail_page.screen.dart';
 
 import '../../config.dart';
 import '../../presentation/add_notification_page/add_notification_page.screen.dart';
@@ -97,6 +99,11 @@ class Nav {
       name: Routes.HISTORY_TRANSACTION_PAGE,
       page: () => HistoryTransactionPage(),
       binding: HistoryPageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.USER_DETAIL_PAGE,
+      page: () => UserDetailPage(),
+      binding: UserDetailPageControllerBinding(),
     ),
   ];
 }

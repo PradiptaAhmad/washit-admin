@@ -18,10 +18,12 @@ class UsersPageController extends GetxController
 
   //Var
   var userData = [].obs;
+  var userDetailData = {}.obs;
   var filteredUserData = [].obs;
   var reviews = [].obs;
   var averageRating = 0.0.obs;
   var totalReviews = 0.obs;
+  late final userId;
 
   Future<void> fetchUserData() async {
     try {
@@ -129,6 +131,7 @@ class UsersPageController extends GetxController
   void onInit() {
     super.onInit();
     tabController = TabController(length: 2, vsync: this);
+    userId = Get.arguments;
     onRefresh();
   }
 
