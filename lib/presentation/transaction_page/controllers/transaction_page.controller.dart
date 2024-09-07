@@ -57,6 +57,8 @@ class TransactionPageController extends GetxController {
       }
     } catch (e) {
       customPopUp("Error, gagal untuk memanggil order data", warningColor);
+    } finally {
+      isLoading.value = false;
     }
   }
 
