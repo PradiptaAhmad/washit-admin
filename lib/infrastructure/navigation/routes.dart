@@ -18,4 +18,6 @@ class Routes {
   static const ADD_NOTIFICATION_PAGE = '/add-notification-page';
   static const HISTORY_TRANSACTION_PAGE = '/history-transaction-page';
   static const USER_DETAIL_PAGE = '/user-detail-page';
+  static const CHAT_PAGE = '/chat-page';
+  static const CHAT_DETAIL_PAGE = '/chat-detail-page';
 }

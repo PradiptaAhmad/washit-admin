@@ -1,8 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:washit_admin/presentation/chat_page/chat_page.screen.dart';
 import 'package:washit_admin/presentation/history_page/history_page.screen.dart';
-import 'package:washit_admin/presentation/history_transaction_page/history_transaction_page.screen.dart';
 import 'package:washit_admin/presentation/screens.dart';
 
 class NavigationMenu extends StatelessWidget {
@@ -10,7 +10,6 @@ class NavigationMenu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // Initialize the NavbarController
     final NavigationController controller = Get.put(NavigationController());
 
     return Scaffold(
@@ -65,12 +64,12 @@ class NavigationMenu extends StatelessWidget {
             ),
             BottomNavigationBarItem(
               icon: Icon(
-                Icons.money,
+                Icons.chat_outlined,
                 size: 22,
               ),
-              activeIcon: Icon(Icons.money,
+              activeIcon: Icon(Icons.chat_rounded,
                   size: 22, color: Colors.black.withOpacity(0.7)),
-              label: 'Transaksi', // Label will always be visible
+              label: 'Pesan', // Label will always be visible
             ),
             BottomNavigationBarItem(
               icon: Icon(
@@ -104,7 +103,7 @@ class NavigationController extends GetxController {
       case 2:
         return HomePageScreen();
       case 3:
-        return HistoryTransactionPage();
+        return ChatPage();
       case 4:
         return SettingPage();
       default:
