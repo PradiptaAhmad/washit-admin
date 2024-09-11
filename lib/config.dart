@@ -22,7 +22,7 @@ class ConfigEnvironments {
     },
     {
       'env': Environments.PRODUCTION,
-      'url': 'http://washitapi.pradiptaahmad.tech/api',
+      'url': 'https://api.laundrynaruto.my.id/api',
     },
   ];
 

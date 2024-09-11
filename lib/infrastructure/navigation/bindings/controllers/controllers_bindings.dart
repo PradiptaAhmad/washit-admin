@@ -1,7 +1,13 @@
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/add_notification_page.controller.binding.dart';
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/chat_page.controller.binding.dart';
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/fitur_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/history_page.controller.binding.dart';
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/history_transaction_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/home_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/login_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/register_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/settings_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/status_page.controller.binding.dart';
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/user_detail_page.controller.binding.dart';
 export 'package:washit_admin/infrastructure/navigation/bindings/controllers/users_page.controller.binding.dart';
+export 'package:washit_admin/infrastructure/navigation/bindings/controllers/transaction_page.controller.binding.dart';

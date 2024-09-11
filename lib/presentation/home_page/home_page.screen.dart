@@ -5,23 +5,21 @@ import 'package:washit_admin/presentation/home_page/controllers/home_page.contro
 import 'package:washit_admin/presentation/home_page/widgets/tabs/center_tab_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/left_tab_widget.dart';
 import 'package:washit_admin/presentation/home_page/widgets/tabs/right_tab_widget.dart';
+import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
 import '../../widget/common/main_container_widget.dart';
 import '../../widget/common/oval_tab_indicator.dart';
-import '../../widget/shimmer/shimmer_widget.dart';
 
 class HomePageScreen extends GetView<HomePageController> {
   HomePageScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    final isTablet = screenWidth(context) >= 600;
-
     return Scaffold(
       backgroundColor: lightGrey.withOpacity(0.1),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 80),
-        child: _buildAppbar(context, controller, isTablet),
+        preferredSize: Size.fromHeight(kToolbarHeight + 70),
+        child: _buildAppbar(context, controller),
       ),
       body: TabBarView(
         controller: controller.tabController,
@@ -35,19 +33,17 @@ class HomePageScreen extends GetView<HomePageController> {
   }
 }
 
-Widget _buildAppbar(
-    BuildContext context, HomePageController controller, bool isTablet) {
+Widget _buildAppbar(BuildContext context, HomePageController controller) {
   return MainContainerWidget(
     color: primaryColor,
     borderRadius: 25,
     childs: Column(
       children: [
-        SizedBox(height: screenHeight(context) / 20),
-        _buildMainTitleWidget(context, controller, isTablet),
+        SizedBox(height: screenHeight(context) / 18),
+        _buildMainTitleWidget(context, controller),
         Divider(color: lightGrey.withOpacity(0.2), thickness: 2, height: 10),
         Padding(
-          padding:
-              EdgeInsets.symmetric(horizontal: screenWidth(context) * 0.04),
+          padding: EdgeInsets.symmetric(horizontal: 15),
           child: TabBar(
             labelColor: black,
             unselectedLabelColor: darkGrey,
@@ -71,93 +67,80 @@ Widget _buildAppbar(
 }
 
 Widget _buildMainTitleWidget(
-    BuildContext context, HomePageController controller, bool isTablet) {
-  return Padding(
-    padding: EdgeInsets.symmetric(
-        horizontal: screenWidth(context) * 0.04, vertical: 4),
-    child: Row(
-      children: [
-        Expanded(
-          flex: 1,
-          child: Obx(
-            () => !controller.isLoading.value
-                ? ClipRRect(
-                    borderRadius: BorderRadius.circular(10),
-                    child: Container(
-                      height: isTablet
-                          ? screenWidth(context) * 0.08
-                          : screenWidth(context) * 0.1,
-                      width: isTablet
-                          ? screenWidth(context) * 0.08
-                          : screenWidth(context) * 0.1,
-                      child: Image.network(
-                        controller.userData['image_path'] == null
-                            ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
-                            : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}',
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  )
-                : ShimmerWidget(radius: 10, height: 44),
-          ),
-        ),
-        Expanded(
-          flex: 7,
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    BuildContext context, HomePageController controller) {
+  return Obx(
+    () => !controller.isLoading.isTrue
+        ? Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
               children: [
-                Obx(
-                  () => !controller.isLoading.value
-                      ? Text(
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10),
+                  child: Container(
+                    width: 45,
+                    height: 45,
+                    child: Image.network(
+                      controller.userData['image_path'] == null
+                          ? 'https://ui-avatars.com/api/?name=${controller.userData['username']}&background=random&size=128'
+                          : 'https://pradiptaahmad.tech/image/${controller.userData['image_path']}',
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
                           "Halo,",
                           style: tsBodyLargeMedium(darkGrey),
-                        )
-                      : Padding(
-                          padding: const EdgeInsets.only(bottom: 5),
-                          child:
-                              ShimmerWidget(radius: 8, height: 20, width: 80),
                         ),
+                        Text(
+                          controller.userData['username'] ?? "Anon",
+                          style: tsBodyLargeSemibold(black),
+                          overflow: TextOverflow.ellipsis,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
-                Obx(
-                  () => !controller.isLoading.value
-                      ? ConstrainedBox(
-                          constraints: BoxConstraints(
-                              maxWidth: screenWidth(context) * 0.6),
-                          child: Text(
-                            controller.userData['username'] ?? "Anon",
-                            style: tsBodyLargeSemibold(black),
-                            overflow: TextOverflow.ellipsis,
-                          ),
-                        )
-                      : ShimmerWidget(radius: 8, height: 20, width: 200),
+              ],
+            ),
+          )
+        : Padding(
+            padding: EdgeInsets.symmetric(horizontal: 15),
+            child: Row(
+              children: [
+                ShimmerWidget(
+                  height: 45,
+                  width: 45,
+                  radius: 10,
+                ),
+                Expanded(
+                  child: Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ShimmerWidget(
+                          height: 20,
+                          width: 60,
+                          radius: 5,
+                        ),
+                        SizedBox(height: 10),
+                        ShimmerWidget(
+                          height: 20,
+                          width: 160,
+                          radius: 5,
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ],
             ),
           ),
-        ),
-        // Expanded(
-        //   flex: 1,
-        //   child: InkWell(
-        //     onTap: () => Get.toNamed(Routes.ADD_NOTIFICATION_PAGE),
-        //     borderRadius: BorderRadius.circular(50),
-        //     child: Container(
-        //       height: isTablet
-        //           ? screenWidth(context) * 0.08
-        //           : screenWidth(context) * 0.1,
-        //       width: isTablet
-        //           ? screenWidth(context) * 0.08
-        //           : screenWidth(context) * 0.1,
-        //       child: const Icon(
-        //         Icons.notification_add_rounded,
-        //         color: darkGrey,
-        //         size: 22,
-        //       ),
-        //     ),
-        //   ),
-        // ),
-      ],
-    ),
   );
 }
