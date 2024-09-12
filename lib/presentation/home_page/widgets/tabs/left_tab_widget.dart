@@ -30,11 +30,8 @@ class LeftTabWidget extends GetView<HomePageController> {
                     Expanded(
                       child: Column(
                         children: [
-                          visualCardWidget(
-                              controller,
-                              "TOTAL PENGGUNA",
-                              controller.overviewData['total_users']
-                                  .toString()),
+                          visualCardWidget(controller, "TOTAL PENGGUNA",
+                              controller.overviewData['total_users']),
                           visualCardWidget(controller, "TOTAL PENDAPATAN",
                               "Rp${controller.overviewData['total_transactions']}"),
                         ],
@@ -43,11 +40,8 @@ class LeftTabWidget extends GetView<HomePageController> {
                     Expanded(
                       child: Column(
                         children: [
-                          visualCardWidget(
-                              controller,
-                              "TOTAL PESANAN",
-                              controller.overviewData['total_orders']
-                                  .toString()),
+                          visualCardWidget(controller, "TOTAL PESANAN",
+                              controller.overviewData['total_orders']),
                           visualCardWidget(controller, "TOTAL RATING",
                               controller.overviewData['average_ratings']),
                         ],
@@ -136,36 +130,39 @@ class LeftTabWidget extends GetView<HomePageController> {
 
 Widget visualCardWidget(HomePageController controller, title, desc) {
   return Obx(
-    () => !controller.isLoading.isTrue || controller.overviewData.isEmpty
-        ? MainContainerWidget(
-            margin: EdgeInsets.all(5),
-            padding: EdgeInsets.all(10),
-            childs: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
+    () {
+      if (controller.isLoading.isTrue || controller.overviewData.isEmpty) {
+        return Padding(
+          padding: const EdgeInsets.all(5.0),
+          child: ShimmerWidget(
+            height: 100,
+            radius: 10,
+          ),
+        );
+      }
+      return MainContainerWidget(
+        margin: EdgeInsets.all(5),
+        padding: EdgeInsets.all(10),
+        childs: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            Row(
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Flexible(
-                      child: Text(
-                        "${title}",
-                        style: tsLabelLargeMedium(grey),
-                        overflow: TextOverflow.ellipsis, // Prevent overflow
-                      ),
-                    ),
-                  ],
+                Flexible(
+                  child: Text(
+                    "${title}",
+                    style: tsLabelLargeMedium(grey),
+                    overflow: TextOverflow.ellipsis, // Prevent overflow
+                  ),
                 ),
-                Text("${desc}", style: tsTitleLargeSemibold(black)),
-                SizedBox(height: 10),
               ],
             ),
-          )
-        : Padding(
-            padding: const EdgeInsets.all(5.0),
-            child: ShimmerWidget(
-              height: 100,
-              radius: 10,
-            ),
-          ),
+            Text("${desc}", style: tsTitleLargeSemibold(black)),
+            SizedBox(height: 10),
+          ],
+        ),
+      );
+    },
   );
 }

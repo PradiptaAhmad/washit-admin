@@ -91,7 +91,7 @@ Widget _buildItemList(user) {
             backgroundColor: grey,
             backgroundImage: NetworkImage(user['image_path'] == null
                 ? 'https://ui-avatars.com/api/?name=${user['username']}&background=random&size=128'
-                : 'https://pradiptaahmad.tech/image/${user['image_path']}'),
+                : 'https://api.laundrynaruto.my.id/image/${user['image_path']}'),
           ),
         ),
         SizedBox(width: 5),

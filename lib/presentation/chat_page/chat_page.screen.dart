@@ -17,24 +17,29 @@ class ChatPage extends GetView<ChatPageController> {
             style: tsTitleSmallMedium(primaryColor)),
       ),
       body: RefreshIndicator(
-        onRefresh: () async {
-          return null;
-        },
+        onRefresh: () async => controller.fetchUserData(),
         child: ListView.builder(
           physics: AlwaysScrollableScrollPhysics(),
           shrinkWrap: true,
-          itemCount: 5,
-          itemBuilder: (context, index) => InkWell(
-            onTap: () => Get.toNamed(Routes.CHAT_DETAIL_PAGE),
-            child: _buildItemList(),
-          ),
+          itemCount: controller.userData.length,
+          itemBuilder: (context, index) {
+            var user = controller.userData[index];
+            return InkWell(
+              onTap: () => Get.toNamed(Routes.CHAT_DETAIL_PAGE, arguments: [
+                user['id'],
+                user['username'],
+                user['image_path'],
+              ]),
+              child: _buildItemList(user),
+            );
+          },
         ),
       ),
     );
   }
 }
 
-Widget _buildItemList() {
+Widget _buildItemList(user) {
   return Container(
     padding: EdgeInsets.symmetric(horizontal: 10, vertical: 10),
     child: Row(
@@ -43,11 +48,16 @@ Widget _buildItemList() {
       children: [
         Container(
           decoration: BoxDecoration(
-            color: Colors.blue,
             borderRadius: BorderRadius.circular(100),
           ),
           width: 45,
           height: 45,
+          child: CircleAvatar(
+            backgroundColor: grey,
+            backgroundImage: NetworkImage(user['image_path'] == null
+                ? 'https://ui-avatars.com/api/?name=${user['username']}&background=random&size=128'
+                : 'https://api.laundrynaruto.my.id/image/${user['image_path']}'),
+          ),
         ),
         Expanded(
           child: Container(
@@ -60,7 +70,7 @@ Widget _buildItemList() {
                   children: [
                     Expanded(
                       child: Text(
-                        'Marlen Edzel Satriani',
+                        '${user['username']}',
                         style: tsBodySmallMedium(black),
                       ),
                     ),

@@ -43,6 +43,7 @@ class Nav {
       HistoryPageControllerBinding(),
       SettingsPageControllerBinding(),
       UsersPageControllerBinding(),
+      ChatPageControllerBinding()
     ]),
     GetPage(
       name: Routes.HOME_PAGE,

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:url_launcher/url_launcher_string.dart';
 import 'package:washit_admin/presentation/user_detail_page/controllers/user_detail_page.controller.dart';
 import 'package:washit_admin/widget/shimmer/shimmer_widget.dart';
 
@@ -46,7 +46,7 @@ class UserDetailPage extends GetView<UserDetailPageController> {
                                                     'image_path'] ==
                                                 null
                                             ? 'https://ui-avatars.com/api/?name=${controller.userDetailData['username']}&background=random&size=128'
-                                            : 'https://pradiptaahmad.tech/image/${controller.userDetailData['image_path']}',
+                                            : 'https://api.laundrynaruto.my.id/image/${controller.userDetailData['image_path']}',
                                         fit: BoxFit.cover,
                                       ),
                                     ),
@@ -75,28 +75,32 @@ class UserDetailPage extends GetView<UserDetailPageController> {
                           childs: Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              _buildDetailItem(context, "Email",
-                                  "${controller.userDetailData['email'] ?? "default@gmail.com"}"),
+                              _buildDetailItem(
+                                  context,
+                                  "Email",
+                                  "${controller.userDetailData['email'] ?? "default@gmail.com"}",
+                                  null),
                               SizedBox(height: 10),
                               _buildDetailItem(
-                                context,
-                                "No. Ponsel",
-                                "${controller.userDetailData['phone'] ?? "08123456789"}",
-                                isPhone: true,
-                              ),
+                                  context,
+                                  "No. Ponsel",
+                                  "${controller.userDetailData['phone'] ?? "08123456789"}",
+                                  () => launchUrlString(
+                                      "tel://${controller.userDetailData['phone']}")),
                               SizedBox(height: 10),
                               _buildDetailItem(
-                                context,
-                                "Alamat",
-                                controller.userDetailData['address'] == null
-                                    ? "Alamat tidak tersedia"
-                                    : controller.userDetailData['address'],
-                              ),
+                                  context,
+                                  "Alamat",
+                                  controller.userDetailData['address'] == null
+                                      ? "Alamat tidak tersedia"
+                                      : controller.userDetailData['address'],
+                                  null),
                               _buildDetailItem(
                                   context,
                                   "Jumlah Pesanan",
                                   controller.userDetailData['order_count']
-                                      .toString()),
+                                      .toString(),
+                                  null),
                             ],
                           ),
                         ),
@@ -139,38 +143,33 @@ Widget _shimmerItemBuild() {
   );
 }
 
-Widget _buildDetailItem(BuildContext context, String leftText, String rightText,
-    {bool isPhone = false}) {
-  return Row(
-    crossAxisAlignment: CrossAxisAlignment.start,
-    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-    children: [
-      Expanded(
-        child: Text(
-          leftText,
-          style: tsBodySmallMedium(grey),
+Widget _buildDetailItem(
+  BuildContext context,
+  String leftText,
+  String rightText,
+  Function()? onTap,
+) {
+  return InkWell(
+    onTap: onTap,
+    child: Row(
+      crossAxisAlignment: CrossAxisAlignment.start,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      children: [
+        Expanded(
+          child: Text(
+            leftText,
+            style: tsBodySmallMedium(grey),
+          ),
         ),
-      ),
-      Expanded(
-        child: GestureDetector(
-          onTap: isPhone ? () => _launchPhone(rightText) : null,
+        Expanded(
           child: Text(
             rightText,
-            style:
-                tsBodySmallMedium(isPhone ? Colors.blue : darkGrey).copyWith(),
+            style: tsBodySmallMedium(onTap != null ? Colors.blue : darkGrey)
+                .copyWith(),
             textAlign: TextAlign.right,
           ),
         ),
-      ),
-    ],
+      ],
+    ),
   );
-}
-
-void _launchPhone(String phoneNumber) async {
-  final url = 'tel:$phoneNumber';
-  if (await canLaunch(url)) {
-    await launch(url);
-  } else {
-    throw 'Could not launch $url';
-  }
 }
