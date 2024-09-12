@@ -23,6 +23,7 @@ class LoginPageController extends GetxController {
 
   Future<void> login() async {
     try {
+      isLoading.value = true;
       FocusScope.of(Get.overlayContext!).unfocus();
       final url = ConfigEnvironments.getEnvironments()["url"];
       final notificationToken = await FirebaseMessaging.instance.getToken();

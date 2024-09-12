@@ -45,7 +45,7 @@ Widget _buildProfileItemList(
                       backgroundImage: NetworkImage(
                         controller.adminData['image_path'] == null
                             ? 'https://ui-avatars.com/api/?name=${controller.adminData['username']}&background=random&size=128'
-                            : 'https://pradiptaahmad.tech/image/${controller.adminData['image_path']}',
+                            : 'https://api.laundrynaruto.my.id/image/${controller.adminData['image_path']}',
                       ),
                     )
                   : ShimmerWidget(
