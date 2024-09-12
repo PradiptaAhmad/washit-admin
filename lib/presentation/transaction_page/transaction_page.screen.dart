@@ -22,7 +22,7 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
         title: 'Detail Pesanan',
       ),
       body: Obx(() {
-        if (controller.isLoading.isTrue) {
+        if (controller.isLoading.value || controller.statusList.isEmpty) {
           return Center(child: CupertinoActivityIndicator());
         }
         return RefreshIndicator(
@@ -33,16 +33,14 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                Visibility(
-                    visible: true,
-                    child: MainContainerWidget(
-                        width: double.infinity,
-                        childs: Padding(
-                            padding: const EdgeInsets.all(8.0),
-                            child: Column(children: [
-                              SizedBox(height: 5),
-                              TransactionStatusProgressWidget()
-                            ])))),
+                MainContainerWidget(
+                    width: double.infinity,
+                    childs: Padding(
+                        padding: const EdgeInsets.all(8.0),
+                        child: Column(children: [
+                          SizedBox(height: 5),
+                          TransactionStatusProgressWidget()
+                        ]))),
                 SizedBox(height: 10),
                 MainContainerWidget(
                     width: double.infinity,

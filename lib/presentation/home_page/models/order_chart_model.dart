@@ -8,8 +8,8 @@ class orderChartModel {
   });
 
   orderChartModel.fromJson(dynamic json) {
-    totalOrders = json['total_orders'];
-    createdAt = json['created_at'];
+    totalOrders = json['total_orders'].toString();
+    createdAt = json['created_at'].toString();
   }
 
   orderChartModel copyWith({

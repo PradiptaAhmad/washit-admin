@@ -7,7 +7,6 @@ import 'package:http/http.dart' as http;
 import 'package:washit_admin/config.dart';
 import 'package:washit_admin/infrastructure/theme/themes.dart';
 import 'package:washit_admin/presentation/home_page/models/order_chart_model.dart';
-import 'package:washit_admin/presentation/home_page/models/overview_model.dart';
 import 'package:washit_admin/widget/common/custom_pop_up.dart';
 
 import '../models/transaction_weekly_chart_model.dart';
@@ -30,14 +29,7 @@ class HomePageController extends GetxController
   var sumTotalOrders = 0.obs;
   var sumTotalEarnings = 0.obs;
 
-  var overviewData = OverviewModel(
-    status: '',
-    message: '',
-    totalOrders: 0,
-    totalUsers: 0,
-    totalTransactions: 0,
-    averageRatings: 0.0,
-  ).obs;
+  var overviewData = {}.obs;
 
   Future<void> fetchUserData() async {
     try {
@@ -153,7 +145,7 @@ class HomePageController extends GetxController
       );
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body)['total_orders'];
-        List<dynamic> data = json.decode(response.body)['data'];
+        List<dynamic> data = jsonDecode(response.body)['data'];
         sumTotalOrders.value = jsonResponse;
         weeklyOrderChartDatas.value =
             data.map((json) => orderChartModel.fromJson(json)).toList();
@@ -209,7 +201,7 @@ class HomePageController extends GetxController
       );
       if (response.statusCode == 200) {
         final jsonResponse = jsonDecode(response.body);
-        overviewData.value = OverviewModel.fromJson(jsonResponse);
+        overviewData.value = jsonResponse;
       } else {
         customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }

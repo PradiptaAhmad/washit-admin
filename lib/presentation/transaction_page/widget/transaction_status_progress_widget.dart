@@ -14,56 +14,48 @@ class TransactionStatusProgressWidget
 
   @override
   Widget build(BuildContext context) {
-    return Obx(() {
-      if (controller.statusList.isEmpty) {
-        return SizedBox();
-      } else {
-        return Column(
-          crossAxisAlignment: CrossAxisAlignment.center,
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            TweenAnimationBuilder<double>(
-              tween: Tween<double>(
-                begin: 0,
-                end: controller.statusList['status_code'] / 5,
-              ),
-              duration: Duration(seconds: 2),
-              builder: (context, value, child) {
-                return ShaderMask(
-                  shaderCallback: (rect) {
-                    return LinearGradient(
-                      stops: [value, value],
-                      colors: [successColor, lightGrey],
-                      begin: Alignment.centerLeft,
-                      end: Alignment.centerRight,
-                    ).createShader(rect);
-                  },
-                  child: Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      buildIcon(Iconsax.receipt, context),
-                      buildDottedLine(),
-                      buildIcon(Iconsax.wallet_1, context),
-                      buildDottedLine(),
-                      buildIcon(Iconsax.bubble, context),
-                      buildDottedLine(),
-                      buildIcon(Iconsax.location, context),
-                      buildDottedLine(),
-                      buildIcon(Iconsax.verify, context),
-                    ],
-                  ),
-                );
+    return Column(
+      children: [
+        TweenAnimationBuilder<double>(
+          tween: Tween<double>(
+            begin: 0,
+            end: controller.statusList['status_code'] / 5 ?? 0,
+          ),
+          duration: Duration(seconds: 2),
+          builder: (context, value, child) {
+            return ShaderMask(
+              shaderCallback: (rect) {
+                return LinearGradient(
+                  stops: [value, value],
+                  colors: [successColor, lightGrey],
+                  begin: Alignment.centerLeft,
+                  end: Alignment.centerRight,
+                ).createShader(rect);
               },
-            ),
-            SizedBox(height: 10),
-            Text(
-              "${controller.statusList['status_description']}",
-              style: tsBodySmallMedium(black),
-            ),
-          ],
-        );
-      }
-    });
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  buildIcon(Iconsax.receipt, context),
+                  buildDottedLine(),
+                  buildIcon(Iconsax.wallet_1, context),
+                  buildDottedLine(),
+                  buildIcon(Iconsax.bubble, context),
+                  buildDottedLine(),
+                  buildIcon(Iconsax.location, context),
+                  buildDottedLine(),
+                  buildIcon(Iconsax.verify, context),
+                ],
+              ),
+            );
+          },
+        ),
+        SizedBox(height: 10),
+        Text(
+          "${controller.statusList['status_description']}",
+          style: tsBodySmallMedium(black),
+        ),
+      ],
+    );
   }
 
   Widget buildIcon(IconData icon, BuildContext context) {

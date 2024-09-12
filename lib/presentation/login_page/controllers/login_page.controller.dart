@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:firebase_messaging/firebase_messaging.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -21,8 +22,8 @@ class LoginPageController extends GetxController {
   var password = ''.obs;
 
   Future<void> login() async {
-    isLoading.value = true;
     try {
+      FocusScope.of(Get.overlayContext!).unfocus();
       final url = ConfigEnvironments.getEnvironments()["url"];
       final notificationToken = await FirebaseMessaging.instance.getToken();
       var data = {
