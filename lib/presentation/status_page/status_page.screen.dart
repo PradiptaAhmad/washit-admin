@@ -56,7 +56,7 @@ class StatusPageScreen extends GetView<StatusPageController> {
                     height: 10,
                   ),
                   MainContainerWidget(
-                    onPressed: () => controller.onRefresh(),
+                    onPressed: () => controller.applyFilter('refresh'),
                     padding: EdgeInsets.all(8),
                     childs: Row(
                       mainAxisSize: MainAxisSize.min,
@@ -80,10 +80,14 @@ class StatusPageScreen extends GetView<StatusPageController> {
               );
             }
             return ListView.builder(
-              itemCount: controller.ordersList.length,
+              itemCount: controller.selectedFilter.value == 0
+                  ? controller.ordersList.length
+                  : controller.filteredOrdersList.length,
               shrinkWrap: true,
               itemBuilder: (context, index) {
-                final order = controller.ordersList[index];
+                final order = controller.selectedFilter.value == 0
+                    ? controller.ordersList[index]
+                    : controller.filteredOrdersList[index];
                 return _buildItemList(order);
               },
             );
