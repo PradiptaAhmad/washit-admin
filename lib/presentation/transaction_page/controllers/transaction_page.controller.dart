@@ -146,8 +146,8 @@ class TransactionPageController extends GetxController {
 
   @override
   void onInit() async {
-    super.onInit();
     argument = Get.arguments;
+    super.onInit();
     onRefresh();
   }
 
