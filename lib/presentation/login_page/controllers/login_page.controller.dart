@@ -22,6 +22,7 @@ class LoginPageController extends GetxController {
   var password = ''.obs;
 
   Future<void> login() async {
+    isLoading.value = true;
     try {
       isLoading.value = true;
       FocusScope.of(Get.overlayContext!).unfocus();
@@ -52,6 +53,7 @@ class LoginPageController extends GetxController {
       }
     } catch (e) {
       customPopUp('Error, gagal untuk masuk ke akun', warningColor);
+      print(e);
     } finally {
       isLoading.value = false;
     }

@@ -91,7 +91,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
               ),
               Obx(() => ButtonWidget(
                   backgroundColor: secondaryColor,
-                  child: controller.isLoading.value
+                  child: controller.isLoading.isTrue
                       ? Padding(
                           padding: const EdgeInsets.symmetric(vertical: 15),
                           child: Text(

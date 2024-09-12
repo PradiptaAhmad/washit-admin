@@ -188,6 +188,7 @@ class HomePageController extends GetxController
   }
 
   Future<void> fetchOverviewData() async {
+    isLoading.value = true;
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -207,18 +208,22 @@ class HomePageController extends GetxController
       }
     } catch (e) {
       customPopUp('Error, gagal untuk mengambil data Ringkasan', warningColor);
+    } finally {
+      isLoading.value = false;
     }
   }
 
   Future<void> onRefresh() async {
     isLoading.value = true;
-    await fetchOrders();
-    await fetchUserData();
-    await fetchDailyOrderData();
-    await fetchDailyTransactionData();
-    await getWeeklyOrderChartData();
-    await getWeeklyTransactionChartData();
-    await fetchOverviewData();
+    await Future.wait([
+      fetchOverviewData(),
+      fetchOrders(),
+      fetchUserData(),
+      fetchDailyOrderData(),
+      fetchDailyTransactionData(),
+      getWeeklyOrderChartData(),
+      getWeeklyTransactionChartData(),
+    ]);
     isLoading.value = false;
   }
 
