@@ -107,7 +107,7 @@ class LoginPageScreen extends GetView<LoginPageController> {
                           ),
                         ),
                   onPressed: () => !controller.isLoading.isTrue
-                      ? controller.login()
+                      ? controller.login(context)
                       : null)),
               SizedBox(height: 15),
             ],

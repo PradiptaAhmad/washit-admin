@@ -21,11 +21,11 @@ class LoginPageController extends GetxController {
   var email = ''.obs;
   var password = ''.obs;
 
-  Future<void> login() async {
+  Future<void> login(BuildContext context) async {
     isLoading.value = true;
     try {
       isLoading.value = true;
-      FocusScope.of(Get.overlayContext!).unfocus();
+      FocusScope.of(context).unfocus();
       final url = ConfigEnvironments.getEnvironments()["url"];
       final notificationToken = await FirebaseMessaging.instance.getToken();
       var data = {
