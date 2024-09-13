@@ -1,6 +1,7 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:http/http.dart' as http;
@@ -18,6 +19,19 @@ class ChatDetailPageController extends GetxController {
   var userDetailData = {}.obs;
   final box = GetStorage();
   late final WebSocketChannel? channel;
+  final ScrollController scrollController = ScrollController();
+  late final Timer pingTimer;
+
+  void scrollToTop() {
+    if (scrollController.hasClients) {
+      scrollController.animateTo(
+        scrollController.position.minScrollExtent,
+        duration: Duration(milliseconds: 300),
+        curve: Curves.easeOut,
+      );
+    }
+  }
+
 
   Future<void> fetchMessageData() async {
     isLoading.value = true;
@@ -33,7 +47,8 @@ class ChatDetailPageController extends GetxController {
         headers: headers,
       );
       if (response.statusCode == 200) {
-        messagesData.assignAll(jsonDecode(response.body)['data']);
+        
+        messagesData.addAll(jsonDecode(response.body)['data']);
       } else {
         customPopUp('Error, Kode:${response.statusCode}', warningColor);
       }
@@ -58,13 +73,13 @@ class ChatDetailPageController extends GetxController {
         'to_user_id': userId.toString(),
         'from_user_id': 'admin',
         'message': message.toString(),
-        'created_at': DateTime.now().toString(),
+        'created_at': DateTime.now().toUtc().toString(),
       };
       var data = {
         'user_id': userId.toString(),
         'message': message.toString(),
       };
-      messagesData.add(dataShow);
+      messagesData.insert(0, dataShow);
       final response = await http.post(
         Uri.parse("${url}/admin/message/send"),
         headers: headers,
@@ -108,7 +123,24 @@ class ChatDetailPageController extends GetxController {
     channel = WebSocketChannel.connect(
         Uri.parse('wss://ws.laundrynaruto.my.id/app/5pmjmmvbf0kekaxxf9ks'));
     subscribeToChannel();
+    await fetchMessageData();
+    pingTimer = Timer.periodic(Duration(seconds: 30), (timer) {
+      sendPing();
+    });
+
   }
+
+  void sendPing() {
+    if (channel != null) {
+      final pingMessage = {
+        "event": "pusher:ping",
+        "data": {},
+      };
+      channel!.sink.add(jsonEncode(pingMessage));
+      print(channel!.stream);
+    }
+  }
+
 
   @override
   void onReady() {

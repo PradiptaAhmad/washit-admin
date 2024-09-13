@@ -10,23 +10,9 @@ import 'package:washit_admin/presentation/chat_detail_page/controllers/chat_deta
 class ChatDetailPage extends GetView<ChatDetailPageController> {
   ChatDetailPage({Key? key}) : super(key: key);
   final TextEditingController _textController = TextEditingController();
-  final ScrollController _scrollController = ScrollController();
-
-  void _scrollToBottom() {
-    if (_scrollController.hasClients) {
-      _scrollController.animateTo(
-        _scrollController.position.maxScrollExtent,
-        duration: Duration(milliseconds: 300),
-        curve: Curves.easeOut,
-      );
-    }
-  }
-
+ 
   @override
   Widget build(BuildContext context) {
-    controller.messagesData.listen((_) {
-      _scrollToBottom();
-    });
 
     return Scaffold(
       appBar: _buildAppbar(controller),
@@ -55,7 +41,7 @@ class ChatDetailPage extends GetView<ChatDetailPageController> {
                   var data = jsonDecode(snapshot.data);
                   if (data['event'] == 'MessageSentAdmin') {
                     var messageDetails = jsonDecode(data['data']);
-                    controller.messagesData.add({
+                    controller.messagesData.insert(0, {
                       'from_user_id': messageDetails['from_user_id'],
                       'to_user_id': messageDetails['to_user_id'],
                       'message': messageDetails['message'],
@@ -65,7 +51,8 @@ class ChatDetailPage extends GetView<ChatDetailPageController> {
                 }
                 return Obx(
                   () => ListView.builder(
-                    controller: _scrollController,
+                    reverse: true,
+                    controller: controller.scrollController,
                     itemCount: controller.messagesData.length,
                     itemBuilder: (context, index) {
                       var messageTile = controller.messagesData[index];
@@ -93,7 +80,7 @@ class ChatDetailPage extends GetView<ChatDetailPageController> {
                                   style: tsBodySmallMedium(black),
                                 ),
                                 Text(
-                                  "${DateFormat('HH:mm', 'id_ID').format(DateTime.parse(messageTile['created_at'] ?? "1443-07-31 00:00:00"))}",
+                                  "${DateFormat('HH:mm', 'id_ID').format(DateTime.parse(messageTile['created_at'] ?? "1443-07-31 00:00:00").add(Duration(hours: 7)))}",
                                   style: tsLabelLargeMedium(darkGrey),
                                 ),
                               ],
@@ -150,6 +137,7 @@ class ChatDetailPage extends GetView<ChatDetailPageController> {
                     ),
                     onPressed: () {
                       controller.addMessage(_textController.text);
+                      controller.scrollToTop();
                       _textController.clear();
                     },
                     color: Colors.blue,
