@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
+
 import 'package:get/get.dart';
+
 import 'package:washit_admin/infrastructure/navigation/navigation_menu.dart';
 import 'package:washit_admin/presentation/chat_page/chat_page.screen.dart';
 import 'package:washit_admin/presentation/fiturService_page/fiturService_page.screen.dart';
@@ -114,6 +116,11 @@ class Nav {
       name: Routes.CHAT_DETAIL_PAGE,
       page: () => ChatDetailPage(),
       binding: ChatDetailPageControllerBinding(),
+    ),
+    GetPage(
+      name: Routes.SPLASH_SCREEN,
+      page: () => const SplashScreenScreen(),
+      binding: SplashScreenControllerBinding(),
     ),
   ];
 }

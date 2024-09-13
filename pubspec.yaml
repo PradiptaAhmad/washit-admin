@@ -33,6 +33,7 @@ dependencies:
 
 dev_dependencies:
   #  flutter_lints: ^3.0.0
+  flutter_launcher_icons: "^0.13.1"
   flutter_test:
     sdk: flutter
 
@@ -42,3 +43,4 @@ flutter:
   assets:
     - assets/img_home/
     - assets/img_user/avatar1.jpg
+    - assets/icons/

@@ -35,15 +35,15 @@ class TransactionStatusProgressWidget
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  buildIcon(Iconsax.receipt, context),
+                  buildIcon(Iconsax.receipt),
                   buildDottedLine(),
-                  buildIcon(Iconsax.wallet_1, context),
+                  buildIcon(Iconsax.box),
                   buildDottedLine(),
-                  buildIcon(Iconsax.bubble, context),
+                  buildIcon(Iconsax.bubble),
                   buildDottedLine(),
-                  buildIcon(Iconsax.location, context),
+                  buildIcon(Iconsax.truck_fast),
                   buildDottedLine(),
-                  buildIcon(Iconsax.verify, context),
+                  buildIcon(Iconsax.verify),
                 ],
               ),
             );
@@ -58,10 +58,10 @@ class TransactionStatusProgressWidget
     );
   }
 
-  Widget buildIcon(IconData icon, BuildContext context) {
+  Widget buildIcon(IconData icon) {
     return Icon(
       icon,
-      size: screenHeight(context) * 0.03,
+      size: 30,
       color: lightGrey,
     );
   }
