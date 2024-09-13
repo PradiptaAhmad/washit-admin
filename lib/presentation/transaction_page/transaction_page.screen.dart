@@ -222,7 +222,8 @@ class TransactionPageScreen extends GetView<TransactionPageController> {
                 ),
                 SizedBox(height: defaultMargin),
                 Visibility(
-                  visible: controller.argument[1] == 'status' ? true : false,
+                  visible: controller.argument[1] == 'status' &&
+                      controller.statusList['status'] != "success",
                   child: SliderButton(
                     width: double.infinity,
                     action: () async {
