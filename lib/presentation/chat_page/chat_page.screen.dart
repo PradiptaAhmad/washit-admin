@@ -1,3 +1,4 @@
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:washit_admin/infrastructure/navigation/routes.dart';
@@ -16,23 +17,30 @@ class ChatPage extends GetView<ChatPageController> {
         title: Text('Percakapan Pengguna',
             style: tsTitleSmallMedium(primaryColor)),
       ),
-      body: RefreshIndicator(
-        onRefresh: () async => controller.fetchUserData(),
-        child: ListView.builder(
-          physics: AlwaysScrollableScrollPhysics(),
-          shrinkWrap: true,
-          itemCount: controller.userData.length,
-          itemBuilder: (context, index) {
-            var user = controller.userData[index];
-            return InkWell(
-              onTap: () => Get.toNamed(Routes.CHAT_DETAIL_PAGE, arguments: [
-                user['id'],
-                user['username'],
-                user['image_path'],
-              ]),
-              child: _buildItemList(user),
-            );
-          },
+      body: Obx(
+        () => RefreshIndicator(
+          onRefresh: () async => controller.fetchUserData(),
+          child: controller.isLoading.value
+              ? Center(
+                  child: CupertinoActivityIndicator(),
+                )
+              : ListView.builder(
+                  physics: AlwaysScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemCount: controller.userData.length,
+                  itemBuilder: (context, index) {
+                    var user = controller.userData[index];
+                    return InkWell(
+                      onTap: () =>
+                          Get.toNamed(Routes.CHAT_DETAIL_PAGE, arguments: [
+                        user['id'],
+                        user['username'],
+                        user['image_path'],
+                      ]),
+                      child: _buildItemList(user),
+                    );
+                  },
+                ),
         ),
       ),
     );

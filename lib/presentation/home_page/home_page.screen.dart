@@ -18,7 +18,7 @@ class HomePageScreen extends GetView<HomePageController> {
     return Scaffold(
       backgroundColor: lightGrey.withOpacity(0.1),
       appBar: PreferredSize(
-        preferredSize: Size.fromHeight(kToolbarHeight + 90),
+        preferredSize: Size.fromHeight(kToolbarHeight + 80),
         child: _buildAppbar(context, controller),
       ),
       body: TabBarView(
