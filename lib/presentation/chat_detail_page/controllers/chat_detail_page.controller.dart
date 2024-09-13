@@ -13,7 +13,6 @@ import '../../../widget/common/custom_pop_up.dart';
 class ChatDetailPageController extends GetxController {
   final count = 0.obs;
   var isLoading = false.obs;
-  var messages = [].obs;
   var messagesData = [].obs;
   late final userId;
   var userDetailData = {}.obs;
@@ -93,31 +92,7 @@ class ChatDetailPageController extends GetxController {
         "event": "pusher:subscribe",
         "data": channelName,
       };
-      print('Subscribing: $subscribeMessage');
       channel!.sink.add(jsonEncode(subscribeMessage));
-
-      // channel!.stream.listen((event) {
-      //   print('Message received: $event');
-      //   var messageData = jsonDecode(event);
-      //   print(messageData);
-      //   if (messageData['event'] == 'MessageSentAdmin') {
-      //     var messageDetails = jsonDecode(messageData['data']);
-      //     var message = messageDetails['message'];
-      //     var fromUserId = messageDetails['from_user_id'];
-      //     var createdAt = messageDetails['created_at'];
-      //
-      //     messageData.add({
-      //       'message': message,
-      //       'from_user_id': fromUserId,
-      //       'created_at': createdAt,
-      //     });
-      //     update();
-      //   }
-      // }, onError: (error) {
-      //   print('WebSocket error: $error');
-      // }, onDone: () {
-      //   print('WebSocket connection closed');
-      // });
     }
   }
 

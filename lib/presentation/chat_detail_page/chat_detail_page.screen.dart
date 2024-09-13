@@ -24,7 +24,7 @@ class ChatDetailPage extends GetView<ChatDetailPageController> {
 
   @override
   Widget build(BuildContext context) {
-    controller.messages.listen((_) {
+    controller.messagesData.listen((_) {
       _scrollToBottom();
     });
 

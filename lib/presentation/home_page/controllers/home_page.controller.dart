@@ -188,7 +188,6 @@ class HomePageController extends GetxController
   }
 
   Future<void> fetchOverviewData() async {
-    isLoading.value = true;
     try {
       final url = ConfigEnvironments.getEnvironments()["url"];
       final token = box.read("token");
@@ -208,8 +207,6 @@ class HomePageController extends GetxController
       }
     } catch (e) {
       customPopUp('Error, gagal untuk mengambil data Ringkasan', warningColor);
-    } finally {
-      isLoading.value = false;
     }
   }
 
